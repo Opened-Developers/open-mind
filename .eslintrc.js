@@ -24,5 +24,6 @@ module.exports = {
   rules: {
     semi: ['error', 'never'],
     'react/jsx-uses-vars': 'error',
+    'react/jsx-key': 'error',
   },
 }
