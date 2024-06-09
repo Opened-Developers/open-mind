@@ -14,10 +14,14 @@ module.exports = {
   overrides: [],
   parserOptions: {
     ecmaVersion: 'latest',
+    ecmaFeatures: {
+      jsx: true,
+    },
     sourceType: 'module',
   },
   plugins: ['react'],
   rules: {
     semi: ['error', 'never'],
+    'react/jsx-uses-vars': 'error',
   },
 }
