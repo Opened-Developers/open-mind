@@ -1,0 +1,7 @@
+root = true
+
+[*]
+indent_style = space          # 들여쓰기에 스페이스 사용
+indent_size = 2               # 들여쓰기 크기는 스페이스 2개로 쓰기
+charset = utf-8               # 파일 인코딩은 utf-8
+insert_final_newline = true   # 파일 맨 마지막에 빈 줄 추가하기
