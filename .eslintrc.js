@@ -11,6 +11,7 @@ module.exports = {
     'prettier',
     'airbnb',
     'airbnb/hooks',
+    'plugin:storybook/recommended',
   ],
   overrides: [],
   parserOptions: {
@@ -25,5 +26,6 @@ module.exports = {
     semi: ['error', 'never'],
     'react/jsx-uses-vars': 'error',
     'react/jsx-key': 'error',
+    'react/prop-types': 'off',
   },
 }
