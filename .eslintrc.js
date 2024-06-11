@@ -24,6 +24,7 @@ module.exports = {
   plugins: ['react'],
   rules: {
     semi: ['error', 'never'],
+    'react/react-in-jsx-scope': 'off',
     'react/jsx-uses-vars': 'error',
     'react/jsx-key': 'error',
     'react/prop-types': 'off',

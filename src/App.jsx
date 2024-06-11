@@ -1,9 +1,8 @@
-import React from 'react'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import AnswerPage from './pages/AnswerPage/AnswerPage'
-import IndividualFeedPage from './pages/IndividualFeedPage/IndividualFeedPage'
 import MainPage from './pages/MainPage/MainPage'
 import QuestionListPage from './pages/QuestionListPage/QuestionListPage'
+import IndividualFeedPage from './pages/IndividualFeedPage/IndividualFeedPage'
+import AnswerPage from './pages/AnswerPage/AnswerPage'
 
 function App() {
   return (
