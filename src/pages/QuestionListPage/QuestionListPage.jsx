@@ -1,9 +1,11 @@
-import SocialShare from '../../components/SocialShare'
+import React from 'react'
+import SocialShareContainer from '../../components/SocialShareContainer'
 
 function QuestionListPage() {
   return (
     <>
-      <SocialShare />
+      <SocialShareContainer />
+      <div>메인페이지</div>
     </>
   )
 }
