@@ -8,10 +8,10 @@ module.exports = {
     'plugin:react/recommended',
     'plugin:react/jsx-runtime',
     'plugin:prettier/recommended',
-    'prettier',
     'airbnb',
     'airbnb/hooks',
     'plugin:storybook/recommended',
+    'prettier',
   ],
   overrides: [],
   parserOptions: {
@@ -27,5 +27,6 @@ module.exports = {
     'react/jsx-uses-vars': 'error',
     'react/jsx-key': 'error',
     'react/prop-types': 'off',
+    'react/react-in-jsx-scope': 'off',
   },
 }
