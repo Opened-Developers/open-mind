@@ -1,0 +1,14 @@
+.icon-container {
+  display: flex;
+  gap: 12px;
+}
+
+.icon-container > button {
+  border: none;
+  padding: 0;
+  background-color: #fff;
+}
+
+.icon-container > button:hover {
+  cursor: pointer;
+}
