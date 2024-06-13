@@ -1,0 +1,143 @@
+.MainPage {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 24px;
+
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  background-color: #fafafa;
+}
+
+.buttonQuestion {
+  display: block;
+  margin: 45px 130px 0 auto;
+  border: 1px solid #542f1a;
+  border-radius: 8px;
+  padding: 12px 24px;
+
+  color: #542f1a;
+  background-color: #f5f1ee;
+  text-decoration: none;
+
+  box-sizing: border-box;
+}
+
+.image {
+  object-fit: scale-down;
+}
+
+.logo {
+  width: 100%;
+  max-width: 456px;
+  height: 180px;
+  margin-top: 45px;
+}
+
+.background {
+  position: absolute;
+  bottom: 0;
+
+  width: 100%;
+  max-width: 1200px;
+  z-index: 0;
+}
+
+.createFeed {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+
+  width: 400px;
+  padding: 32px;
+  border-radius: 16px;
+
+  background-color: #ffffff;
+
+  box-sizing: border-box;
+  z-index: 1;
+}
+
+.nameBox {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 4px;
+
+  width: 336px;
+  height: 46px;
+  padding: 12px 16px;
+  border: 1px solid #818181;
+  border-radius: 8px;
+
+  box-sizing: border-box;
+}
+
+.person {
+  width: 20px;
+  height: 20px;
+}
+
+.name {
+  width: 100%;
+  border: none;
+
+  box-sizing: border-box;
+  outline: none;
+}
+
+.profileImage {
+  width: 200px;
+  height: 200px;
+
+  border-radius: 50%;
+  background-color: #f1f1f1;
+}
+
+.profileImage > input {
+  display: none;
+}
+
+.profileImage > img {
+  width: 200px;
+  height: 200px;
+  border-style: hidden;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.buttonAnswer {
+  width: 100%;
+  height: 46px;
+  border: none;
+  border-radius: 8px;
+
+  color: #ffffff;
+  background-color: #542f1a;
+
+  text-align: center;
+  line-height: 46px;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.buttonAnswer:active {
+  background-color: #341909;
+}
+
+.buttonAnswer:disabled {
+  background-color: #c7bbb5;
+  cursor: none;
+}
+
+.errorMessage {
+  align-self: flex-start;
+  margin: -10px 0 0;
+  color: #ff0000;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
