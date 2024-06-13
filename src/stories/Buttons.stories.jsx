@@ -2,14 +2,13 @@ import { Children } from 'react'
 import { FillButton, OutlineButton } from '../components/Buttons'
 
 export default {
-  component: FillButton,
-  title: 'Buttons/fill',
+  title: 'Buttons',
 }
 
 const Template = (args) => <FillButton {...args} />
 
-export const FillDefault = Template.bind({})
-FillDefault.args = {
+export const FillButtons = Template.bind({})
+FillButtons.args = {
   children: '질문 받기',
   size: 'medium',
   disabled: false,
@@ -19,8 +18,8 @@ FillDefault.args = {
 
 const OutlineTemplate = (args) => <OutlineButton {...args} />
 
-export const OutlineDefault = OutlineTemplate.bind({})
-OutlineDefault.args = {
+export const OutlineButtons = OutlineTemplate.bind({})
+OutlineButtons.args = {
   children: '질문 받기',
   size: 'medium',
   disabled: false,
