@@ -2,8 +2,6 @@ import { Link, useParams } from 'react-router-dom'
 import FeedCardList from '../../components/FeedCardList'
 import SocialShareContainer from '../../components/SocialShareContainer'
 
-// /post/6710
-
 export default function IndividualFeedPage() {
   const { feedId } = useParams()
 
