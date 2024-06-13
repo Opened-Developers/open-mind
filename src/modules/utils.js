@@ -1,7 +1,7 @@
-export function debounce(fn, delay) {
+export const debounce = (fn, delay) => {
   let timeoutId
 
-  return function (...args) {
+  return (...args) => {
     clearTimeout(timeoutId)
 
     timeoutId = setTimeout(() => {
@@ -10,12 +10,12 @@ export function debounce(fn, delay) {
   }
 }
 
-export function getLocalUserId() {
+export const getLocalUserId = () => {
   const userId = localStorage.getItem('userId')
   return userId
 }
 
-export function createLocalUserId(userId) {
+export const createLocalUserId = (userId) => {
   const newLocalUserId = userId
   localStorage.setItem('userId', newLocalUserId)
 }
