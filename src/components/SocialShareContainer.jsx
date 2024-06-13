@@ -20,6 +20,7 @@ function SocialShareContainer() {
       setToastVisible(false)
     }, 5000)
   }
+
   const handleKakaoClick = () => {
     window.Kakao.Share.sendDefault({
       objectType: 'feed',
@@ -89,6 +90,7 @@ function SocialShareContainer() {
       ],
     })
   }
+
   const handleFacebookClick = () => {
     const facebookShareUrl = `https://www.facebook.com/sharer/sharer.php?u=${currentUrl}`
     window.open(
@@ -108,11 +110,6 @@ function SocialShareContainer() {
     script.onload = () => {
       if (window.Kakao) {
         window.Kakao.init(JAVASCRIPT_KEY)
-        if (window.Kakao.isInitialized()) {
-          console.log('Kakao SDK initialized successfully')
-        } else {
-          console.log('Kakao SDK initialization failed')
-        }
       }
     }
 
@@ -122,6 +119,7 @@ function SocialShareContainer() {
       document.body.removeChild(script)
     }
   })
+
   return (
     <SocialShare
       onCopyLink={handleCopyClick}
