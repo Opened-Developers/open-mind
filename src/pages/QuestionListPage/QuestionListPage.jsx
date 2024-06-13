@@ -5,7 +5,7 @@ import logo from '../../assets/images/img_logo.png'
 import openMindImg from '../../assets/images/img_openmind.png'
 import messageIcon from '../../assets/icons/ic_messages.svg'
 
-function QuestionListPage() {
+export default function QuestionListPage() {
   return (
     <div className={styles.body}>
       <header className={styles.header}>
@@ -28,5 +28,3 @@ function QuestionListPage() {
     </div>
   )
 }
-
-export default QuestionListPage
