@@ -1,0 +1,98 @@
+.input-wrapper {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  border-radius: 8px;
+}
+.input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 12px 16px;
+  position: relative;
+  border-radius: 8px;
+  border: none;
+  background: var(--Grayscale-10, #fff);
+  overflow: hidden;
+}
+.input:not(:focus) {
+  box-shadow: 0 0 0 1px var(--Grayscale-40, #818181) inset;
+}
+
+.input:focus {
+  color: var(--Grayscale-40, #818181);
+  outline-color: var(--Brown-40, #542f1a);
+}
+
+.show-icon::before {
+  content: '';
+  width: 20px;
+  height: 20px;
+  display: block;
+  position: absolute;
+  background-image: url('../assets/icons/ic_person.svg');
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+  top: 13px;
+  left: 16px;
+  z-index: 2;
+}
+
+.show-icon .input {
+  padding-left: 40px;
+}
+
+.textarea-wrapper {
+  position: relative;
+  box-sizing: border-box;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.textarea {
+  display: flex;
+  padding: 16px;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  flex-shrink: 0;
+  border-radius: 8px;
+  background: var(--Grayscale-20, #f9f9f9);
+  box-sizing: border-box;
+  resize: none;
+  border: none;
+}
+
+.textarea:focus {
+  color: var(--Grayscale-40, #818181);
+  outline-color: var(--Brown-40, #542f1a);
+}
+
+.textarea::-webkit-scrollbar {
+  width: 8px;
+}
+
+.textarea::-webkit-scrollbar-track {
+  border-radius: 8px;
+}
+
+.textarea::-webkit-scrollbar-thumb {
+  background: var(--Grayscale-30, #cfcfcf);
+  border: 1px solid var(--Grayscale-20, #f9f9f9);
+  border-radius: 8px;
+}
+
+/* Firefox */
+.textarea {
+  scrollbar-width: thin;
+  scrollbar-color: var(--Grayscale-30, #cfcfcf);
+}
+
+.textarea::-webkit-scrollbar {
+  border-radius: 5px;
+}
+
+.textarea:placeholder {
+  color: var(--Grayscale-40, #818181);
+}
