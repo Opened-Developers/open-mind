@@ -8,10 +8,8 @@ async function postNewFeed(userName) {
     })
     return response
   } catch (error) {
-    console.error('Error fetching data:', error)
+    return error
   }
-
-  return null
 }
 
 export default postNewFeed
