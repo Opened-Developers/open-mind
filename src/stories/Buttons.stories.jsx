@@ -1,5 +1,5 @@
 import { Children } from 'react'
-import { FillButton, OutlineButton } from '../components/Buttons'
+import { FillButton, OutlineButton, FloatButton } from '../components/Buttons'
 
 export default {
   title: 'Buttons',
@@ -25,4 +25,14 @@ OutlineButtons.args = {
   disabled: false,
   iconLeft: false,
   iconRight: false,
+}
+
+const FloatingTemplate = (args) => <FloatButton {...args} />
+export const FloatingButtons = FloatingTemplate.bind({})
+FloatingButtons.args = {
+  children: '질문 작성',
+  onClick: () => {
+    console.log('link')
+  },
+  isLink: false,
 }
