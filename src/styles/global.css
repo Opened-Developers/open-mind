@@ -1,0 +1,85 @@
+/* font */
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css');
+
+/* color variable */
+:root {
+  --gray-10: #ffffff;
+  --gray-20: #f9f9f9;
+  --gray-30: #cfcfcf;
+  --gray-40: #818181;
+  --gray-50: #515151;
+  --gray-60: #000000;
+
+  --brown-10: #f5f1ee;
+  --brown-20: #e4d5c9;
+  --brown-30: #c7bbb5;
+  --brown-40: #542f1a;
+  --brown-50: #341909;
+
+  --blue-50: #1877f2;
+  --yellow-50: #fee500;
+  --red-50: #b93333;
+}
+
+/* default style */
+html,
+body {
+  font-family: 'Pretendard Variable', 'Helvetica Neue', arial, sans-serif;
+  font-weight: 400;
+  color: var(--Grayscale-60, #000);
+  font-size: 16px;
+  font-feature-settings:
+    'clig' off,
+    'liga' off;
+}
+
+/* default typography */
+.heading-1 {
+  font-size: 2.5rem;
+  line-height: 1.25;
+}
+
+.heading-2 {
+  font-size: 2rem;
+  line-height: 1.25;
+}
+.heading-3 {
+  font-size: 1.5rem;
+  line-height: 1.25;
+}
+.body-1 {
+  font-size: 1.25rem;
+  line-height: 1.25;
+}
+.body-2 {
+  font-size: 1.125rem;
+  line-height: 1.33;
+}
+.body-3 {
+  font-size: 1rem;
+  line-height: 1.37;
+}
+.caption-1 {
+  font-size: 0.875rem;
+  line-height: 1.28;
+}
+
+.text-medium {
+  font-weight: 500;
+}
+.text-bold {
+  font-weight: 600;
+}
+
+/* shadow */
+
+.shadow-1pt {
+  box-shadow: 0px 4px 4px 0px rgba(140, 140, 140, 0.25);
+}
+
+.shadow-2pt {
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
+.shadow-3pt {
+  box-shadow: 0px 16px 20px 0px rgba(48, 48, 48, 0.62);
+}
