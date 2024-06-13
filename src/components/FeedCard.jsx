@@ -10,9 +10,9 @@ export default function FeedCard({ question, isMyFeed }) {
       <FeedCardBadge isAnswered={question.answer !== null} />
       <FeedCardQuestion question={question} />
       {isMyFeed ? (
-        question.answer && <FeedCardAnswer question={question} />
-      ) : (
         <FeedCardAnswerEdit question={question} />
+      ) : (
+        question.answer && <FeedCardAnswer question={question} />
       )}
       <FeedCardLikes question={question} />
     </div>
