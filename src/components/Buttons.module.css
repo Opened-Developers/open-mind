@@ -80,13 +80,23 @@
   border-radius: 200px;
   background: var(--Brown-40, #542f1a);
   color: var(--Grayscale-10, #fff);
-  padding: 12px 24px;
+  padding: 10px 22px;
   border: 0;
   display: block;
   text-align: center;
   box-sizing: border-box;
   white-space: nowrap;
+  cursor: pointer;
+  border: 2px solid transparent;
 }
+
+.float:hover {
+  border-color: var(--Brown-50, #341909);
+}
+.float:active {
+  background: var(--Brown-50, #341909);
+}
+
 @media (min-width: 768px) {
   .float {
     width: 208px;
