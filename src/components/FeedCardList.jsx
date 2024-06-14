@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import styles from './FeedCardList.module.css'
 import messagesIcon from '../assets/icons/ic_messages.svg'
 import getFeedQuestions from '../api/getFeedQuestions'
 import FeedCard from './FeedCard'
@@ -27,23 +28,20 @@ export default function FeedCardList({ feedId, isMyFeed }) {
 
   return questions.length === 0 ? (
     <div>
-      <div>
+      <div className={styles['messages-container']}>
         <img src={messagesIcon} alt="질문 메시지 아이콘" />
-        아직 질문이 없습니다.
+        <p>아직 질문이 없습니다.</p>
       </div>
     </div>
   ) : (
     <div>
-      <div>
+      <div className={styles['messages-container']}>
         <img src={messagesIcon} alt="질문 메시지 아이콘" />
-        {questionCount}
-        개의 질문이 있습니다.
+        <p>{questionCount}개의 질문이 있습니다.</p>
       </div>
-      <div>
-        {questions.map((question) => (
-          <FeedCard key={question.id} question={question} isMyFeed={isMyFeed} />
-        ))}
-      </div>
+      {questions.map((question) => (
+        <FeedCard key={question.id} question={question} isMyFeed={isMyFeed} />
+      ))}
     </div>
   )
 }

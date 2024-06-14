@@ -1,0 +1,21 @@
+.messages-container {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.messages-container > img {
+  width: 24px;
+  height: 24px;
+}
+
+.messages-container > p {
+  margin: 0;
+  font-size: 20px;
+  line-height: 1.25;
+  color: var(--brown-40);
+}

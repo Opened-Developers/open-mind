@@ -2,7 +2,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import MainPage from './pages/MainPage/MainPage'
 import QuestionListPage from './pages/QuestionListPage/QuestionListPage'
 import IndividualFeedPage from './pages/IndividualFeedPage/IndividualFeedPage'
-import AnswerPage from './pages/AnswerPage/AnswerPage'
+import AnswerPageContainer from './pages/AnswerPage/AnswerPageContainer'
 
 function App() {
   return (
@@ -12,7 +12,7 @@ function App() {
         <Route path="list" element={<QuestionListPage />} />
         <Route path="post">
           <Route path=":feedId" element={<IndividualFeedPage />} />
-          <Route path=":feedId/answer" element={<AnswerPage />} />
+          <Route path=":feedId/answer" element={<AnswerPageContainer />} />
         </Route>
       </Routes>
     </BrowserRouter>
