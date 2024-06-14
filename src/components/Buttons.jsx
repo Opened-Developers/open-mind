@@ -26,7 +26,7 @@ export function FillButton({
   return (
     <button
       disabled={disabled}
-      className={`${styles.fill} ${size === 'medium' ? 'body-3 medium' : 'caption-1 small'} ${styles.button} ${iconLeft ? styles['icon-left'] : ''} ${iconRight ? styles['icon-right'] : ''}`}
+      className={`${styles.fill} ${size === 'medium' ? 'body-3' : 'caption-1'} ${styles[size]} ${styles.button} ${iconLeft ? styles['icon-left'] : ''} ${iconRight ? styles['icon-right'] : ''}`}
       type={isSubmit ? 'submit' : 'button'}
       onClick={onClick}
     >
