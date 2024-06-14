@@ -28,6 +28,12 @@ module.exports = {
     'react/jsx-uses-vars': 'error',
     'react/jsx-key': 'error',
     'react/prop-types': 'off',
+    'jsx-a11y/label-has-associated-control': [
+      2,
+      {
+        labelAttributes: ['htmlFor'],
+      },
+    ],
     'react/react-in-jsx-scope': 'off',
   },
 }
