@@ -2,17 +2,16 @@ import { useState } from 'react'
 import { FillButton } from './Buttons'
 import styles from './FeedCardAnswerEdit.module.css'
 
-export default function FeedCardAnswerEdit({ question }) {
+export default function FeedCardAnswerEdit({ profile }) {
   const [answer, SetAnswer] = useState()
 
   const handleInputChange = (e) => {
     const nextValue = e.target.value
     SetAnswer(nextValue)
   }
-
   return (
     <div className={styles.container}>
-      <p>{question.subjectId}</p>
+      <p>{profile.name}</p>
       <form>
         <textarea
           value={answer}

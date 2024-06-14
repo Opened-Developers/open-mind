@@ -5,13 +5,13 @@ import FeedCardAnswerEdit from './FeedCardAnswerEdit'
 import FeedCardLikes from './FeedCardLikes'
 import styles from './FeedCard.module.css'
 
-export default function FeedCard({ question, isMyFeed }) {
+export default function FeedCard({ question, isMyFeed, profile = null }) {
   return (
     <div className={styles['card-container']}>
       <FeedCardBadge isAnswered={question.answer !== null} />
       <FeedCardQuestion question={question} />
       {isMyFeed ? (
-        <FeedCardAnswerEdit question={question} />
+        <FeedCardAnswerEdit question={question} profile={profile} />
       ) : (
         question.answer && <FeedCardAnswer question={question} />
       )}
