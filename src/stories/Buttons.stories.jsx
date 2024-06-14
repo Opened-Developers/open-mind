@@ -1,10 +1,10 @@
-import { Children } from 'react'
 import { FillButton, OutlineButton, FloatButton } from '../components/Buttons'
 import { action } from '@storybook/addon-actions'
 
 export default {
   title: 'Buttons',
-  ArgTypes: {
+  argTypes: {
+    size: { control: 'radio', options: ['medium', 'small'] },
     onClick: { action: 'clicked' },
   },
 }
