@@ -1,6 +1,19 @@
 import React from 'react'
 import styles from './Buttons.module.css'
 
+export function FloatButton({ children, onClick, isLink = false }) {
+  return !isLink ? (
+    <button
+      type="button"
+      onClick={onClick}
+      className={`body-1 shadow-2pt ${styles.float}`}
+    >
+      {children}
+    </button>
+  ) : (
+    <span className={`body-1 shadow-2pt ${styles.float}`}>{children}</span>
+  )
+}
 export function FillButton({
   children,
   isSubmit,
