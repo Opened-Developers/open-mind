@@ -2,6 +2,7 @@ import { useState } from 'react'
 import postQuestionReaction from '../api/postQuestionReaction'
 import likeIcon from '../assets/icons/ic_like.svg'
 import dislikeIcon from '../assets/icons/ic_dislike.svg'
+import Toast from './Toast'
 
 export default function FeedCardReaction({ question }) {
   const [errorInfo, setErrorInfo] = useState(null)
@@ -13,7 +14,10 @@ export default function FeedCardReaction({ question }) {
       .then((res) => setLike(res.like))
       .catch((error) => {
         setErrorInfo(error.message)
-        alert(errorInfo)
+        // 토스트 메시지로 에러 메시지를 표시하는 코드를 작성합니다.
+        setTimeout(() => {
+          setErrorInfo(null)
+        }, 3000)
       })
   }
 
@@ -22,7 +26,10 @@ export default function FeedCardReaction({ question }) {
       .then((res) => setDislike(res.dislike))
       .catch((error) => {
         setErrorInfo(error.message)
-        alert(errorInfo)
+        // 토스트 메시지로 에러 메시지를 표시하는 코드를 작성합니다.
+        setTimeout(() => {
+          setErrorInfo(null)
+        }, 3000)
       })
   }
 
@@ -38,6 +45,7 @@ export default function FeedCardReaction({ question }) {
         싫어요
         {dislike}
       </button>
+      {errorInfo !== null && <Toast>{errorInfo}</Toast>}
     </div>
   )
 }
