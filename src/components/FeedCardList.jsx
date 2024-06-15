@@ -39,14 +39,16 @@ export default function FeedCardList({ feedId, isMyFeed, profile = null }) {
         <img src={messagesIcon} alt="질문 메시지 아이콘" />
         <p>{questionCount}개의 질문이 있습니다.</p>
       </div>
-      {questions.map((question) => (
-        <FeedCard
-          key={question.id}
-          question={question}
-          isMyFeed={isMyFeed}
-          profile={profile}
-        />
-      ))}
+      <div className={styles['feed-card-container']}>
+        {questions.map((question) => (
+          <FeedCard
+            key={question.id}
+            question={question}
+            isMyFeed={isMyFeed}
+            profile={profile}
+          />
+        ))}
+      </div>
     </div>
   )
 }

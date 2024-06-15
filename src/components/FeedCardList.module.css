@@ -19,3 +19,9 @@
   line-height: 1.25;
   color: var(--brown-40);
 }
+
+.feed-card-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
