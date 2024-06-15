@@ -27,6 +27,7 @@ module.exports = {
     'react/react-in-jsx-scope': 'off',
     'react/jsx-uses-vars': 'error',
     'react/jsx-key': 'error',
+    'react/jsx-curly-brace-presence': 'off',
     'react/prop-types': 'off',
     'jsx-a11y/label-has-associated-control': [
       2,
@@ -34,6 +35,5 @@ module.exports = {
         labelAttributes: ['htmlFor'],
       },
     ],
-    'react/react-in-jsx-scope': 'off',
   },
 }
