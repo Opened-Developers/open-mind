@@ -3,6 +3,7 @@ import styles from './FeedCardList.module.css'
 import messagesIcon from '../assets/icons/ic_messages.svg'
 import getFeedQuestions from '../api/getFeedQuestions'
 import FeedCard from './FeedCard'
+import Toast from './Toast'
 
 export default function FeedCardList({ feedId, isMyFeed, profile = null }) {
   const [questions, setQuestions] = useState([])
@@ -23,7 +24,7 @@ export default function FeedCardList({ feedId, isMyFeed, profile = null }) {
   }, [feedId])
 
   if (errorInfo) {
-    return <div>{errorInfo}</div>
+    return <Toast>{errorInfo}</Toast>
   }
 
   return questions.length === 0 ? (

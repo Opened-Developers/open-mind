@@ -1,4 +1,4 @@
-import openmindAxios from './axios'
+import openmindAxios from './openMindAxios'
 
 async function getFeedList(limit, offset) {
   try {
