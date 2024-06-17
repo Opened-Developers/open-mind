@@ -49,9 +49,6 @@ export default function FeedCardList({ feedId, isMyFeed, profile = null }) {
           />
         ))}
       </div>
-      {questions.map((question) => (
-        <FeedCard key={question.id} question={question} isMyFeed={isMyFeed} />
-      ))}
     </div>
   )
 }
