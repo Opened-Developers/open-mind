@@ -2,8 +2,7 @@ import FeedCardBadge from './FeedCardBadge'
 import FeedCardQuestion from './FeedCardQuestion'
 import FeedCardAnswer from './FeedCardAnswer'
 import FeedCardAnswerEdit from './FeedCardAnswerEdit'
-import FeedCardLikes from './FeedCardLikes'
-import styles from './FeedCard.module.css'
+import FeedCardReaction from './FeedCardReaction'
 
 export default function FeedCard({ question, isMyFeed }) {
   return (
@@ -15,7 +14,7 @@ export default function FeedCard({ question, isMyFeed }) {
       ) : (
         question.answer && <FeedCardAnswer question={question} />
       )}
-      <FeedCardLikes question={question} />
+      <FeedCardReaction question={question} />
     </div>
   )
 }
