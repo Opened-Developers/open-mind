@@ -4,9 +4,34 @@ import styles from './Dropdown.module.css'
 import { ReactComponent as IcArrowUp } from '../assets/icons/ic_arrow_up.svg'
 import { ReactComponent as IcMore } from '../assets/icons/ic_more.svg'
 
-// util function get index round
+// util functions
 const getIndex = (index, length) => ((index % length) + length) % length
+const getCurrentIndex = (itemRef) => {
+  const { activeElement } = document
+  return Array.from(itemRef.current.children).indexOf(activeElement)
+}
+const getCurrentLength = (itemRef) => itemRef.current.children.length
 
+const handleArrowNavigation = (e, itemRef) => {
+  const currentIndex = getCurrentIndex(itemRef)
+  const currentLength = getCurrentLength(itemRef)
+
+  let nextIndex
+  switch (e.keyCode) {
+    case 38: // ArrowUp key
+      nextIndex = getIndex(currentIndex - 1, currentLength)
+      break
+    case 40: // ArrowDown key
+      nextIndex = getIndex(currentIndex + 1, currentLength)
+      break
+    default:
+      return
+  }
+
+  itemRef.current.children[nextIndex]?.focus() // Optional chaining for safety
+}
+
+// custom hook
 export function useDropdown() {
   // state
   const [isExpand, setIsExpand] = useState(false)
@@ -50,46 +75,17 @@ export function SortDropdownItem({
   children,
   itemRef,
 }) {
-  const handleOnMouseDown = (e) => {
+  const handleClick = (e) => {
     e.stopPropagation()
-    console.log('item mouse down')
     setIsExpand(false)
     setSelected(children)
   }
 
   const handleKeydown = (e) => {
-    e.stopPropagation()
-    e.preventDefault()
-
-    const { activeElement } = document
-    const currentIndex = Array.from(itemRef.current.children).findIndex(
-      (element) => element === activeElement
-    )
-    const currentLength = itemRef.current.children.length
-
-    if (e.keyCode === 13) {
-      // 엔터 키 눌렀을 때 ul리스트 닫기
-      setSelected(children)
-      setIsExpand(false)
-    }
-    if (e.keyCode === 38) {
-      const nextIndex =
-        (((currentIndex - 1) % currentLength) + currentLength) % currentLength
-      itemRef.current.children[nextIndex].focus()
-    }
-    if (e.keyCode === 40) {
-      // ArrowDown key
-      const nextIndex =
-        (((currentIndex + 1) % currentLength) + currentLength) % currentLength
-      itemRef.current.children[nextIndex].focus()
-    }
+    handleArrowNavigation(e, itemRef)
   }
   return (
-    <button
-      type="button"
-      onMouseDown={handleOnMouseDown}
-      onKeyDown={handleKeydown}
-    >
+    <button type="button" onClick={handleClick} onKeyDown={handleKeydown}>
       {children}
     </button>
   )
@@ -97,9 +93,7 @@ export function SortDropdownItem({
 
 export function MenuDropdownItem(props) {
   const { onClick, children, setIsExpand, itemRef } = props
-  console.log('props', props)
   const handleOnMouseDown = (e) => {
-    console.log('onclick')
     e.stopPropagation()
     e.preventDefault()
     onClick()
@@ -107,32 +101,7 @@ export function MenuDropdownItem(props) {
   }
 
   const handleKeyDown = (e) => {
-    e.stopPropagation()
-    // e.preventDefault()
-    console.log(itemRef)
-
-    const { activeElement } = document
-    console.log(activeElement)
-    const currentIndex = Array.from(itemRef.current.children).findIndex(
-      (element) => element === activeElement
-    )
-    const currentLength = itemRef.current.children.length
-
-    if (e.keyCode === 13) {
-      // 엔터 키 눌렀을 때 ul리스트 닫기
-      // setIsExpand(false)
-    }
-    if (e.keyCode === 38) {
-      const nextIndex =
-        (((currentIndex - 1) % currentLength) + currentLength) % currentLength
-      itemRef.current.children[nextIndex].focus()
-    }
-    if (e.keyCode === 40) {
-      // ArrowDown key
-      const nextIndex =
-        (((currentIndex + 1) % currentLength) + currentLength) % currentLength
-      itemRef.current.children[nextIndex].focus()
-    }
+    handleArrowNavigation(e, itemRef)
   }
   return (
     <button type="button" onClick={handleOnMouseDown} onKeyDown={handleKeyDown}>
@@ -141,17 +110,15 @@ export function MenuDropdownItem(props) {
   )
 }
 
-const renderMenuDropdownWithProps = (children, setIsExpand, itemRef) => {
-  console.log(itemRef)
-  return React.Children.map(children, (child) =>
+const renderMenuDropdownWithProps = (children, setIsExpand, itemRef) =>
+  React.Children.map(children, (child) =>
     cloneElement(child, {
       setIsExpand,
       itemRef,
     })
   )
-}
 
-const renderChildrenWithProps = (
+const renderSortDropdownWithProps = (
   children,
   selected,
   setIsExpand,
@@ -171,7 +138,7 @@ const renderChildrenWithProps = (
   })
 
 export function SortDropdown({ children, onChange }) {
-  // state
+  // custon hook
   const {
     isExpand,
     setIsExpand,
@@ -195,7 +162,7 @@ export function SortDropdown({ children, onChange }) {
       <button
         type="button"
         id="selectButton"
-        aria-expanded="false"
+        aria-expanded={isExpand}
         onClick={handleClick}
         onKeyDown={handleKeydown}
         className={`caption-1 ${styles['btn-trigger']}`}
@@ -210,7 +177,7 @@ export function SortDropdown({ children, onChange }) {
           aria-labelledby="selectButton"
           ref={itemRef}
         >
-          {renderChildrenWithProps(
+          {renderSortDropdownWithProps(
             children,
             selected,
             setIsExpand,
@@ -224,39 +191,25 @@ export function SortDropdown({ children, onChange }) {
 }
 
 export function MenuDropdown({ children }) {
-  const [isExpand, setIsExpand] = useState(false)
-  const itemRef = useRef(null)
-  const handleMouseDown = (e) => {
-    e.stopPropagation()
-    setIsExpand((prev) => !prev)
-    return false
-  }
-
-  const handleKeydown = (e) => {
-    if (e.keyCode === 40) {
-      // arrow down
-      if (!isExpand) {
-        setIsExpand(true)
-      } else {
-        itemRef.current.children[0].focus()
-      }
-    }
-  }
+  // custon hook
+  const {
+    isExpand,
+    setIsExpand,
+    itemRef,
+    handleClick,
+    handleKeydown,
+    handleBlur,
+  } = useDropdown()
 
   return (
     <div
       className={`caption-1 ${styles.wrapper} ${isExpand ? styles.expand : ''}`}
-      onBlur={(event) => {
-        if (!event.currentTarget.contains(event.relatedTarget)) {
-          console.log('blur')
-          setIsExpand(false)
-        }
-      }}
+      onBlur={handleBlur}
     >
       <button
         type="button"
-        aria-expanded="false"
-        onClick={handleMouseDown}
+        aria-expanded={false}
+        onClick={handleClick}
         className={`caption-1 ${styles['btn-more']}`}
         title="관리 메뉴 열기 버튼"
         aria-label="관리 메뉴 열기 버튼"
