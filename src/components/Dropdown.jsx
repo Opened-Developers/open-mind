@@ -1,7 +1,48 @@
+/* eslint-disable no-unused-vars */
 import React, { cloneElement, useEffect, useState, useRef } from 'react'
 import styles from './Dropdown.module.css'
 import { ReactComponent as IcArrowUp } from '../assets/icons/ic_arrow_up.svg'
 import { ReactComponent as IcMore } from '../assets/icons/ic_more.svg'
+
+// util function get index round
+const getIndex = (index, length) => ((index % length) + length) % length
+
+export function useDropdown() {
+  // state
+  const [isExpand, setIsExpand] = useState(false)
+  const itemRef = useRef(null)
+
+  // handlers
+  const handleClick = () => {
+    // 메뉴 열기 버튼 선택했을 때 일어나는 일 작성
+    setIsExpand((prev) => !prev)
+  }
+
+  const handleKeydown = (e) => {
+    if (e.keyCode === 40) {
+      // arrow down
+      if (!isExpand) {
+        setIsExpand(true)
+      } else {
+        itemRef.current.children[0].focus()
+      }
+    }
+  }
+
+  const handleBlur = (e) => {
+    if (!e.currentTarget.contains(e.relatedTarget)) {
+      setIsExpand(false)
+    }
+  }
+  return {
+    isExpand,
+    setIsExpand,
+    itemRef,
+    handleClick,
+    handleKeydown,
+    handleBlur,
+  }
+}
 
 export function SortDropdownItem({
   setSelected,
@@ -131,51 +172,31 @@ const renderChildrenWithProps = (
 
 export function SortDropdown({ children, onChange }) {
   // state
-  const [isExpand, setIsExpand] = useState(false)
+  const {
+    isExpand,
+    setIsExpand,
+    itemRef,
+    handleClick,
+    handleKeydown,
+    handleBlur,
+  } = useDropdown()
+
   const [selected, setSelected] = useState(children[0].props.children)
-  const itemRef = useRef(null)
 
   useEffect(() => {
     onChange(selected)
   }, [selected, onChange])
 
-  const handleMouseDown = (e) => {
-    e.stopPropagation()
-    console.log('handle mouse down')
-    setIsExpand((prev) => !prev)
-    return false
-  }
-
-  const handleKeydown = (e) => {
-    e.stopPropagation()
-    console.log(itemRef.current)
-    if (e.keyCode === 40) {
-      // arrow down
-      e.preventDefault()
-      if (!isExpand) {
-        setIsExpand(true)
-      } else {
-        console.log(itemRef.current.children[0])
-        itemRef.current.children[0].focus()
-      }
-    }
-  }
-
   return (
     <div
       className={`caption-1 ${styles.wrapper} ${isExpand ? styles.expand : ''}`}
-      onBlur={(event) => {
-        if (!event.currentTarget.contains(event.relatedTarget)) {
-          console.log('blur')
-          setIsExpand(false)
-        }
-      }}
+      onBlur={handleBlur}
     >
       <button
         type="button"
         id="selectButton"
         aria-expanded="false"
-        onClick={handleMouseDown}
+        onClick={handleClick}
         onKeyDown={handleKeydown}
         className={`caption-1 ${styles['btn-trigger']}`}
       >
@@ -212,15 +233,11 @@ export function MenuDropdown({ children }) {
   }
 
   const handleKeydown = (e) => {
-    e.stopPropagation()
-    console.log(itemRef.current)
     if (e.keyCode === 40) {
       // arrow down
-      e.preventDefault()
       if (!isExpand) {
         setIsExpand(true)
       } else {
-        console.log(itemRef.current.children[0])
         itemRef.current.children[0].focus()
       }
     }
