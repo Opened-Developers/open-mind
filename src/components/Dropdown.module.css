@@ -46,12 +46,14 @@
   background: none;
 }
 
-.dropdown button:hover {
+.dropdown button:hover,
+.dropdown button:focus {
   background: var(--Grayscale-20, #f9f9f9);
   color: var(--Blue-50, #1877f2);
 }
 
-.dropdown button:hover svg path {
+.dropdown button:hover svg path,
+.dropdown button:focus svg path {
   fill: var(--Blue-50, #1877f2);
 }
 
