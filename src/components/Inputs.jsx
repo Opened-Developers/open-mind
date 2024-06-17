@@ -1,6 +1,12 @@
 import styles from './Inputs.module.css'
 
-export function InputText({ name, id, placeholder = '', showIcon = false }) {
+export function InputText({
+  name,
+  id,
+  placeholder = '',
+  onChange,
+  showIcon = false,
+}) {
   return (
     <div
       className={`${styles['input-wrapper']} ${showIcon ? styles['show-icon'] : ''}`}
@@ -9,8 +15,9 @@ export function InputText({ name, id, placeholder = '', showIcon = false }) {
         type="text"
         name={name}
         id={id}
-        placeholder={placeholder}
         className={`body-3 ${styles.input} `}
+        placeholder={placeholder}
+        onChange={onChange}
       />
     </div>
   )
