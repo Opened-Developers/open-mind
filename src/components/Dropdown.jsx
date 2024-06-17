@@ -54,26 +54,61 @@ export function SortDropdownItem({
   )
 }
 
-export function MenuDropdownItem({ onClick, setIsExpand, children }) {
+export function MenuDropdownItem(props) {
+  const { onClick, children, setIsExpand, itemRef } = props
+  console.log('props', props)
+  const handleOnMouseDown = (e) => {
+    console.log('onclick')
+    e.stopPropagation()
+    e.preventDefault()
+    onClick()
+    setIsExpand(false)
+  }
+
+  const handleKeyDown = (e) => {
+    e.stopPropagation()
+    // e.preventDefault()
+    console.log(itemRef)
+
+    const { activeElement } = document
+    console.log(activeElement)
+    const currentIndex = Array.from(itemRef.current.children).findIndex(
+      (element) => element === activeElement
+    )
+    const currentLength = itemRef.current.children.length
+
+    if (e.keyCode === 13) {
+      // 엔터 키 눌렀을 때 ul리스트 닫기
+      // setIsExpand(false)
+    }
+    if (e.keyCode === 38) {
+      const nextIndex =
+        (((currentIndex - 1) % currentLength) + currentLength) % currentLength
+      itemRef.current.children[nextIndex].focus()
+    }
+    if (e.keyCode === 40) {
+      // ArrowDown key
+      const nextIndex =
+        (((currentIndex + 1) % currentLength) + currentLength) % currentLength
+      itemRef.current.children[nextIndex].focus()
+    }
+  }
   return (
-    <button
-      type="button"
-      onMouseDown={() => {
-        onClick()
-        setIsExpand(false)
-      }}
-    >
+    <button type="button" onClick={handleOnMouseDown} onKeyDown={handleKeyDown}>
       {children}
     </button>
   )
 }
 
-const renderMenuDropdownWithProps = (children, setIsExpand) =>
-  React.Children.map(children, (child) =>
+const renderMenuDropdownWithProps = (children, setIsExpand, itemRef) => {
+  console.log(itemRef)
+  return React.Children.map(children, (child) =>
     cloneElement(child, {
       setIsExpand,
+      itemRef,
     })
   )
+}
 
 const renderChildrenWithProps = (
   children,
@@ -169,18 +204,36 @@ export function SortDropdown({ children, onChange }) {
 
 export function MenuDropdown({ children }) {
   const [isExpand, setIsExpand] = useState(false)
-
+  const itemRef = useRef(null)
   const handleMouseDown = (e) => {
     e.stopPropagation()
     setIsExpand((prev) => !prev)
     return false
   }
 
+  const handleKeydown = (e) => {
+    e.stopPropagation()
+    console.log(itemRef.current)
+    if (e.keyCode === 40) {
+      // arrow down
+      e.preventDefault()
+      if (!isExpand) {
+        setIsExpand(true)
+      } else {
+        console.log(itemRef.current.children[0])
+        itemRef.current.children[0].focus()
+      }
+    }
+  }
+
   return (
     <div
       className={`caption-1 ${styles.wrapper} ${isExpand ? styles.expand : ''}`}
-      onBlur={() => {
-        setIsExpand(() => false)
+      onBlur={(event) => {
+        if (!event.currentTarget.contains(event.relatedTarget)) {
+          console.log('blur')
+          setIsExpand(false)
+        }
       }}
     >
       <button
@@ -190,6 +243,7 @@ export function MenuDropdown({ children }) {
         className={`caption-1 ${styles['btn-more']}`}
         title="관리 메뉴 열기 버튼"
         aria-label="관리 메뉴 열기 버튼"
+        onKeyDown={handleKeydown}
       >
         <IcMore className={styles['ico-more']} />
       </button>
@@ -198,8 +252,9 @@ export function MenuDropdown({ children }) {
           className={styles.dropdown}
           role="listbox"
           aria-labelledby="selectButton"
+          ref={itemRef}
         >
-          {renderMenuDropdownWithProps(children, setIsExpand)}
+          {renderMenuDropdownWithProps(children, setIsExpand, itemRef)}
         </ul>
       )}
     </div>
