@@ -1,4 +1,4 @@
-import axios from './axios'
+import axios from './openMindAxios'
 
 export default async function getFeedQuestions(feedId) {
   try {

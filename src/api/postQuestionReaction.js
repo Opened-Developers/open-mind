@@ -1,4 +1,4 @@
-import openmindAxios from './axios'
+import openmindAxios from './openMindAxios'
 
 export default async function postQuestionReaction(questionId, likeOrDislike) {
   try {
