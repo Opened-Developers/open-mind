@@ -30,7 +30,7 @@ function AnswerPage({ feedId, profile, errorMessage = null }) {
       </header>
       <main className={styles.main}>
         <section className={styles.section}>
-          <FeedCardList feedId={feedId} isMyFeed />
+          <FeedCardList feedId={feedId} isMyFeed profile={profile} />
         </section>
       </main>
     </div>

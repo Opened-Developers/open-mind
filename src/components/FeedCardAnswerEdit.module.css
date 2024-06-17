@@ -1,5 +1,18 @@
+.body {
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+}
+
+.body > img {
+  width: 48px;
+  height: 48px;
+  border-radius: 9999px;
+}
+
 .container {
   margin-bottom: 32px;
+  width: 100%;
 }
 
 .container > p {
@@ -11,6 +24,10 @@
 
 .container > form > textarea {
   width: 100%;
+<<<<<<< HEAD
+=======
+  height: 186px;
+>>>>>>> dev
   resize: none;
   margin-bottom: 8px;
   background-color: var(--gray-20);
