@@ -19,3 +19,15 @@ export const createLocalUserId = (userId) => {
   const newLocalUserId = userId
   localStorage.setItem('userId', newLocalUserId)
 }
+
+export const getDeviceType = (width, detail = false) => {
+  if (width >= 1200) return 'desktop'
+
+  if (detail) {
+    if (width >= 950) return 'tabletBig'
+  }
+
+  if (width >= 768) return 'tablet'
+
+  return 'mobile'
+}

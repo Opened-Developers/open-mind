@@ -1,0 +1,70 @@
+@import '../../../styles/global.css';
+
+.UserCard {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 30px;
+
+  padding: 16px;
+  border: 1px solid var(--gray-40);
+  border-radius: 16px;
+
+  box-sizing: border-box;
+}
+
+.profile {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.profile > img {
+  width: 48px;
+  height: 48px;
+
+  border-radius: 50%;
+}
+
+.question {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  color: var(--gray-40);
+}
+
+.question > div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 4px;
+}
+
+.question > div > img {
+  width: 16px;
+  height: 16px;
+}
+
+@media (min-width: 768px) {
+  .UserCard {
+    gap: 28px;
+    padding: 20px;
+  }
+
+  .question {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    width: 100%;
+
+    color: var(--gray-40);
+  }
+
+  .profile > img {
+    width: 60px;
+    height: 60px;
+  }
+}

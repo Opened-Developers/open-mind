@@ -1,0 +1,58 @@
+@import '../styles/global.css';
+
+.DropDown {
+  width: 79px;
+  height: 34px;
+  padding: 8px 12px;
+  border: 1px solid var(--gray-40);
+  border-radius: 8px;
+  box-sizing: border-box;
+}
+
+.dropdownContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 4px;
+
+  width: 55px;
+}
+
+.dropdownContainer > button {
+  color: var(--gray-40);
+  padding: 0;
+  border: none;
+  background-color: #ffffff;
+}
+
+.dropdownContainer > img {
+  width: 14px;
+  height: 14px;
+}
+
+.dropdownMenu {
+  position: relative;
+  top: 11px;
+  left: -13px;
+
+  width: 79px;
+  height: 68px;
+  padding: 4px 0;
+
+  border: 1px solid var(--gray-40);
+  border-radius: 8px;
+
+  color: var(--gray-10);
+
+  box-sizing: border-box;
+}
+
+.dropdownMenu > li {
+  width: 100%;
+
+  padding: 6px 16px;
+
+  color: black;
+
+  box-sizing: border-box;
+}
