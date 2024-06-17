@@ -6,7 +6,7 @@
 .icon-container > button {
   border: none;
   padding: 0;
-  background-color: #fff;
+  background: none;
 }
 
 .icon-container > button:hover {
