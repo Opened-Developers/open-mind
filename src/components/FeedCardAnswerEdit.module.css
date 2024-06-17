@@ -24,10 +24,7 @@
 
 .container > form > textarea {
   width: 100%;
-<<<<<<< HEAD
-=======
   height: 186px;
->>>>>>> dev
   resize: none;
   margin-bottom: 8px;
   background-color: var(--gray-20);
