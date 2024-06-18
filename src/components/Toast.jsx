@@ -1,7 +1,11 @@
 import styles from './Toast.module.css'
 
-function Toast({ children }) {
-  return <div className={styles.toast}>{children}</div>
+function Toast({ children, status }) {
+  return (
+    <div className={`shadow-1pt caption-1 ${styles.toast} ${styles[status]}`}>
+      {children}
+    </div>
+  )
 }
 
 export default Toast

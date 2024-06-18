@@ -7,5 +7,14 @@
   color: #fff;
   border-radius: 8px;
   padding: 12px 20px;
-  box-shadow: 0px 4px 4px 0px #00000040;
+}
+
+.default {
+  background: var(--gray-60);
+}
+.error {
+  background: var(--red-50);
+}
+.success {
+  background-color: var(--blue-50);
 }
