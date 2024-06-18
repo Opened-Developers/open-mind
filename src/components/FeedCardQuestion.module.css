@@ -1,0 +1,19 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.relative-date {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.5;
+  color: var(--gray-40);
+}
+
+.content {
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--gray-60);
+}

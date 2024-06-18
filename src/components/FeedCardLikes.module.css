@@ -1,0 +1,27 @@
+.likes-container {
+  display: flex;
+  flex-direction: row;
+  gap: 32px;
+  height: 43px;
+  justify-content: flex-start;
+  align-items: flex-end;
+  border-top: 1px solid var(--gray-30);
+}
+
+.likes {
+  display: flex;
+  flex-direction: row;
+  gap: 6px;
+}
+
+.likes > img {
+  width: 16px;
+  height: 16px;
+}
+
+.likes > p {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 18px;
+  color: var(--gray-40);
+}

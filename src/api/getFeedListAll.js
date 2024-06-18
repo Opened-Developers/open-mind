@@ -1,10 +1,10 @@
 import openmindAxios from './axios'
 
-async function getFeedList(limit, offset) {
+const limit = Number.MAX_SAFE_INTEGER
+
+async function getFeedListAll() {
   try {
-    const response = await openmindAxios.get(
-      `/subjects/?limit=${limit}&offset=${offset}`
-    )
+    const response = await openmindAxios.get(`/subjects/?limit=${limit}`)
     return response
   } catch (error) {
     if (error.response) {
@@ -16,4 +16,4 @@ async function getFeedList(limit, offset) {
   }
 }
 
-export default getFeedList
+export default getFeedListAll
