@@ -3,7 +3,7 @@
   border: 1px solid var(--brown040, #542f1a);
   background: var(--Grayscale-10, #fff);
   display: inline-block;
-  border-radius: 50px;
+  border-radius: 8px;
 }
 
 .brown {
