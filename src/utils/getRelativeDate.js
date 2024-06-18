@@ -1,4 +1,4 @@
-export default function useRelativeDate(date) {
+export default function getRelativeDate(date) {
   const detailDate = (d) => {
     const milliSeconds = new Date() - d
 
