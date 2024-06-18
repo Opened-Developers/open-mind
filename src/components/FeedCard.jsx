@@ -13,7 +13,9 @@ export default function FeedCard({ question, isMyFeed, profile = null }) {
       {isMyFeed ? (
         <FeedCardAnswerEdit question={question} profile={profile} />
       ) : (
-        question.answer && <FeedCardAnswer question={question} />
+        question.answer && (
+          <FeedCardAnswer question={question} profile={profile} />
+        )
       )}
       <FeedCardReaction question={question} />
     </div>
