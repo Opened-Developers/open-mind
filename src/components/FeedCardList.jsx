@@ -20,7 +20,7 @@ export default function FeedCardList({ feedId, isMyFeed, profile = null }) {
       .catch((error) => {
         setErrorInfo(error.message)
       })
-  }, [feedId])
+  }, [feedId, profile])
 
   if (errorInfo) {
     return <div>{errorInfo}</div>

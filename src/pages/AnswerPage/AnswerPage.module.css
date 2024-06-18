@@ -20,6 +20,7 @@
   border-radius: 9999px;
   padding: 5px 24px;
   line-height: 25px;
+  font-size: 15px;
 }
 
 .backgroundImg {
@@ -83,4 +84,10 @@
   font-size: 20px;
   line-height: 1.25;
   color: var(--brown-40);
+}
+
+.error {
+  font-size: 25px;
+  font-weight: 800;
+  color: var(--red-50);
 }

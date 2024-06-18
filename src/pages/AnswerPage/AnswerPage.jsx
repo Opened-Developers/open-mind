@@ -1,15 +1,11 @@
 import styles from './AnswerPage.module.css'
 import SocialShareContainer from '../../components/SocialShareContainer'
 import FeedCardList from '../../components/FeedCardList'
-import { FillButton } from '../../components/Buttons'
+import { FloatButton } from '../../components/Buttons'
 import logo from '../../assets/images/img_logo.png'
 import openMindImg from '../../assets/images/img_openmind.png'
 
-function AnswerPage({ feedId, profile, errorMessage = null }) {
-  if (errorMessage) {
-    return <div>{errorMessage}</div>
-  }
-
+function AnswerPage({ feedId, profile, errorMessage = null, onClick }) {
   return (
     <div className={styles.body}>
       <header className={styles.header}>
@@ -26,12 +22,17 @@ function AnswerPage({ feedId, profile, errorMessage = null }) {
         />
         <p className={styles.nickname}>{profile.name}</p>
         <SocialShareContainer />
-        <FillButton size="small">삭제하기</FillButton>
+        <FloatButton onClick={onClick} size="small">
+          삭제
+        </FloatButton>
       </header>
       <main className={styles.main}>
         <section className={styles.section}>
           <FeedCardList feedId={feedId} isMyFeed profile={profile} />
         </section>
+        {errorMessage?.message && (
+          <div className={styles.error}>{errorMessage.message}</div>
+        )}
       </main>
     </div>
   )
