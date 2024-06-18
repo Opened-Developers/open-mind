@@ -1,8 +1,8 @@
-import openmindAxios from './openMindAxios'
+import openMindAxios from './openMindAxios'
 
 export default async function postQuestionReaction(questionId, likeOrDislike) {
   try {
-    const response = await openmindAxios.post(
+    const response = await openMindAxios.post(
       `/questions/${questionId}/reaction/`,
       {
         type: likeOrDislike,

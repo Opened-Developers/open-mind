@@ -101,7 +101,7 @@ export default function QuestionModal({ profile }) {
               </div>
               <form onSubmit={handleSubmit} onChange={handleChange}>
                 <Textarea
-                  name={'questionTextatea'}
+                  name={'questionTextarea'}
                   id={'question'}
                   rows={7}
                   placeholder={'질문을 입력해 주세요'}
