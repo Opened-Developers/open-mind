@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react'
-import { FloatButton } from '../Buttons'
+import { FillButton, FloatButton } from '../Buttons'
 import messageIcon from '../../assets/icons/ic_messages.svg'
 import closeIcon from '../../assets/icons/ic_close.svg'
 import styles from './QuestionModal.module.css'
@@ -27,9 +27,12 @@ export default function QuestionModal({ profile }) {
     }
   }
 
+  const handleChange = (e) => {
+    setContent(e.target.value)
+  }
+
   const handleSubmit = (e) => {
     const feedId = profile.id
-    setContent(e.target.questionTextatea.value)
 
     const questionBody = {
       subjectId: feedId,
@@ -96,14 +99,16 @@ export default function QuestionModal({ profile }) {
                 <img src={profile.imageSource} alt="프로필 사진" />
                 <div>{profile.name}</div>
               </div>
-              <form onSubmit={handleSubmit}>
+              <form onSubmit={handleSubmit} onChange={handleChange}>
                 <Textarea
                   name={'questionTextatea'}
                   id={'question'}
-                  rows={10}
+                  rows={7}
                   placeholder={'질문을 입력해 주세요'}
                 />
-                <button type="submit">질문 보내기</button>
+                <FillButton isSubmit disabled={!content}>
+                  질문 보내기
+                </FillButton>
               </form>
             </div>
           </div>
