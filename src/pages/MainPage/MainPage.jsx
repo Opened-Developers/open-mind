@@ -1,11 +1,13 @@
 import { React, useState, useEffect } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import styles from './MainPage.module.css'
-import getFeedList from '../../api/getFeedList'
+import getFeedListAll from '../../api/getFeedListAll'
 import postNewFeed from '../../api/postNewFeed'
-import icPerson from '../../assets/icons/ic_person.svg'
+import icArrowRightBrown from '../../assets/icons/ic_arrow_right_brown.svg'
 import imgLogo from '../../assets/images/img_logo.png'
 import imgBackground from '../../assets/images/img_background.png'
+import { FillButton, OutlineButton } from '../../components/Buttons'
+import { InputText } from '../../components/Inputs'
 import {
   debounce,
   getLocalUserId,
@@ -16,7 +18,7 @@ const localUserId = getLocalUserId()
 
 function MainPage() {
   const [userName, setUserName] = useState('')
-  const [error, setError] = useState(null)
+  const [errorMessage, setErrorMessage] = useState(null)
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -30,24 +32,28 @@ function MainPage() {
   }
 
   const checkDuplicatedName = async () => {
-    const { data, errorMessage } = await getFeedList()
+    try {
+      const { data } = await getFeedListAll()
 
-    if (!data) {
-      setError(errorMessage)
-      return true
-    }
+      const isDuplicated = data.results.some(
+        (result) => result.name === userName
+      )
 
-    const isDuplicated = data.results.some((result) => result.name === userName)
-
-    if (isDuplicated) {
-      setError('중복된 이름입니다.')
+      if (isDuplicated) {
+        setErrorMessage('중복된 이름입니다. 다른 이름을 입력해 주세요.')
+        return true
+      }
+    } catch (error) {
+      setErrorMessage(error.message)
       return true
     }
 
     return false
   }
 
-  const handleAnswerClick = async () => {
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+
     if (await checkDuplicatedName()) {
       return false
     }
@@ -62,43 +68,30 @@ function MainPage() {
     return false
   }
 
-  const handleKeyDown = (e) => {
-    if (e.keyCode === 13) {
-      handleAnswerClick()
-    }
-  }
-
   return (
     <section className={styles.MainPage}>
       <Link to="/list" className={styles.buttonQuestion}>
-        질문하러 가기
+        <OutlineButton iconRight={icArrowRightBrown}>
+          질문하러 가기
+        </OutlineButton>
       </Link>
       <img
         className={`${styles.image} ${styles.logo}`}
         src={imgLogo}
         alt="로고 이미지"
       />
-      <div className={styles.createFeed}>
-        <div className={styles.nameBox}>
-          <img className={styles.person} src={icPerson} alt="" />
-          <input
-            className={styles.name}
-            type="text"
-            placeholder="이름을 입력하세요"
-            onChange={debounce(handleNameChange, 50)}
-            onKeyDown={handleKeyDown}
-          />
-        </div>
-        {error && <p className={styles.errorMessage}>{error}</p>}
-        <button
-          className={styles.buttonAnswer}
-          type="button"
-          onClick={handleAnswerClick}
-          disabled={!userName}
-        >
+      <form className={styles.createFeed} onSubmit={handleSubmit}>
+        <InputText
+          type="text"
+          placeholder="이름을 입력하세요"
+          showIcon="true"
+          onChange={debounce(handleNameChange, 50)}
+        />
+        {errorMessage && <p className={styles.errorMessage}>{errorMessage}</p>}
+        <FillButton type="button" onClick={handleSubmit} disabled={!userName}>
           질문 받기
-        </button>
-      </div>
+        </FillButton>
+      </form>
       <img
         className={`${styles.image} ${styles.background}`}
         src={imgBackground}
