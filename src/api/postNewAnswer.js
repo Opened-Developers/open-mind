@@ -1,8 +1,8 @@
-import openmindAxios from './axios'
+import openMindAxios from './openMindAxios'
 
 async function postNewAnswer(targetId, targetContent) {
   try {
-    const response = await openmindAxios.post(
+    const response = await openMindAxios.post(
       `/questions/${targetId}/answers/`,
       {
         questionId: targetId,
