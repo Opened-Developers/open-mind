@@ -9,6 +9,10 @@
   cursor: pointer;
 }
 
+.reaction:hover {
+  font-weight: 500;
+}
+
 .reaction svg {
   width: 18px;
   height: 18px;
