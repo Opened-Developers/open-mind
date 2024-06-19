@@ -1,4 +1,4 @@
-import Toast from '../components/Toast'
+import { ToastItem } from '../components/Toast'
 
 export default {
   title: 'Toasts',
@@ -7,10 +7,10 @@ export default {
   },
 }
 
-const Template = (args) => <Toast {...args} />
+const Template = (args) => <ToastItem {...args} />
 
 export const Toasts = Template.bind({})
 Toasts.args = {
-  children: 'URL이 복사되었습니다',
+  message: 'URL이 복사되었습니다',
   status: 'default',
 }
