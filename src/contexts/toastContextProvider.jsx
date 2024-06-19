@@ -1,13 +1,9 @@
-import { useState, useContext, useMemo, useCallback, useEffect } from 'react'
+import { useState, useContext, useMemo, useCallback } from 'react'
 import ToastContext from './toastContext'
 import { getUniqueId } from '../modules/utils'
 
 export function ToastContextProvider({ children }) {
   const [toasts, setToasts] = useState([])
-
-  useEffect(() => {
-    console.log(toasts)
-  }, [toasts])
 
   const removeToast = useCallback((id) => {
     // 토스트 삭제
@@ -22,7 +18,6 @@ export function ToastContextProvider({ children }) {
   // 실제로 외부에서 사용할 토스트 함수
   const toast = useCallback(
     ({ message, status, id = getUniqueId() }) => {
-      console.log('toast', message, status)
       addToast({ message, status, id })
       setTimeout(() => {
         removeToast(id)
