@@ -55,7 +55,7 @@ export function useDropdown() {
 
   const handleBlur = (e) => {
     if (!e.currentTarget.contains(e.relatedTarget)) {
-      // setIsExpand(false)
+      setIsExpand(false)
     }
   }
   return {
