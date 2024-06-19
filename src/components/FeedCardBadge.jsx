@@ -1,8 +1,16 @@
-import styles from './FeedCardBadge.module.css'
+import Badges from './Badges'
 
 export default function FeedCardBadge({ isAnswered }) {
   if (isAnswered) {
-    return <div className={styles.badge}>답변 완료</div>
+    return (
+      <div className="width: fit-content">
+        <Badges>답변 완료</Badges>
+      </div>
+    )
   }
-  return <div className={styles.badge}>미답변</div>
+  return (
+    <div className="width: fit-content">
+      <Badges>미답변</Badges>
+    </div>
+  )
 }

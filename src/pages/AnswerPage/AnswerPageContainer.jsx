@@ -35,7 +35,6 @@ function AnswerPageContainer() {
     } catch (error) {
       setErrorMessage(error)
     }
-    console.log(profile)
   }
 
   useEffect(() => {

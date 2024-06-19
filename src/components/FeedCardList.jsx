@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import deleteFeedQuestion from '../api/deleteFeedQuestion'
 import styles from './FeedCardList.module.css'
 import messagesIcon from '../assets/icons/ic_messages.svg'
 import getFeedQuestions from '../api/getFeedQuestions'
@@ -10,8 +11,8 @@ export default function FeedCardList({ feedId, isMyFeed, profile = null }) {
   // const [paging, setPaging] = useState({ next: 0, previous: 0 })
   const [errorInfo, setErrorInfo] = useState(null)
 
-  useEffect(() => {
-    getFeedQuestions(feedId)
+  const questionsLoad = async (id) => {
+    getFeedQuestions(id)
       .then((res) => {
         setQuestions(res.results)
         setQuestionCount(res.count)
@@ -20,6 +21,19 @@ export default function FeedCardList({ feedId, isMyFeed, profile = null }) {
       .catch((error) => {
         setErrorInfo(error.message)
       })
+  }
+
+  const handleDeleteClick = async (id) => {
+    try {
+      await deleteFeedQuestion(id)
+    } catch (error) {
+      setErrorInfo(error.message)
+    }
+    await questionsLoad(feedId)
+  }
+
+  useEffect(() => {
+    questionsLoad(feedId)
   }, [feedId, profile])
 
   if (errorInfo) {
@@ -46,6 +60,7 @@ export default function FeedCardList({ feedId, isMyFeed, profile = null }) {
             question={question}
             isMyFeed={isMyFeed}
             profile={profile}
+            onDeleteClick={handleDeleteClick}
           />
         ))}
       </div>
