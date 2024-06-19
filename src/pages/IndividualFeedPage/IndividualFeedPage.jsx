@@ -14,11 +14,16 @@ export default function IndividualFeedPage() {
   const [profile, setProfile] = useState(null)
   const [questions, setQuestions] = useState([])
   const [questionCount, setQuestionCount] = useState(0)
+  const [offset, setOffset] = useState(0)
+  const [next, setNext] = useState(null)
   const [errorInfo, setErrorInfo] = useState(null)
+  const LIMIT = 10
 
   const localUserId = getLocalUserId()
+  
+  const listEnd = document.querySelector('.list-end')
 
-  const loadProfile = async (id) => {
+  const handleLoadProfile = async (id) => {
     let response
     try {
       response = await getProfileById(id)
@@ -30,26 +35,57 @@ export default function IndividualFeedPage() {
     return null
   }
 
-  const loadQuestions = async (id) => {
+  const handleLoadQuestions = useCallback(async (options) => {
     let response
     try {
-      response = await getFeedQuestions(id)
-      setQuestions(response.results)
+      response = await getFeedQuestions(options)
+      if (options.offset === 0) {
+        setQuestions(response.results)
+      } else {
+        setQuestions((prevQuestions) => [prevQuestions, ...response.results])
+      }
       setQuestionCount(response.count)
+      setOffset((prevOffset) => prevOffset + LIMIT)
+      setNext(response.next)
       setErrorInfo(null)
     } catch (error) {
       setErrorInfo(error.message)
     }
+
     return null
+  }, [])
+
+  useEffect(() => {
+    handleLoadProfile(feedId).then()
+  }, [feedId])
+
+  useEffect(() => {
+    if (offset === 0) {
+      handleLoadQuestions({ feedId, limit: LIMIT, offset }).then()
+    }
+  }, [feedId, offset, handleLoadQuestions])
+
+  const observer = useMemo(
+    () =>
+      new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting && next !== null) {
+              handleLoadQuestions({ feedId, limit: LIMIT, offset }).then()
+            }
+            if (entry.isIntersecting && next === null) {
+              observer.disconnect()
+            }
+          })
+        },
+        { threshold: 0.2 }
+      ),
+    [feedId, offset, next, handleLoadQuestions]
+  )
+
+  if (listEnd) {
+    observer.observe(listEnd) // listEnd가 존재하면 관찰 대상으로 등록
   }
-
-  useEffect(() => {
-    loadProfile(feedId)
-  }, [feedId])
-
-  useEffect(() => {
-    loadQuestions(feedId)
-  }, [feedId])
 
   if (errorInfo) {
     return <Toast>{errorInfo}</Toast>
@@ -73,6 +109,19 @@ export default function IndividualFeedPage() {
         ) : (
           <QuestionModal profile={profile} handleLoadQuestion={loadQuestions} />
         )}
+        <Link to="answer">
+          <FloatButton>답변</FloatButton>
+        </Link>
+        <QuestionModal
+          profile={profile}
+          handleLoadQuestion={handleLoadQuestions}
+        />
+        <div
+          className="list-end"
+          style={next === null && offset > 0 ? { display: 'none' } : {}}
+        >
+          로딩 중 ...
+        </div>
         {errorInfo && <Toast>{errorInfo}</Toast>}
       </div>
     )
