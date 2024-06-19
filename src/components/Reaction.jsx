@@ -23,14 +23,14 @@ export function Like({ counter, onClick, isSelected = false }) {
   )
 }
 
-export function Dislike({ onClick, isSelected = false }) {
+export function Dislike({ counter, onClick, isSelected = false }) {
   return (
     <ReactionButton
       onClick={onClick}
       className="dislike"
       isSelected={isSelected}
     >
-      <IcThumbsDown /> 싫어요
+      <IcThumbsDown /> 싫어요 {counter > 0 && counter}
     </ReactionButton>
   )
 }
