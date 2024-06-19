@@ -7,11 +7,12 @@ import { Textarea } from '../Inputs'
 import createQuestion from '../../api/createQuestion'
 import Toast from '../Toast'
 
-export default function QuestionModal({ profile }) {
-  const [isModalOpen, setIsModalOpen] = useState(false)
+export default function QuestionModal({ profile, handleLoadQuestion }) {
   const modalBackground = useRef(null)
+  const [isModalOpen, setIsModalOpen] = useState(false)
   const [content, setContent] = useState('')
   const [errorInfo, setErrorInfo] = useState(null)
+  const feedId = profile.id
 
   const handleModalOpen = () => {
     setIsModalOpen(true)
@@ -32,8 +33,6 @@ export default function QuestionModal({ profile }) {
   }
 
   const handleSubmit = (e) => {
-    const feedId = profile.id
-
     const questionBody = {
       subjectId: feedId,
       content,
@@ -56,6 +55,7 @@ export default function QuestionModal({ profile }) {
         })
         .finally(() => {
           setContent('')
+          handleLoadQuestion(feedId)
         })
       e.preventDefault()
     }

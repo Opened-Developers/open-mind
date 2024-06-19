@@ -1,40 +1,25 @@
-import { useEffect, useState } from 'react'
 import styles from './FeedCardList.module.css'
 import messagesIcon from '../assets/icons/ic_messages.svg'
-import getFeedQuestions from '../api/getFeedQuestions'
 import FeedCard from './FeedCard'
-import Toast from './Toast'
 
-export default function FeedCardList({ feedId, isMyFeed, profile = null }) {
-  const [questions, setQuestions] = useState([])
-  const [questionCount, setQuestionCount] = useState(0)
-  // const [paging, setPaging] = useState({ next: 0, previous: 0 })
-  const [errorInfo, setErrorInfo] = useState(null)
-
-  useEffect(() => {
-    getFeedQuestions(feedId)
-      .then((res) => {
-        setQuestions(res.results)
-        setQuestionCount(res.count)
-        // setPaging({ next: res.next, previous: res.previous })
-      })
-      .catch((error) => {
-        setErrorInfo(error.message)
-      })
-  }, [feedId])
-
-  if (errorInfo) {
-    return <Toast>{errorInfo}</Toast>
+export default function FeedCardList({
+  questions,
+  questionCount,
+  isMyFeed,
+  profile = null,
+}) {
+  if (questions.length === 0) {
+    return (
+      <div>
+        <div className={styles['messages-container']}>
+          <img src={messagesIcon} alt="질문 메시지 아이콘" />
+          <p>아직 질문이 없습니다.</p>
+        </div>
+      </div>
+    )
   }
 
-  return questions.length === 0 ? (
-    <div>
-      <div className={styles['messages-container']}>
-        <img src={messagesIcon} alt="질문 메시지 아이콘" />
-        <p>아직 질문이 없습니다.</p>
-      </div>
-    </div>
-  ) : (
+  return (
     <div>
       <div className={styles['messages-container']}>
         <img src={messagesIcon} alt="질문 메시지 아이콘" />
