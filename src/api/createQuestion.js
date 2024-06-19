@@ -3,7 +3,7 @@ import openMindAxios from './openMindAxios'
 export default async function createQuestion(feedId, questionBody) {
   try {
     const response = await openMindAxios.post(
-      `/subjects/${feedId}/questions`,
+      `/subjects/${feedId}/questions/`,
       questionBody
     )
     return response.data
