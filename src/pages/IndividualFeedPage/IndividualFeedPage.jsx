@@ -116,7 +116,8 @@ export default function IndividualFeedPage() {
               questionCount={questionCount}
               isMyFeed={false}
               profile={profile}
-              errorInfo={errorInfo}
+              setErrorInfo={setErrorInfo}
+              onLoad={handleLoadQuestions}
             />
           </section>
           <div
@@ -132,10 +133,7 @@ export default function IndividualFeedPage() {
               <FloatButton>답변하기</FloatButton>
             </Link>
           ) : (
-            <QuestionModal
-              profile={profile}
-              handleLoadQuestion={handleLoadQuestions}
-            />
+            <QuestionModal profile={profile} onLoad={handleLoadQuestions} />
           )}
         </div>
         {errorInfo && <Toast>{errorInfo}</Toast>}

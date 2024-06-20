@@ -1,9 +1,7 @@
-import { useEffect, useState } from 'react'
 import deleteFeedQuestion from '../api/deleteFeedQuestion'
 import styles from './FeedCardList.module.css'
 import messagesIcon from '../assets/icons/ic_messages.svg'
 import emptyFeedIcon from '../assets/icons/ic_empty_feed.svg'
-import getFeedQuestions from '../api/getFeedQuestions'
 import FeedCard from './FeedCard'
 
 export default function FeedCardList({
@@ -11,41 +9,17 @@ export default function FeedCardList({
   questionCount,
   isMyFeed,
   profile = null,
+  setErrorInfo,
+  onLoad: handleLoadQuestions,
 }) {
-  const [questions, setQuestions] = useState([])
-  const [questionCount, setQuestionCount] = useState(0)
-  // const [paging, setPaging] = useState({ next: 0, previous: 0 })
-  const [errorInfo, setErrorInfo] = useState(null)
-
-  const questionsLoad = async (id) => {
-    getFeedQuestions({ feedId: id })
-      .then((res) => {
-        setQuestions(res.results)
-        setQuestionCount(res.count)
-        // setPaging({ next: res.next, previous: res.previous })
-      })
-      .catch((error) => {
-        setErrorInfo(error.message)
-      })
-  }
-
   const handleDeleteClick = async (id) => {
     try {
       await deleteFeedQuestion(id)
     } catch (error) {
       setErrorInfo(error.message)
     }
-    await questionsLoad(feedId)
+    await handleLoadQuestions()
   }
-
-  useEffect(() => {
-    questionsLoad(feedId)
-  }, [feedId, profile])
-
-  if (errorInfo) {
-    return <div>{errorInfo}</div>
-  }
-
 
   if (questions.length === 0) {
     return (
@@ -87,7 +61,7 @@ export default function FeedCardList({
             isMyFeed={isMyFeed}
             profile={profile}
             onDeleteClick={handleDeleteClick}
-            onLoad={questionsLoad}
+            onLoad={handleLoadQuestions}
           />
         ))}
       </div>
