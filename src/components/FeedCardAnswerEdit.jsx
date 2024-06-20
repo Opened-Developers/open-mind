@@ -10,25 +10,31 @@ export default function FeedCardAnswerEdit({
   profile,
   question,
   isEditing,
-  changeIsEditing,
+  submitEdit,
+  onLoad,
 }) {
   const [inputText, setInputText] = useState('')
   const [answer, setAnswer] = useState(
     question.answer ? question.answer.content : ''
   )
+  const [errorMessage, setErrorMessage] = useState('')
   const handleInputChange = (e) => {
     const nextValue = e.target.value
     setInputText(nextValue)
   }
 
   const handleButtonClick = async () => {
-    if (isEditing) {
-      await putAnswer(question.answer.id, inputText)
-      setAnswer(inputText)
-      changeIsEditing()
-    } else if (inputText) {
-      const result = await postNewAnswer(question.id, inputText)
-      setAnswer(result.content)
+    try {
+      if (isEditing) {
+        await putAnswer(question.answer.id, inputText)
+        setAnswer(inputText)
+        submitEdit()
+      } else if (inputText) {
+        await postNewAnswer(question.id, inputText)
+        await onLoad(question.subjectId)
+      }
+    } catch (error) {
+      setErrorMessage(error.message)
     }
   }
 
@@ -36,6 +42,8 @@ export default function FeedCardAnswerEdit({
     if (isEditing) {
       setInputText(question.answer.content)
       setAnswer('')
+    } else if (question.answer) {
+      setAnswer(question.answer.content)
     }
   }, [isEditing, answer, question])
 
@@ -67,6 +75,7 @@ export default function FeedCardAnswerEdit({
         ) : (
           <p>{answer}</p>
         )}
+        {errorMessage && <div>{errorMessage}</div>}
       </div>
     </div>
   )

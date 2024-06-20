@@ -12,6 +12,7 @@ export default function FeedCard({
   isMyFeed,
   profile = null,
   onDeleteClick,
+  onLoad,
 }) {
   const [isEditing, setIsEditing] = useState(false)
 
@@ -25,8 +26,9 @@ export default function FeedCard({
     }
   }
 
-  const changeIsEditing = () => {
+  const submitEdit = () => {
     setIsEditing(false)
+    onLoad(question.subjectId)
   }
 
   return (
@@ -50,7 +52,8 @@ export default function FeedCard({
           question={question}
           profile={profile}
           isEditing={isEditing}
-          changeIsEditing={changeIsEditing}
+          submitEdit={submitEdit}
+          onLoad={onLoad}
         />
       ) : (
         question.answer && <FeedCardAnswer question={question} />

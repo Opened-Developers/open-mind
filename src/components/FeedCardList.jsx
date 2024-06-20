@@ -61,6 +61,7 @@ export default function FeedCardList({ feedId, isMyFeed, profile = null }) {
             isMyFeed={isMyFeed}
             profile={profile}
             onDeleteClick={handleDeleteClick}
+            onLoad={questionsLoad}
           />
         ))}
       </div>
