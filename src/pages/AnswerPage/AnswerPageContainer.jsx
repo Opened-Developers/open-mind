@@ -28,7 +28,7 @@ function AnswerPageContainer() {
           deleteFeedQuestion(question.id)
         )
         await Promise.all(deletePromises)
-        await profileLoad(feedId)
+        await loadProfile(feedId)
       } else {
         throw new Error('삭제할 질문이 없습니다')
       }
