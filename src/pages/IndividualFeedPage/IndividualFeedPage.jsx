@@ -8,6 +8,9 @@ import getProfileById from '../../api/getProfileById'
 import Toast from '../../components/Toast'
 import getFeedQuestions from '../../api/getFeedQuestions'
 import { getLocalUserId } from '../../modules/utils'
+import styles from './IndividualFeedPage.module.css'
+import openMindImg from '../../assets/images/img_openmind.png'
+import logo from '../../assets/images/img_logo.png'
 
 export default function IndividualFeedPage() {
   const { feedId } = useParams()
@@ -90,37 +93,50 @@ export default function IndividualFeedPage() {
 
   if (profile) {
     return (
-      <div>
-        <SocialShareContainer />
-        <FeedCardList
-          questions={questions}
-          questionCount={questionCount}
-          isMyFeed={false}
-          profile={profile}
-          errorInfo={errorInfo}
-        />
-        {localUserId === feedId ? (
-          <Link to="answer">
-            <FloatButton>답변하기</FloatButton>
-          </Link>
-        ) : (
-          <QuestionModal
-            profile={profile}
-            handleLoadQuestion={handleLoadQuestions}
+      <div className={styles.background}>
+        <header className={styles.header}>
+          <img
+            className={styles.backgroundImg}
+            src={openMindImg}
+            alt="실 전화기를 사용하는 두 사람"
           />
-        )}
-        <Link to="answer">
-          <FloatButton>답변</FloatButton>
-        </Link>
-        <QuestionModal
-          profile={profile}
-          handleLoadQuestion={handleLoadQuestions}
-        />
-        <div
-          className="list-end"
-          style={next === null && offset > 0 ? { display: 'none' } : {}}
-        >
-          로딩 중 ...
+          <img className={styles.logo} src={logo} alt="오픈마인드 로고" />
+          <img
+            src={profile.imageSource}
+            alt="프로필 사진"
+            className={styles['user-img']}
+          />
+          <p className={styles['user-name']}>{profile.name}</p>
+          <SocialShareContainer />
+        </header>
+        <main className={styles.main}>
+          <section className={styles['feed-card-list']}>
+            <FeedCardList
+              questions={questions}
+              questionCount={questionCount}
+              isMyFeed={false}
+              profile={profile}
+              errorInfo={errorInfo}
+            />
+          </section>
+          <div
+            className="list-end"
+            style={next === null && offset > 0 ? { display: 'none' } : {}}
+          >
+            로딩 중 ...
+          </div>
+        </main>
+        <div className={styles['button-floating']}>
+          {localUserId === feedId ? ( // 로그인한 사용자와 프로필 주인이 같은 경우 답변하기 버튼을 보여줍니다.
+            <Link to="answer">
+              <FloatButton>답변하기</FloatButton>
+            </Link>
+          ) : (
+            <QuestionModal
+              profile={profile}
+              handleLoadQuestion={handleLoadQuestions}
+            />
+          )}
         </div>
         {errorInfo && <Toast>{errorInfo}</Toast>}
       </div>
