@@ -7,6 +7,7 @@ import QuestionModal from '../../components/QuestionModal/QuestionModal'
 import getProfileById from '../../api/getProfileById'
 import Toast from '../../components/Toast'
 import getFeedQuestions from '../../api/getFeedQuestions'
+import { getLocalUserId } from '../../modules/utils'
 
 export default function IndividualFeedPage() {
   const { feedId } = useParams()
@@ -14,6 +15,8 @@ export default function IndividualFeedPage() {
   const [questions, setQuestions] = useState([])
   const [questionCount, setQuestionCount] = useState(0)
   const [errorInfo, setErrorInfo] = useState(null)
+
+  const localUserId = getLocalUserId()
 
   const loadProfile = async (id) => {
     let response
@@ -63,10 +66,13 @@ export default function IndividualFeedPage() {
           profile={profile}
           errorInfo={errorInfo}
         />
-        <Link to="answer">
-          <FloatButton>답변</FloatButton>
-        </Link>
-        <QuestionModal profile={profile} handleLoadQuestion={loadQuestions} />
+        {localUserId === feedId ? (
+          <Link to="answer">
+            <FloatButton>답변하기</FloatButton>
+          </Link>
+        ) : (
+          <QuestionModal profile={profile} handleLoadQuestion={loadQuestions} />
+        )}
         {errorInfo && <Toast>{errorInfo}</Toast>}
       </div>
     )
