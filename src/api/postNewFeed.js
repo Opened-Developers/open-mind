@@ -1,8 +1,8 @@
-import openmindAxios from './axios'
+import openMindAxios from './openMindAxios'
 
 async function postNewFeed(userName) {
   try {
-    const response = await openmindAxios.post('/subjects/', {
+    const response = await openMindAxios.post('/subjects/', {
       name: userName,
       team: '7-7',
     })

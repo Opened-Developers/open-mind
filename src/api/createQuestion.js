@@ -1,15 +1,10 @@
 import openMindAxios from './openMindAxios'
 
-async function postNewAnswer(targetId, targetContent) {
+export default async function createQuestion(feedId, questionBody) {
   try {
     const response = await openMindAxios.post(
-      `/questions/${targetId}/answers/`,
-      {
-        questionId: targetId,
-        content: targetContent,
-        isRejected: false,
-        team: '7-7',
-      }
+      `/subjects/${feedId}/questions/`,
+      questionBody
     )
     return response.data
   } catch (error) {
@@ -19,5 +14,3 @@ async function postNewAnswer(targetId, targetContent) {
     throw new Error('서버와의 통신 중 문제가 발생했습니다.')
   }
 }
-
-export default postNewAnswer

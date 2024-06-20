@@ -56,7 +56,9 @@ export default function FeedCard({
           onLoad={onLoad}
         />
       ) : (
-        question.answer && <FeedCardAnswer question={question} />
+        question.answer && (
+          <FeedCardAnswer question={question} profile={profile} />
+        )
       )}
       <FeedCardReaction question={question} />
     </div>
