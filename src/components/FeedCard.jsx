@@ -60,6 +60,7 @@ export default function FeedCard({
           <FeedCardAnswer question={question} profile={profile} />
         )
       )}
+      <div className={styles['card-division-line']} />
       <FeedCardReaction question={question} />
     </div>
   )
