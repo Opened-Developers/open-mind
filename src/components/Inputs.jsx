@@ -23,7 +23,7 @@ export function InputText({
   )
 }
 
-export function Textarea({ name, id, placeholder, rows = 5 }) {
+export function Textarea({ name, id, placeholder, rows = 5, onChange, value }) {
   return (
     <div className={`${styles['textarea-wrapper']}`}>
       <textarea
@@ -32,6 +32,8 @@ export function Textarea({ name, id, placeholder, rows = 5 }) {
         rows={rows}
         className={`body-3 ${styles.textarea}`}
         placeholder={placeholder}
+        onChange={onChange}
+        value={value}
       />
     </div>
   )

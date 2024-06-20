@@ -1,35 +1,65 @@
 import { useState, useEffect } from 'react'
 import { FillButton } from './Buttons'
+import { Textarea } from './Inputs'
+import getRelativeDate from '../utils/getRelativeDate'
 import styles from './FeedCardAnswerEdit.module.css'
 import postNewAnswer from '../api/postNewAnswer'
+import editAnswer from '../api/editAnswer'
 
-export default function FeedCardAnswerEdit({ profile, question }) {
-  const [inputText, SetInputText] = useState('')
+export default function FeedCardAnswerEdit({
+  profile,
+  question,
+  isEditing,
+  submitEdit,
+  onLoad,
+}) {
+  const [inputText, setInputText] = useState('')
   const [answer, setAnswer] = useState(
     question.answer ? question.answer.content : ''
   )
+  const [errorMessage, setErrorMessage] = useState('')
   const handleInputChange = (e) => {
     const nextValue = e.target.value
-    SetInputText(nextValue)
+    setInputText(nextValue)
   }
 
   const handleButtonClick = async () => {
-    if (inputText) {
-      const result = await postNewAnswer(question.id, inputText)
-      setAnswer(result.content)
+    try {
+      if (isEditing) {
+        await editAnswer(question.answer.id, inputText)
+        setAnswer(inputText)
+        submitEdit()
+      } else if (inputText) {
+        await postNewAnswer(question.id, inputText)
+        await onLoad(question.subjectId)
+      }
+    } catch (error) {
+      setErrorMessage(error.message)
     }
   }
 
-  useEffect(() => {}, [answer])
+  useEffect(() => {
+    if (isEditing) {
+      setInputText(question.answer.content)
+      setAnswer('')
+    } else if (question.answer) {
+      setAnswer(question.answer.content)
+    }
+  }, [isEditing, answer, question])
 
   return (
     <div className={styles.body}>
       <img src={profile.imageSource} alt="프로필 사진" />
       <div className={styles.container}>
-        <p>{profile.name}</p>
+        <div className={styles['text-container']}>
+          <span className={styles.name}>{profile.name}</span>
+          <span className={styles['relative-date']}>
+            {getRelativeDate(Date.now())}
+          </span>
+        </div>
         {!answer ? (
           <form>
-            <textarea
+            <Textarea
               value={inputText}
               placeholder="답변을 입력해 주세요."
               onChange={handleInputChange}
@@ -45,6 +75,7 @@ export default function FeedCardAnswerEdit({ profile, question }) {
         ) : (
           <p>{answer}</p>
         )}
+        {errorMessage && <div>{errorMessage}</div>}
       </div>
     </div>
   )

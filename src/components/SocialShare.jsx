@@ -1,4 +1,4 @@
-import iconLink from '../assets/icons/ic_link.svg'
+import iconLink from '../assets/icons/ic_button_link.svg'
 import iconKakao from '../assets/icons/ic_kakao.svg'
 import iconFacebook from '../assets/icons/ic_facebook.svg'
 import styles from './SocialShare.module.css'
