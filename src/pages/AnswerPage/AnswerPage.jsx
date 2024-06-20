@@ -28,7 +28,13 @@ function AnswerPage({ feedId, profile, errorMessage = null, onClick }) {
       </header>
       <main className={styles.main}>
         <section className={styles.section}>
-          <FeedCardList feedId={feedId} isMyFeed profile={profile} />
+          <FeedCardList
+            feedId={feedId}
+            isMyFeed
+            profile={profile}
+            questions={[]}
+            questionCount={0}
+          />
         </section>
         {errorMessage?.message && (
           <div className={styles.error}>{errorMessage.message}</div>
