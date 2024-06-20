@@ -55,7 +55,7 @@ export default function QuestionModal({ profile, handleLoadQuestion }) {
         })
         .finally(() => {
           setContent('')
-          handleLoadQuestion({ feedId, offset: 0 })
+          handleLoadQuestion()
         })
       e.preventDefault()
     }
@@ -104,22 +104,26 @@ export default function QuestionModal({ profile, handleLoadQuestion }) {
               <div className={styles['modal-profile']}>
                 <div>To.</div>
                 <img
-                  className={styles.userImg}
+                  className={styles['user-img']}
                   src={profile.imageSource}
                   alt="프로필 사진"
                 />
                 <div>{profile.name}</div>
               </div>
-              <form onSubmit={handleSubmit} onChange={handleChange}>
+              <form
+                className={styles['question-form']}
+                onSubmit={handleSubmit}
+                onChange={handleChange}
+              >
                 <Textarea
-                  className={styles['question-textarea']}
+                  className={styles['question-form-textarea']}
                   name={'questionTextarea'}
                   id={'question'}
                   rows={7}
                   placeholder={'질문을 입력해 주세요'}
                 />
                 <FillButton
-                  className={styles['question-submit-button']}
+                  className={styles['question-form-button']}
                   isSubmit
                   disabled={!content}
                 >
