@@ -55,7 +55,7 @@ export default function QuestionModal({ profile, handleLoadQuestion }) {
         })
         .finally(() => {
           setContent('')
-          handleLoadQuestion(feedId)
+          handleLoadQuestion({ feedId, offset: 0 })
         })
       e.preventDefault()
     }

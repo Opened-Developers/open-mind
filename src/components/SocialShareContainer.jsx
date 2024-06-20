@@ -1,6 +1,7 @@
-import { useState, useEffect } from 'react'
+import { useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
 import SocialShare from './SocialShare'
+import { useToast } from '../contexts/toastContextProvider'
 
 const JAVASCRIPT_KEY = '56581d8bf8b211623ac7e64c0f1d5851'
 const INTEGRITY_VALUE =
@@ -8,17 +9,12 @@ const INTEGRITY_VALUE =
 const VERSION = '2.7.2'
 function SocialShareContainer() {
   const location = useLocation()
-  const [toastVisible, setToastVisible] = useState(false)
   const currentUrl = `${window.location.origin}${location.pathname}`
+  const { toast } = useToast()
 
   const handleCopyClick = () => {
     navigator.clipboard.writeText(currentUrl)
-
-    setToastVisible(true)
-
-    setTimeout(() => {
-      setToastVisible(false)
-    }, 5000)
+    toast({ status: 'default', message: 'URL이 복사되었습니다' })
   }
 
   const handleKakaoClick = () => {
@@ -125,7 +121,6 @@ function SocialShareContainer() {
       onCopyLink={handleCopyClick}
       onShareKakao={handleKakaoClick}
       onShareFacebook={handleFacebookClick}
-      showToast={toastVisible}
     />
   )
 }

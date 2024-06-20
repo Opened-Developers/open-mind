@@ -1,6 +1,6 @@
 import openMindAxios from './openMindAxios'
 
-export default async function getFeedQuestions({ feedId, limit = 10, offset }) {
+export default async function getFeedQuestions({ feedId, offset, limit = 10 }) {
   try {
     const response = await openMindAxios.get(`/subjects/${feedId}/questions/`, {
       params: {

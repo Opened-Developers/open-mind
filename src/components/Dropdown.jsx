@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import React, { cloneElement, useEffect, useState, useRef } from 'react'
 import styles from './Dropdown.module.css'
 import { ReactComponent as IcArrowUp } from '../assets/icons/ic_arrow_up.svg'
@@ -69,12 +68,9 @@ export function useDropdown() {
   }
 }
 
-export function SortDropdownItem({
-  setSelected,
-  setIsExpand,
-  children,
-  itemRef,
-}) {
+export function SortDropdownItem(props) {
+  const { setSelected, setIsExpand, children, itemRef, className } = props
+
   const handleClick = (e) => {
     e.stopPropagation()
     setIsExpand(false)
@@ -84,15 +80,22 @@ export function SortDropdownItem({
   const handleKeydown = (e) => {
     handleArrowNavigation(e, itemRef)
   }
+
   return (
-    <button type="button" onClick={handleClick} onKeyDown={handleKeydown}>
-      {children}
-    </button>
+    <li>
+      <button
+        className={`caption-1 ${className}`}
+        type="button"
+        onClick={handleClick}
+        onKeyDown={handleKeydown}
+      >
+        {children}
+      </button>
+    </li>
   )
 }
 
-export function MenuDropdownItem(props) {
-  const { onClick, children, setIsExpand, itemRef } = props
+export function MenuDropdownItem({ onClick, children, setIsExpand, itemRef }) {
   const handleOnMouseDown = (e) => {
     e.stopPropagation()
     e.preventDefault()
@@ -104,9 +107,16 @@ export function MenuDropdownItem(props) {
     handleArrowNavigation(e, itemRef)
   }
   return (
-    <button type="button" onClick={handleOnMouseDown} onKeyDown={handleKeyDown}>
-      {children}
-    </button>
+    <li>
+      <button
+        type="button"
+        className="caption-1"
+        onClick={handleOnMouseDown}
+        onKeyDown={handleKeyDown}
+      >
+        {children}
+      </button>
+    </li>
   )
 }
 
@@ -172,7 +182,7 @@ export function SortDropdown({ children, onChange }) {
       </button>
       {isExpand && (
         <ul
-          className={styles.dropdown}
+          className={`shadow-1pt ${styles.dropdown}`}
           role="listbox"
           aria-labelledby="selectButton"
           ref={itemRef}
@@ -219,7 +229,7 @@ export function MenuDropdown({ children }) {
       </button>
       {isExpand && (
         <ul
-          className={styles.dropdown}
+          className={`shadow-1pt ${styles.dropdown}`}
           role="listbox"
           aria-labelledby="selectButton"
           ref={itemRef}

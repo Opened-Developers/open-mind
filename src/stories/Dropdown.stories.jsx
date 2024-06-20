@@ -29,13 +29,6 @@ SortDropdowns.args = {
     console.log(`${selected} 정렬`)
   },
 }
-SortDropdown.play = async ({ canvasElement }) => {
-  const canvas = within(canvasElement)
-  const button = canvas.getByRole('button')
-
-  // 버튼을 클릭하여 토글 상태를 변경
-  await userEvent.click(button)
-}
 
 const MenuTemplate = (args) => (
   <MenuDropdown {...args}>
@@ -60,10 +53,3 @@ const MenuTemplate = (args) => (
 
 export const MenuDropdowns = MenuTemplate.bind({})
 MenuDropdowns.args = {}
-MenuDropdown.play = async ({ canvasElement }) => {
-  const canvas = within(canvasElement)
-  const button = canvas.getByRole('button')
-
-  // 버튼을 클릭하여 토글 상태를 변경
-  await userEvent.click(button)
-}

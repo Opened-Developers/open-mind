@@ -2,9 +2,8 @@ import iconLink from '../assets/icons/ic_button_link.svg'
 import iconKakao from '../assets/icons/ic_kakao.svg'
 import iconFacebook from '../assets/icons/ic_facebook.svg'
 import styles from './SocialShare.module.css'
-import Toast from './Toast'
 
-function SocialShare({ onCopyLink, onShareKakao, onShareFacebook, showToast }) {
+function SocialShare({ onCopyLink, onShareKakao, onShareFacebook }) {
   return (
     <div className={styles['icon-container']}>
       <button type="button" onClick={onCopyLink}>
@@ -16,7 +15,6 @@ function SocialShare({ onCopyLink, onShareKakao, onShareFacebook, showToast }) {
       <button type="button" onClick={onShareFacebook}>
         <img src={iconFacebook} alt="페이스북 아이콘" />
       </button>
-      {showToast && <Toast>URL이 복사되었습니다</Toast>}
     </div>
   )
 }
