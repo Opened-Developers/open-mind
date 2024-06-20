@@ -22,7 +22,7 @@ function AnswerPageContainer() {
 
   const handleOnClick = async () => {
     try {
-      const { results } = await getFeedQuestions(feedId)
+      const { results } = await getFeedQuestions({ feedId })
       if (results.length) {
         const deletePromises = results.map((question) =>
           deleteFeedQuestion(question.id)
