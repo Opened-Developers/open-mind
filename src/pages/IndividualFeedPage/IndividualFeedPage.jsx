@@ -121,7 +121,7 @@ export default function IndividualFeedPage() {
           </section>
           <div
             className="list-end"
-            style={next === null && offset > 0 ? { display: 'none' } : {}}
+            style={next === null ? { display: 'none' } : {}}
           >
             로딩 중 ...
           </div>
