@@ -42,7 +42,7 @@ export default function IndividualFeedPage() {
       if (options.offset === 0) {
         setQuestions(response.results)
       } else {
-        setQuestions((prevQuestions) => [prevQuestions, ...response.results])
+        setQuestions((prevQuestions) => [...prevQuestions, ...response.results])
       }
       setQuestionCount(response.count)
       setOffset((prevOffset) => prevOffset + LIMIT)
