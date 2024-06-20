@@ -10,7 +10,7 @@ function AnswerPageContainer() {
   const [errorMessage, setErrorMessage] = useState(null)
   const { feedId } = useParams()
 
-  const profileLoad = async (id) => {
+  const loadProfile = async (id) => {
     let result
     try {
       result = await getProfileById(id)
@@ -38,7 +38,7 @@ function AnswerPageContainer() {
   }
 
   useEffect(() => {
-    profileLoad(feedId)
+    loadProfile(feedId)
   }, [feedId])
 
   return (
