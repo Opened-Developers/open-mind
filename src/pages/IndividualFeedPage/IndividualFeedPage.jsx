@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import FeedCardList from '../../components/FeedCardList'
 import SocialShareContainer from '../../components/SocialShareContainer'
@@ -17,10 +17,11 @@ export default function IndividualFeedPage() {
   const [offset, setOffset] = useState(0)
   const [next, setNext] = useState(null)
   const [errorInfo, setErrorInfo] = useState(null)
+  const [isLoading, setIsLoading] = useState(false)
   const LIMIT = 10
 
   const localUserId = getLocalUserId()
-  
+
   const listEnd = document.querySelector('.list-end')
 
   const handleLoadProfile = async (id) => {
@@ -35,25 +36,29 @@ export default function IndividualFeedPage() {
     return null
   }
 
-  const handleLoadQuestions = useCallback(async (options) => {
+  const handleLoadQuestions = useCallback(async () => {
+    if (isLoading) {
+      return
+    }
     let response
     try {
-      response = await getFeedQuestions(options)
-      if (options.offset === 0) {
+      setIsLoading(true)
+      response = await getFeedQuestions({ feedId, offset, limit: LIMIT })
+      if (offset === 0) {
         setQuestions(response.results)
       } else {
         setQuestions((prevQuestions) => [...prevQuestions, ...response.results])
       }
       setQuestionCount(response.count)
-      setOffset((prevOffset) => prevOffset + LIMIT)
+      setOffset((prevOffset) => prevOffset + response.results.length)
       setNext(response.next)
       setErrorInfo(null)
     } catch (error) {
       setErrorInfo(error.message)
+    } finally {
+      setIsLoading(false)
     }
-
-    return null
-  }, [])
+  }, [feedId, offset, isLoading])
 
   useEffect(() => {
     handleLoadProfile(feedId).then()
@@ -61,30 +66,22 @@ export default function IndividualFeedPage() {
 
   useEffect(() => {
     if (offset === 0) {
-      handleLoadQuestions({ feedId, limit: LIMIT, offset }).then()
+      handleLoadQuestions().then()
     }
   }, [feedId, offset, handleLoadQuestions])
 
-  const observer = useMemo(
-    () =>
-      new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting && next !== null) {
-              handleLoadQuestions({ feedId, limit: LIMIT, offset }).then()
-            }
-            if (entry.isIntersecting && next === null) {
-              observer.disconnect()
-            }
-          })
-        },
-        { threshold: 0.2 }
-      ),
-    [feedId, offset, next, handleLoadQuestions]
+  const observer = new IntersectionObserver(
+    (entries) => {
+      if (entries[0].isIntersecting) {
+        observer.unobserve(listEnd)
+        handleLoadQuestions().then()
+      }
+    },
+    { threshold: 0.5 }
   )
 
   if (listEnd) {
-    observer.observe(listEnd) // listEnd가 존재하면 관찰 대상으로 등록
+    observer.observe(listEnd)
   }
 
   if (errorInfo) {
@@ -107,7 +104,10 @@ export default function IndividualFeedPage() {
             <FloatButton>답변하기</FloatButton>
           </Link>
         ) : (
-          <QuestionModal profile={profile} handleLoadQuestion={loadQuestions} />
+          <QuestionModal
+            profile={profile}
+            handleLoadQuestion={handleLoadQuestions}
+          />
         )}
         <Link to="answer">
           <FloatButton>답변</FloatButton>
