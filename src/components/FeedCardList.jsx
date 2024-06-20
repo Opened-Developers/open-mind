@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react'
 import deleteFeedQuestion from '../api/deleteFeedQuestion'
 import styles from './FeedCardList.module.css'
 import messagesIcon from '../assets/icons/ic_messages.svg'
