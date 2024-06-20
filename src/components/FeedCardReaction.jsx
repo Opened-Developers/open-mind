@@ -2,6 +2,7 @@ import { useState } from 'react'
 import postQuestionReaction from '../api/postQuestionReaction'
 import Toast from './Toast'
 import { Dislike, Like } from './Reaction'
+import styles from './FeedCardReaction.module.css'
 
 export default function FeedCardReaction({ question }) {
   const [errorInfo, setErrorInfo] = useState(null)
@@ -33,9 +34,13 @@ export default function FeedCardReaction({ question }) {
   }
 
   return (
-    <div>
-      <Like counter={like} onClick={handleLike} />
-      <Dislike counter={dislike} onClick={handleDislike} />
+    <div className={styles['question-reaction-layout']}>
+      <Like counter={like} onClick={handleLike} isSelected={like && true} />
+      <Dislike
+        counter={dislike}
+        onClick={handleDislike}
+        isSelected={dislike && true}
+      />
       {errorInfo !== null && <Toast>{errorInfo}</Toast>}
     </div>
   )
