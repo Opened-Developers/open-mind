@@ -12,7 +12,7 @@ export default function FeedCardList({ feedId, isMyFeed, profile = null }) {
   const [errorInfo, setErrorInfo] = useState(null)
 
   const questionsLoad = async (id) => {
-    getFeedQuestions(id)
+    getFeedQuestions({ feedId: id })
       .then((res) => {
         setQuestions(res.results)
         setQuestionCount(res.count)

@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react'
 import { FillButton } from './Buttons'
 import { Textarea } from './Inputs'
-import useRelativeDate from '../hooks/useRelativeDate'
+import getRelativeDate from '../utils/getRelativeDate'
 import styles from './FeedCardAnswerEdit.module.css'
 import postNewAnswer from '../api/postNewAnswer'
-import putAnswer from '../api/patchAnswer'
+import editAnswer from '../api/editAnswer'
 
 export default function FeedCardAnswerEdit({
   profile,
@@ -26,7 +26,7 @@ export default function FeedCardAnswerEdit({
   const handleButtonClick = async () => {
     try {
       if (isEditing) {
-        await putAnswer(question.answer.id, inputText)
+        await editAnswer(question.answer.id, inputText)
         setAnswer(inputText)
         submitEdit()
       } else if (inputText) {
@@ -54,7 +54,7 @@ export default function FeedCardAnswerEdit({
         <div className={styles['text-container']}>
           <span className={styles.name}>{profile.name}</span>
           <span className={styles['relative-date']}>
-            {useRelativeDate(Date.now())}
+            {getRelativeDate(Date.now())}
           </span>
         </div>
         {!answer ? (

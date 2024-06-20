@@ -1,8 +1,8 @@
-import axios from './axios'
+import openMindAxios from './openMindAxios'
 
 export default async function deleteFeedQuestion(feedId) {
   try {
-    const response = await axios.delete(`/questions/${feedId}/`)
+    const response = await openMindAxios.delete(`/questions/${feedId}/`)
     return response.data
   } catch (error) {
     if (error.response) {

@@ -1,6 +1,6 @@
-import openmindAxios from './axios'
+import openmindAxios from './openMindAxios'
 
-async function putAnswer(targetId, targetContent) {
+async function editAnswer(targetId, targetContent) {
   try {
     const response = await openmindAxios.put(`/answers/${targetId}/`, {
       content: targetContent,
@@ -15,4 +15,4 @@ async function putAnswer(targetId, targetContent) {
   }
 }
 
-export default putAnswer
+export default editAnswer
