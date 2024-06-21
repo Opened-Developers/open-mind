@@ -1,4 +1,4 @@
-import getRelativeDate from '../utils/getRelativeDate'
+import { getRelativeDate } from '../modules/utils'
 import styles from './FeedCardQuestion.module.css'
 
 export default function FeedCardQuestion({ question }) {
