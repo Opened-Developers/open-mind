@@ -2,7 +2,7 @@ import { React, useState, useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import styles from './FeedListPage.module.css'
 import UserCard from './components/UserCard'
-import PagenationBar from './components/PagenationBar'
+import Pagenation from './components/Pagenation'
 import { SortDropdown, SortDropdownItem } from '../../components/Dropdown'
 import '../../styles/global.css'
 import getFeedList from '../../api/getFeedList'
@@ -124,7 +124,7 @@ function FeedListPage() {
           ))}
         </div>
       </div>
-      <PagenationBar
+      <Pagenation
         currentPage={page}
         countPerPage={countPerPage[deviceType]}
         feedCount={feedCount.current}

@@ -1,0 +1,25 @@
+@import '../../../styles/global.css';
+
+.pagenationBar {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  align-items: start; /* 기본값으로 설정 */
+
+  width: 280px;
+  height: 40px;
+
+  box-sizing: border-box;
+}
+
+.pageButton {
+  width: 40px;
+  height: 40px;
+  border: none;
+  background-color: #ffffff;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+
+.pageButton:hover {
+  background-color: #eaeaea;
+}
