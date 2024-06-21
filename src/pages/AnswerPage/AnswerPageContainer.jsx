@@ -8,6 +8,9 @@ import AnswerPage from './AnswerPage'
 function AnswerPageContainer() {
   const [profile, setProfile] = useState({})
   const [errorMessage, setErrorMessage] = useState(null)
+  const [questionCount, setQuestionCount] = useState(0)
+  const [questions, setQuestions] = useState([])
+  const [errorInfo, setErrorInfo] = useState(null)
   const { feedId } = useParams()
 
   const loadProfile = async (id) => {
@@ -18,6 +21,18 @@ function AnswerPageContainer() {
       setErrorMessage(error.message)
     }
     setProfile(result)
+  }
+
+  const handleLoadQuestions = async (id) => {
+    let response
+    try {
+      response = await getFeedQuestions({ feedId: id })
+      setQuestions(response.results)
+      setQuestionCount(response.count)
+      setErrorInfo(null)
+    } catch (error) {
+      setErrorInfo(error.message)
+    }
   }
 
   const handleOnClick = async () => {
@@ -39,6 +54,7 @@ function AnswerPageContainer() {
 
   useEffect(() => {
     loadProfile(feedId)
+    handleLoadQuestions(feedId)
   }, [feedId])
 
   return (
@@ -47,6 +63,10 @@ function AnswerPageContainer() {
       profile={profile}
       errorMessage={errorMessage}
       onClick={handleOnClick}
+      onLoad={handleLoadQuestions}
+      questionCount={questionCount}
+      questions={questions}
+      errorInfo={errorInfo}
     />
   )
 }

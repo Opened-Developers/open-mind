@@ -18,7 +18,7 @@ export default function FeedCardList({
     } catch (error) {
       setErrorInfo(error.message)
     }
-    await handleLoadQuestions()
+    await handleLoadQuestions(id)
   }
 
   if (questions.length === 0) {
