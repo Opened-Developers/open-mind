@@ -1,0 +1,51 @@
+.answer-layout {
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+
+}
+
+.user-img {
+  width: 48px;
+  height: 48px;
+  border-radius: 9999px;
+  background-color: aqua;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.answer-info {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.user-name {
+  font-size: 18px;
+  font-weight: 400;
+  color: var(--gray-60);
+  line-height: 24px;
+}
+
+.answer-date {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--gray-40);
+  line-height: 18px;
+}
+
+.answer-content {
+  font-size: 16px;
+  font-weight: 400;
+  color: var(--gray-60);
+  line-height: 22px
+}
+
+.answer-rejecting {
+  font-size: 16px;
+  font-weight: 400;
+  color: var(--red-50);
+}

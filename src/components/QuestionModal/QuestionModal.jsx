@@ -55,7 +55,7 @@ export default function QuestionModal({ profile, handleLoadQuestion }) {
         })
         .finally(() => {
           setContent('')
-          handleLoadQuestion({ feedId, offset: 0 })
+          handleLoadQuestion()
         })
       e.preventDefault()
     }
@@ -83,9 +83,16 @@ export default function QuestionModal({ profile, handleLoadQuestion }) {
         >
           <div className={styles['modal-content']} role={'dialog'}>
             <div className={styles['modal-header']}>
-              <img src={messageIcon} alt="질문 메시지 아이콘" />
-              <h2>질문을 작성하세요</h2>
+              <div className={styles['modal-header-title']}>
+                <img
+                  className={styles['modal-header-message-icon']}
+                  src={messageIcon}
+                  alt="질문 메시지 아이콘"
+                />
+                <h2>질문을 작성하세요</h2>
+              </div>
               <button
+                className={styles['modal-header-close-button']}
                 type="button"
                 onClick={handleModalClose}
                 onKeyDown={handleModalClose}
@@ -93,20 +100,33 @@ export default function QuestionModal({ profile, handleLoadQuestion }) {
                 <img src={closeIcon} alt="창 닫기 아이콘" />
               </button>
             </div>
-            <div className="modal-body">
+            <div className={styles['modal-body']}>
               <div className={styles['modal-profile']}>
                 <div>To.</div>
-                <img src={profile.imageSource} alt="프로필 사진" />
+                <img
+                  className={styles['user-img']}
+                  src={profile.imageSource}
+                  alt="프로필 사진"
+                />
                 <div>{profile.name}</div>
               </div>
-              <form onSubmit={handleSubmit} onChange={handleChange}>
+              <form
+                className={styles['question-form']}
+                onSubmit={handleSubmit}
+                onChange={handleChange}
+              >
                 <Textarea
+                  className={styles['question-form-textarea']}
                   name={'questionTextarea'}
                   id={'question'}
                   rows={7}
                   placeholder={'질문을 입력해 주세요'}
                 />
-                <FillButton isSubmit disabled={!content}>
+                <FillButton
+                  className={styles['question-form-button']}
+                  isSubmit
+                  disabled={!content}
+                >
                   질문 보내기
                 </FillButton>
               </form>

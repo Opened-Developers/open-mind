@@ -8,9 +8,12 @@ import AnswerPage from './AnswerPage'
 function AnswerPageContainer() {
   const [profile, setProfile] = useState({})
   const [errorMessage, setErrorMessage] = useState(null)
+  const [questionCount, setQuestionCount] = useState(0)
+  const [questions, setQuestions] = useState([])
+  const [errorInfo, setErrorInfo] = useState(null)
   const { feedId } = useParams()
 
-  const profileLoad = async (id) => {
+  const loadProfile = async (id) => {
     let result
     try {
       result = await getProfileById(id)
@@ -18,6 +21,18 @@ function AnswerPageContainer() {
       setErrorMessage(error.message)
     }
     setProfile(result)
+  }
+
+  const handleLoadQuestions = async (id) => {
+    let response
+    try {
+      response = await getFeedQuestions({ feedId: id })
+      setQuestions(response.results)
+      setQuestionCount(response.count)
+      setErrorInfo(null)
+    } catch (error) {
+      setErrorInfo(error.message)
+    }
   }
 
   const handleOnClick = async () => {
@@ -28,7 +43,7 @@ function AnswerPageContainer() {
           deleteFeedQuestion(question.id)
         )
         await Promise.all(deletePromises)
-        await profileLoad(feedId)
+        await loadProfile(feedId)
       } else {
         throw new Error('삭제할 질문이 없습니다')
       }
@@ -38,7 +53,8 @@ function AnswerPageContainer() {
   }
 
   useEffect(() => {
-    profileLoad(feedId)
+    loadProfile(feedId)
+    handleLoadQuestions(feedId)
   }, [feedId])
 
   return (
@@ -47,6 +63,10 @@ function AnswerPageContainer() {
       profile={profile}
       errorMessage={errorMessage}
       onClick={handleOnClick}
+      onLoad={handleLoadQuestions}
+      questionCount={questionCount}
+      questions={questions}
+      errorInfo={errorInfo}
     />
   )
 }

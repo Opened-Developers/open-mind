@@ -2,11 +2,14 @@
   border: 0;
   background: none;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 6px;
   padding: 6px 12px;
   color: var(--Grayscale-40, #818181);
   cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 18px;
 }
 
 .reaction:hover {
@@ -14,8 +17,8 @@
 }
 
 .reaction svg {
-  width: 18px;
-  height: 18px;
+  width: 16px;
+  height: 16px;
 }
 
 .reaction svg path {
