@@ -36,6 +36,9 @@ function AnswerPage({ profile, errorMessage = null, onClick }) {
         setQuestions((prevQuestions) => [...prevQuestions, ...response.results])
       }
       setQuestionCount(response.count)
+      if (response.count === 0) {
+        return
+      }
       setOffset((prevOffset) => prevOffset + response.results.length)
       setNext(response.next)
       setErrorInfo(null)
@@ -100,11 +103,14 @@ function AnswerPage({ profile, errorMessage = null, onClick }) {
             profile={profile}
             questions={questions}
             questionCount={questionCount}
+            onLoad={handleLoadQuestions}
           />
         </section>
         <div
           className="list-end"
-          style={next === null ? { display: 'none' } : {}}
+          style={
+            questionCount === 0 || next === null ? { display: 'none' } : {}
+          }
         >
           로딩 중 ...
         </div>

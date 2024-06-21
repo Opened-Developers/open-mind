@@ -7,7 +7,7 @@ import { Textarea } from '../Inputs'
 import createQuestion from '../../api/createQuestion'
 import Toast from '../Toast'
 
-export default function QuestionModal({ profile, handleLoadQuestion }) {
+export default function QuestionModal({ profile, onLoad }) {
   const modalBackground = useRef(null)
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [content, setContent] = useState('')
@@ -54,10 +54,11 @@ export default function QuestionModal({ profile, handleLoadQuestion }) {
           setErrorInfo(error.message)
         })
         .finally(() => {
+          onLoad()
           setContent('')
-          handleLoadQuestion()
+          e.target.value = ''
         })
-      e.preventDefault()
+      // e.preventDefault()
     }
 
     if (errorInfo) {
