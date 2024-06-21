@@ -15,11 +15,16 @@
   width: 40px;
   height: 40px;
   border: none;
-  background-color: #ffffff;
+  background-color: transparent;
   cursor: pointer;
   box-sizing: border-box;
+  color: var(--Grayscale-40, #818181);
 }
 
 .pageButton:hover {
-  background-color: #eaeaea;
+  color: var(--Grayscale-60, #000);
+}
+
+.active {
+  color: var(--Brown-40, #542f1a);
 }
