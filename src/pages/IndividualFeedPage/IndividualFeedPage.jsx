@@ -75,9 +75,11 @@ export default function IndividualFeedPage() {
 
   const observer = new IntersectionObserver(
     (entries) => {
-      if (entries[0].isIntersecting) {
+      if (questionCount > 0 && entries[0].isIntersecting) {
         observer.unobserve(listEnd)
         handleLoadQuestions().then()
+      } else if (questionCount === 0) {
+        observer.disconnect()
       }
     },
     { threshold: 0.5 }
@@ -122,7 +124,9 @@ export default function IndividualFeedPage() {
           </section>
           <div
             className="list-end"
-            style={next === null ? { display: 'none' } : {}}
+            style={
+              questionCount === 0 || next === null ? { display: 'none' } : {}
+            }
           >
             로딩 중 ...
           </div>
