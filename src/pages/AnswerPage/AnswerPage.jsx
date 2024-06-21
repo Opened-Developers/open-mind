@@ -5,7 +5,14 @@ import { FloatButton } from '../../components/Buttons'
 import logo from '../../assets/images/img_logo.png'
 import openMindImg from '../../assets/images/img_openmind.png'
 
-function AnswerPage({ profile, errorMessage = null, onClick }) {
+function AnswerPage({
+  profile,
+  errorMessage = null,
+  onClick,
+  subjectId,
+  pageIsUpdating,
+  endUpdating,
+}) {
   return (
     <div className={styles.body}>
       <header className={styles.header}>
@@ -28,7 +35,13 @@ function AnswerPage({ profile, errorMessage = null, onClick }) {
       </header>
       <main className={styles.main}>
         <section className={styles.section}>
-          <FeedCardList isMyFeed profile={profile} />
+          <FeedCardList
+            isMyFeed
+            profile={profile}
+            subjectId={subjectId}
+            pageIsUpdating={pageIsUpdating}
+            endUpdating={endUpdating}
+          />
         </section>
         {errorMessage?.message && (
           <div className={styles.error}>{errorMessage.message}</div>

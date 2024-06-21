@@ -28,10 +28,11 @@ export default function FeedCardAnswerEdit({
       if (isEditing) {
         await editAnswer(question.answer.id, inputText)
         setAnswer(inputText)
-        submitEdit()
+        await submitEdit()
       } else if (inputText) {
         await postNewAnswer(question.id, inputText)
-        await onLoad(question.subjectId)
+        setAnswer(inputText)
+        await onLoad()
       }
     } catch (error) {
       setErrorMessage(error.message)

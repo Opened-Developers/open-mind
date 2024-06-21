@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import FeedCardBadge from './FeedCardBadge'
 import FeedCardQuestion from './FeedCardQuestion'
 import FeedCardAnswer from './FeedCardAnswer'
@@ -33,14 +33,10 @@ export default function FeedCard({
     }
   }
 
-  const submitEdit = () => {
+  const submitEdit = async () => {
     setIsEditing(false)
-    onLoad()
+    await onLoad()
   }
-
-  useEffect(() => {
-    onLoad()
-  }, [isEditing, onLoad])
 
   return (
     <div className={styles['card-container']}>

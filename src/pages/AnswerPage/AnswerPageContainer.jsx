@@ -8,6 +8,7 @@ import AnswerPage from './AnswerPage'
 function AnswerPageContainer() {
   const [profile, setProfile] = useState({})
   const [errorMessage, setErrorMessage] = useState(null)
+  const [pageIsUpdating, setPageIsUpdating] = useState(false)
   const { feedId } = useParams()
 
   const loadProfile = async (id) => {
@@ -22,19 +23,28 @@ function AnswerPageContainer() {
 
   const handleOnClick = async () => {
     try {
-      const { results } = await getFeedQuestions(feedId)
+      const { results } = await getFeedQuestions({
+        feedId,
+        limit: profile.questionCount,
+        offset: 0,
+      })
       if (results.length) {
         const deletePromises = results.map((question) =>
           deleteFeedQuestion(question.id)
         )
         await Promise.all(deletePromises)
         await loadProfile(feedId)
+        setPageIsUpdating(true)
       } else {
         throw new Error('삭제할 질문이 없습니다')
       }
     } catch (error) {
       setErrorMessage(error)
     }
+  }
+
+  const endUpdating = () => {
+    setPageIsUpdating(false)
   }
 
   useEffect(() => {
@@ -47,6 +57,9 @@ function AnswerPageContainer() {
       setProfile={setProfile}
       errorMessage={errorMessage}
       onClick={handleOnClick}
+      subjectId={feedId}
+      pageIsUpdating={pageIsUpdating}
+      endUpdating={endUpdating}
     />
   )
 }

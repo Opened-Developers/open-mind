@@ -6,8 +6,14 @@ import FeedCard from './FeedCard'
 import getFeedQuestions from '../api/getFeedQuestions'
 import Toast from './Toast'
 
-export default function FeedCardList({ isMyFeed, profile }) {
-  const feedId = profile.id
+export default function FeedCardList({
+  isMyFeed,
+  profile,
+  subjectId,
+  pageIsUpdating,
+  endUpdating,
+}) {
+  const feedId = profile.id ? profile.id : subjectId // 최초 페이지 로드 시 profile get 전에 값 undefined 할당 방지
   const [offset, setOffset] = useState(0)
   const LIMIT = 10
 
@@ -47,11 +53,42 @@ export default function FeedCardList({ isMyFeed, profile }) {
     }
   }, [feedId, offset])
 
+  const handleUpdateQuestions = useCallback(async () => {
+    if (isLoading.current) {
+      return
+    }
+    try {
+      isLoading.current = true
+      const result = await getFeedQuestions({
+        feedId,
+        offset: 0,
+        limit: offset,
+      })
+      setQuestions(result.results)
+      setQuestionCount(result.count)
+      setErrorInfo(null)
+    } catch (error) {
+      setErrorInfo(error)
+    } finally {
+      isLoading.current = false
+    }
+    endUpdating()
+  }, [endUpdating, feedId, offset])
+
   useEffect(() => {
     if (offset === 0) {
       handleLoadQuestions().then()
     }
-  }, [feedId, offset, handleLoadQuestions])
+    if (pageIsUpdating) {
+      handleUpdateQuestions()
+    }
+  }, [
+    feedId,
+    offset,
+    handleLoadQuestions,
+    pageIsUpdating,
+    handleUpdateQuestions,
+  ])
 
   const listEnd = document.querySelector('.list-end')
 
@@ -138,7 +175,7 @@ export default function FeedCardList({ isMyFeed, profile }) {
               question={question}
               isMyFeed={isMyFeed}
               profile={profile}
-              onLoad={handleLoadQuestions}
+              onLoad={handleUpdateQuestions}
             />
           ))}
         </div>
