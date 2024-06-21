@@ -20,6 +20,18 @@ export const createLocalUserId = (userId) => {
   localStorage.setItem('userId', newLocalUserId)
 }
 
+export const getDeviceType = (width, detail = false) => {
+  if (width >= 1200) return 'desktop'
+
+  if (detail) {
+    if (width >= 950) return 'tabletBig'
+  }
+
+  if (width >= 768) return 'tablet'
+
+  return 'mobile'
+}
+
 /**
  * 현재 시간과 랜덤 숫자를 이용해 고유한 id를 만드는 함수
  * @returns {number} id값
