@@ -1,6 +1,8 @@
-export default function FeedCardBadge(isAnswered) {
+import Badges from './Badges'
+
+export default function FeedCardBadge({ isAnswered }) {
   if (isAnswered) {
-    return <p>답변 완료</p>
+    return <Badges color={'brown'}>답변 완료</Badges>
   }
-  return <p>미답변</p>
+  return <Badges color={'gray'}>미답변</Badges>
 }

@@ -1,0 +1,104 @@
+.wrapper {
+  display: inline-block;
+  position: relative;
+  overflow: visible;
+}
+.wrapper button {
+  cursor: pointer;
+}
+.btn-trigger {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 8px;
+  border: 1px solid var(--Grayscale-40, #818181);
+  background: var(--Grayscale-10, #fff);
+  padding: 8px 12px;
+  color: var(--Grayscale-40, #818181);
+}
+
+.expand .btn-trigger {
+  color: var(--Grayscale-60, #000);
+  border-color: var(--Grayscale-60, #000);
+}
+.ico-arrow {
+  transition: transform 0.3s;
+  width: 14px;
+  height: 14px;
+}
+
+.expand .btn-trigger .ico-arrow {
+  stroke: #000;
+  transform: scaleY(-1);
+}
+
+.dropdown {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin-top: 4px;
+  border: 1px solid var(--Grayscale-40, #818181);
+  border-radius: 8px;
+  padding: 2px 0;
+  overflow: hidden;
+  border: 1px solid var(--Grayscale-30, #cfcfcf);
+  position: absolute;
+  width: auto;
+  min-width: 100%;
+}
+
+.dropdown button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  white-space: nowrap;
+  border: none;
+  background: none;
+  width: 100%;
+  color: var(--Grayscale-50, #515151);
+}
+
+.dropdown button svg {
+  width: 16px;
+  height: 16px;
+}
+
+.dropwdown button svg path {
+  fill: var(--Grayscale-50, #515151);
+}
+
+.dropdown button:hover {
+  background: var(--Grayscale-20, #f9f9f9);
+  color: var(--Grayscale-60, #000);
+  font-weight: 500;
+}
+
+.dropdown button:hover svg path {
+  fill: var(--Grayscale-60, #000);
+}
+
+.dropdown button:focus,
+.dropdown button.selected {
+  color: var(--Blue-50, #1877f2);
+  font-weight: 500;
+}
+
+.dropdown button:focus svg path,
+.dropdown button.selected svg path {
+  fill: var(--Blue-50, #1877f2);
+}
+
+.btn-more {
+  width: 26px;
+  height: 26px;
+  border: none;
+  background: none;
+}
+.btn-more:hover svg path {
+  fill: var(--Grayscale-60, #000);
+}
+
+.btn-more .ico-more {
+  width: 100%;
+}

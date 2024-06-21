@@ -1,0 +1,46 @@
+.body {
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+}
+
+.body > img {
+  width: 48px;
+  height: 48px;
+  border-radius: 9999px;
+}
+
+.container {
+  margin-bottom: 32px;
+  width: 100%;
+}
+
+.text-container {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+.container > p,
+.name {
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+.relative-date {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.5;
+  color: var(--gray-40);
+}
+
+.container > form > div > textarea {
+  margin-bottom: 8px;
+}
+
+.container > form > textarea::placeholder {
+  color: var(--gray-40);
+}

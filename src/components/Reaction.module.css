@@ -1,0 +1,42 @@
+.reaction {
+  border: 0;
+  background: none;
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  padding: 6px 12px;
+  color: var(--Grayscale-40, #818181);
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 18px;
+}
+
+.reaction:hover {
+  font-weight: 500;
+}
+
+.reaction svg {
+  width: 16px;
+  height: 16px;
+}
+
+.reaction svg path {
+  fill: var(--Grayscale-40, #818181);
+}
+.reaction.selected {
+  font-weight: 500;
+}
+.like.selected {
+  color: var(--blue-50);
+}
+.like.selected svg path {
+  fill: var(--blue-50);
+}
+
+.dislike.selected {
+  color: #000;
+}
+.dislike.selected svg path {
+  fill: #000;
+}
