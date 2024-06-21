@@ -17,7 +17,7 @@ export default function FeedCard({
   const [isEditing, setIsEditing] = useState(false)
 
   const handleDeleteClick = () => {
-    onDeleteClick(question.id)
+    onDeleteClick(question.id, question.subjectId)
   }
 
   const handleEditClick = () => {

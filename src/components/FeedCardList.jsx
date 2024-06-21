@@ -12,13 +12,13 @@ export default function FeedCardList({
   setErrorInfo,
   onLoad: handleLoadQuestions,
 }) {
-  const handleDeleteClick = async (id) => {
+  const handleDeleteClick = async (id, subjectId) => {
     try {
       await deleteFeedQuestion(id)
     } catch (error) {
       setErrorInfo(error.message)
     }
-    await handleLoadQuestions(id)
+    await handleLoadQuestions(subjectId)
   }
 
   if (questions.length === 0) {
