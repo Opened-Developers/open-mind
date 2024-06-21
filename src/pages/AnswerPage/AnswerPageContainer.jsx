@@ -43,8 +43,8 @@ function AnswerPageContainer() {
 
   return (
     <AnswerPage
-      feedId={feedId}
       profile={profile}
+      setProfile={setProfile}
       errorMessage={errorMessage}
       onClick={handleOnClick}
     />
