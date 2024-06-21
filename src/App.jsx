@@ -1,21 +1,29 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import MainPage from './pages/MainPage/MainPage'
-import QuestionListPage from './pages/QuestionListPage/QuestionListPage'
+import FeedListPage from './pages/FeedListPage/FeedListPage'
 import IndividualFeedPage from './pages/IndividualFeedPage/IndividualFeedPage'
-import AnswerPage from './pages/AnswerPage/AnswerPage'
+import NotFoundPage from './pages/NotFound/NotFoundPage'
+import AnswerPageContainer from './pages/AnswerPage/AnswerPageContainer'
+import { ToastContextProvider } from './contexts/toastContextProvider'
+import MainLayout from './components/layouts/MainLayout'
 
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route index element={<MainPage />} />
-        <Route path="list" element={<QuestionListPage />} />
-        <Route path="post">
-          <Route path=":feedId" element={<IndividualFeedPage />} />
-          <Route path=":feedId/answer" element={<AnswerPage />} />
-        </Route>
-      </Routes>
-    </BrowserRouter>
+    <ToastContextProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route element={<MainLayout />}>
+            <Route index element={<MainPage />} />
+            <Route path="list" element={<FeedListPage />} />
+            <Route path="post">
+              <Route path=":feedId" element={<IndividualFeedPage />} />
+              <Route path=":feedId/answer" element={<AnswerPageContainer />} />
+            </Route>
+            <Route path="*" element={<NotFoundPage />} />
+          </Route>
+        </Routes>
+      </BrowserRouter>
+    </ToastContextProvider>
   )
 }
 
