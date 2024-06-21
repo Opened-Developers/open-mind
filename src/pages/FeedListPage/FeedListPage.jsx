@@ -10,6 +10,7 @@ import icArrowRightBrown from '../../assets/icons/ic_arrow_right_brown.svg'
 import imgLogo from '../../assets/images/img_logo.png'
 import { OutlineButton } from '../../components/Buttons'
 import { debounce, getDeviceType, getLocalUserId } from '../../modules/utils'
+import { useToast } from '../../contexts/toastContextProvider'
 
 const localUserId = getLocalUserId()
 const navButtonLink = localUserId ? `/post/${localUserId}/answer` : '/'
@@ -46,6 +47,7 @@ function FeedListPage() {
     getDeviceType(window.innerWidth, true)
   )
 
+  const { toast } = useToast()
   const feedCount = useRef(0)
 
   const handleResize = () => {
@@ -79,12 +81,12 @@ function FeedListPage() {
         setUserCardLists(getSortedList(data.results, sortOrder))
         feedCount.current = data.count
       } catch (error) {
-        console.error(error)
+        toast({ status: 'default', message: error.message })
       }
     }
 
     getUserCardLists()
-  }, [deviceType, page, sortOrder])
+  }, [deviceType, page, sortOrder, toast])
 
   return (
     <section className={styles.FeedListPage}>

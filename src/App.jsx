@@ -1,6 +1,6 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import MainPage from './pages/MainPage/MainPage'
-import QuestionListPage from './pages/QuestionListPage/QuestionListPage'
+import FeedListPage from './pages/FeedListPage/FeedListPage'
 import IndividualFeedPage from './pages/IndividualFeedPage/IndividualFeedPage'
 import NotFoundPage from './pages/NotFound/NotFoundPage'
 import AnswerPageContainer from './pages/AnswerPage/AnswerPageContainer'
@@ -14,7 +14,7 @@ function App() {
         <Routes>
           <Route element={<MainLayout />}>
             <Route index element={<MainPage />} />
-            <Route path="list" element={<QuestionListPage />} />
+            <Route path="list" element={<FeedListPage />} />
             <Route path="post">
               <Route path=":feedId" element={<IndividualFeedPage />} />
               <Route path=":feedId/answer" element={<AnswerPageContainer />} />
