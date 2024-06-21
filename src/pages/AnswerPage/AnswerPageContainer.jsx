@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
+import { useEffect, useState } from 'react'
 import getProfileById from '../../api/getProfileById'
 import getFeedQuestions from '../../api/getFeedQuestions'
 import deleteFeedQuestion from '../../api/deleteFeedQuestion'
@@ -54,7 +54,6 @@ function AnswerPageContainer() {
   return (
     <AnswerPage
       profile={profile}
-      setProfile={setProfile}
       errorMessage={errorMessage}
       onClick={handleOnClick}
       subjectId={feedId}
