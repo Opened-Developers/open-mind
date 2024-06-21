@@ -54,9 +54,11 @@ function AnswerPage({ profile, errorMessage = null, onClick }) {
 
   const observer = new IntersectionObserver(
     (entries) => {
-      if (entries[0].isIntersecting) {
+      if (questionCount > 0 && entries[0].isIntersecting) {
         observer.unobserve(listEnd)
         handleLoadQuestions().then()
+      } else if (questionCount === 0) {
+        observer.disconnect()
       }
     },
     { threshold: 0.5 }
