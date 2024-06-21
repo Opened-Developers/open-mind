@@ -51,7 +51,7 @@ function PagenationBar({ currentPage, countPerPage, feedCount, onClick }) {
       )}
       {pagenationList.map((page) => (
         <button
-          className={styles.pageButton}
+          className={`${styles.pageButton} ${currentPage === page ? styles.active : ''}`}
           type="button"
           key={page}
           value={page}
