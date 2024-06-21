@@ -1,5 +1,6 @@
 import { useParams } from 'react-router-dom'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback } from 'react'
+import { useToast } from '../../contexts/toastContextProvider'
 import getProfileById from '../../api/getProfileById'
 import getFeedQuestions from '../../api/getFeedQuestions'
 import deleteFeedQuestion from '../../api/deleteFeedQuestion'
@@ -7,19 +8,22 @@ import AnswerPage from './AnswerPage'
 
 function AnswerPageContainer() {
   const [profile, setProfile] = useState({})
-  const [errorMessage, setErrorMessage] = useState(null)
   const [pageIsUpdating, setPageIsUpdating] = useState(false)
   const { feedId } = useParams()
+  const { toast } = useToast()
 
-  const loadProfile = async (id) => {
-    let result
-    try {
-      result = await getProfileById(id)
-    } catch (error) {
-      setErrorMessage(error.message)
-    }
-    setProfile(result)
-  }
+  const loadProfile = useCallback(
+    async (id) => {
+      let result
+      try {
+        result = await getProfileById(id)
+      } catch (error) {
+        toast({ status: 'error', message: `${error}` })
+      }
+      setProfile(result)
+    },
+    [toast]
+  )
 
   const handleOnClick = async () => {
     try {
@@ -35,11 +39,15 @@ function AnswerPageContainer() {
         await Promise.all(deletePromises)
         await loadProfile(feedId)
         setPageIsUpdating(true)
+        toast({
+          status: 'default',
+          message: `모든 질문과 답변이 삭제되었습니다`,
+        })
       } else {
         throw new Error('삭제할 질문이 없습니다')
       }
     } catch (error) {
-      setErrorMessage(error)
+      toast({ status: 'error', message: `${error}` })
     }
   }
 
@@ -49,12 +57,11 @@ function AnswerPageContainer() {
 
   useEffect(() => {
     loadProfile(feedId)
-  }, [feedId])
+  }, [feedId, loadProfile])
 
   return (
     <AnswerPage
       profile={profile}
-      errorMessage={errorMessage}
       onClick={handleOnClick}
       subjectId={feedId}
       pageIsUpdating={pageIsUpdating}

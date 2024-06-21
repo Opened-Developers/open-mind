@@ -8,7 +8,6 @@ import openMindImg from '../../assets/images/img_openmind.png'
 
 function AnswerPage({
   profile,
-  errorMessage = null,
   onClick,
   subjectId,
   pageIsUpdating,
@@ -46,9 +45,6 @@ function AnswerPage({
             endUpdating={endUpdating}
           />
         </section>
-        {errorMessage?.message && (
-          <div className={styles.error}>{errorMessage.message}</div>
-        )}
       </main>
     </div>
   )

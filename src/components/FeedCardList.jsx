@@ -4,7 +4,7 @@ import messagesIcon from '../assets/icons/ic_messages.svg'
 import emptyFeedIcon from '../assets/icons/ic_empty_feed.svg'
 import FeedCard from './FeedCard'
 import getFeedQuestions from '../api/getFeedQuestions'
-import Toast from './Toast'
+import { useToast } from '../contexts/toastContextProvider'
 
 export default function FeedCardList({
   isMyFeed,
@@ -18,12 +18,14 @@ export default function FeedCardList({
   const LIMIT = 10
 
   const isLoading = useRef(false)
-  const [errorInfo, setErrorInfo] = useState(null)
 
   const [questions, setQuestions] = useState([])
   const [questionCount, setQuestionCount] = useState(0)
   const [next, setNext] = useState(null)
 
+  const { toast } = useToast()
+
+  /* eslint-disable react-hooks/exhaustive-deps */
   const handleLoadQuestions = useCallback(async () => {
     if (isLoading.current) {
       // 로딩 중이면 중복 요청 방지
@@ -45,9 +47,11 @@ export default function FeedCardList({
       setQuestionCount(response.count)
       setOffset((prevOffset) => prevOffset + response.results.length)
       setNext(response.next)
-      setErrorInfo(null)
     } catch (error) {
-      setErrorInfo(error.message)
+      toast({
+        status: 'error',
+        message: `${error}`,
+      })
     } finally {
       isLoading.current = false
     }
@@ -66,14 +70,17 @@ export default function FeedCardList({
       })
       setQuestions(result.results)
       setQuestionCount(result.count)
-      setErrorInfo(null)
     } catch (error) {
-      setErrorInfo(error)
+      toast({
+        status: 'error',
+        message: `${error}`,
+      })
     } finally {
       isLoading.current = false
     }
     endUpdating()
   }, [endUpdating, feedId, offset])
+  /* eslint-disable react-hooks/exhaustive-deps */
 
   useEffect(() => {
     if (offset === 0) {
@@ -107,10 +114,6 @@ export default function FeedCardList({
 
   if (listEnd) {
     observer.observe(listEnd)
-  }
-
-  if (errorInfo) {
-    return <Toast>{errorInfo}</Toast>
   }
 
   if (isLoading.current) {
@@ -182,7 +185,6 @@ export default function FeedCardList({
           ))}
         </div>
         {next !== null && <div className="list-end">로딩 중 ...</div>}
-        {errorInfo && <Toast>{errorInfo}</Toast>}
       </div>
     )
   }

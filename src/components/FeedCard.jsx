@@ -7,7 +7,7 @@ import FeedCardReaction from './FeedCardReaction'
 import styles from './FeedCard.module.css'
 import { MenuDropdown, MenuDropdownItem } from './Dropdown'
 import deleteFeedQuestion from '../api/deleteFeedQuestion'
-import Toast from './Toast'
+import { useToast } from '../contexts/toastContextProvider'
 
 export default function FeedCard({
   question,
@@ -16,25 +16,35 @@ export default function FeedCard({
   onLoad,
 }) {
   const [isEditing, setIsEditing] = useState(false)
-  const [errorInfo, setErrorInfo] = useState(null)
+  const { toast } = useToast()
 
   const handleDeleteClick = async () => {
     try {
       await deleteFeedQuestion(question.id)
+      await onLoad()
+      toast({ status: 'default', message: '질문이 삭제되었습니다' })
     } catch (error) {
-      setErrorInfo(error.message)
+      toast({ status: 'error', message: `${error}` })
     }
-    await onLoad()
   }
 
   const handleEditClick = () => {
     if (question.answer) {
       setIsEditing(!isEditing)
+    } else {
+      toast({
+        status: 'error',
+        message: '먼저 답변을 작성해주세요',
+      })
     }
   }
 
   const submitEdit = async () => {
     setIsEditing(false)
+    toast({
+      status: 'default',
+      message: '답변 수정이 완료되었습니다',
+    })
     await onLoad()
   }
 
@@ -69,7 +79,6 @@ export default function FeedCard({
       )}
       <div className={styles['card-division-line']} />
       <FeedCardReaction question={question} />
-      {errorInfo && <Toast>{errorInfo}</Toast>}
     </div>
   )
 }
