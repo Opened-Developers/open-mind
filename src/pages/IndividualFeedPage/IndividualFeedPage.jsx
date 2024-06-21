@@ -60,7 +60,7 @@ export default function IndividualFeedPage() {
         <div className={styles['button-floating']}>
           {localUserId === feedId ? ( // 로그인한 사용자와 프로필 주인이 같은 경우 답변하기 버튼을 보여줍니다.
             <Link to="answer">
-              <FloatButton>답변하기</FloatButton>
+              <FloatButton isLink>답변하기</FloatButton>
             </Link>
           ) : (
             <QuestionModal profile={profile} />

@@ -8,10 +8,12 @@ export function FloatButton({ children, onClick, isLink = false }) {
       onClick={onClick}
       className={`body-1 shadow-2pt ${styles.float}`}
     >
-      {children}
+      <span>{children}</span>
     </button>
   ) : (
-    <span className={`body-1 shadow-2pt ${styles.float}`}>{children}</span>
+    <span className={`body-1 shadow-2pt ${styles.float}`}>
+      <span>{children}</span>
+    </span>
   )
 }
 export function FillButton({
