@@ -161,12 +161,14 @@ export default function FeedCardList({
     return (
       <div>
         <div className={styles['messages-container']}>
-          <img
-            className={styles['messages-container-icon']}
-            src={messagesIcon}
-            alt="질문 메시지 아이콘"
-          />
-          <p>{questionCount}개의 질문이 있습니다.</p>
+          <div className={styles['messages-container-summary']}>
+            <img
+              className={styles['messages-container-icon']}
+              src={messagesIcon}
+              alt="질문 메시지 아이콘"
+            />
+            <p>{questionCount}개의 질문이 있습니다.</p>
+          </div>
         </div>
         <div className={styles['feed-card-container']}>
           {questions.map((question) => (
