@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import styles from './FeedCardList.module.css'
 import messagesIcon from '../assets/icons/ic_messages.svg'
 import emptyFeedIcon from '../assets/icons/ic_empty_feed.svg'
@@ -11,7 +11,6 @@ export default function FeedCardList({ isMyFeed, profile }) {
   const [offset, setOffset] = useState(0)
   const LIMIT = 10
 
-  const [isLoading, setIsLoading] = useState(false)
   const [errorInfo, setErrorInfo] = useState(null)
 
   const [questions, setQuestions] = useState([])
@@ -19,12 +18,8 @@ export default function FeedCardList({ isMyFeed, profile }) {
   const [next, setNext] = useState(null)
 
   const handleLoadQuestions = useCallback(async () => {
-    if (isLoading) {
-      return
-    }
     let response
     try {
-      setIsLoading(true)
       response = await getFeedQuestions({ FeedId, offset, limit: LIMIT })
       if (offset === 0) {
         setQuestions(response.results)
@@ -37,10 +32,8 @@ export default function FeedCardList({ isMyFeed, profile }) {
       setErrorInfo(null)
     } catch (error) {
       setErrorInfo(error.message)
-    } finally {
-      setIsLoading(false)
     }
-  }, [FeedId, offset, isLoading])
+  }, [FeedId, offset])
 
   useEffect(() => {
     if (offset === 0) {
@@ -48,54 +41,30 @@ export default function FeedCardList({ isMyFeed, profile }) {
     }
   }, [FeedId, offset, handleLoadQuestions])
 
-  const listEnd = useRef(document.querySelector('.list-end'))
+  const listEnd = document.querySelector('.list-end')
 
   const observer = new IntersectionObserver(
     (entries) => {
-      if (listEnd.current) {
-        if (isLoading || questionCount === 0) {
-          observer.disconnect()
-        }
-        if (questionCount > 0 && entries[0].isIntersecting) {
-          observer.unobserve(listEnd.current)
+      if (entries[0].isIntersecting) {
+        if (next !== null) {
+          observer.unobserve(listEnd)
           handleLoadQuestions().then()
         }
+        observer.disconnect()
       }
     },
     { threshold: 0.5 }
   )
 
-  if (listEnd.current) {
-    observer.observe(listEnd.current)
+  if (listEnd) {
+    observer.observe(listEnd)
   }
 
   if (errorInfo) {
     return <Toast>{errorInfo}</Toast>
   }
 
-  if (isLoading) {
-    return (
-      <div>
-        <div className={styles['messages-container']}>
-          <div className={styles['messages-container-summary']}>
-            <img
-              className={styles['messages-container-message-icon']}
-              src={messagesIcon}
-              alt="질문 메시지 아이콘"
-            />
-            <p>질문을 불러오는 중입니다.</p>
-          </div>
-          <img
-            className={styles['messages-container-empty-icon']}
-            src={emptyFeedIcon}
-            alt="빈 피드 아이콘"
-          />
-        </div>
-      </div>
-    )
-  }
-
-  if (!isLoading || questionCount === 0) {
+  if (questionCount === 0) {
     return (
       <div>
         <div className={styles['messages-container']}>
@@ -117,7 +86,7 @@ export default function FeedCardList({ isMyFeed, profile }) {
     )
   }
 
-  if (!isLoading || questionCount > 0) {
+  if (questionCount > 0) {
     return (
       <div>
         <div className={styles['messages-container']}>
