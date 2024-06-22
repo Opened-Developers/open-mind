@@ -9,6 +9,12 @@ function AnswerPageContainer({
   profile,
   errorMessage,
   setErrorMessage,
+  onLoadMore,
+  onLoadNew,
+  offset,
+  next,
+  questions,
+  questionCount,
 }) {
   const { feedId } = useParams()
 
@@ -33,12 +39,25 @@ function AnswerPageContainer({
     loadProfile(feedId).then()
   }, [feedId, loadProfile])
 
+  useEffect(() => {
+    if (offset === 0) {
+      onLoadMore(feedId).then()
+    }
+  }, [feedId, offset, onLoadMore])
+
   if (profile) {
     return (
       <AnswerPage
         profile={profile}
         errorMessage={errorMessage}
         onClick={handleOnClick}
+        setErrorMessage={setErrorMessage}
+        onLoadMore={onLoadMore}
+        onLoadNew={onLoadNew}
+        offset={offset}
+        next={next}
+        questions={questions}
+        questionCount={questionCount}
       />
     )
   }

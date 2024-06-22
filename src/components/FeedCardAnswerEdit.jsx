@@ -11,7 +11,7 @@ export default function FeedCardAnswerEdit({
   question,
   isEditing,
   submitEdit,
-  onLoad,
+  onLoadNew,
 }) {
   const [inputText, setInputText] = useState('')
   const [answer, setAnswer] = useState(
@@ -31,7 +31,7 @@ export default function FeedCardAnswerEdit({
         submitEdit()
       } else if (inputText) {
         await postNewAnswer(question.id, inputText)
-        await onLoad(question.subjectId)
+        await onLoadNew(question.subjectId)
       }
     } catch (error) {
       setErrorMessage(error.message)
