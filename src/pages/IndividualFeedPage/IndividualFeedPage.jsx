@@ -28,7 +28,7 @@ export default function IndividualFeedPage({
 
   useEffect(() => {
     loadProfile(feedId).then()
-  }, [feedId, loadProfile])
+  }, [feedId, loadProfile, questions])
 
   useEffect(() => {
     if (offset === 0) {
