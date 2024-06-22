@@ -14,14 +14,45 @@ export default function IndividualFeedPage({
   loadProfile,
   profile,
   errorMessage,
+  setErrorMessage,
+  onLoadMore,
+  offset,
+  next,
+  questions,
+  questionCount,
+  onLoadNew,
 }) {
   const { feedId } = useParams()
-
   const localUserId = getLocalUserId()
 
   useEffect(() => {
     loadProfile(feedId).then()
   }, [feedId, loadProfile])
+
+  useEffect(() => {
+    if (offset === 0) {
+      onLoadMore(feedId).then()
+    }
+  }, [feedId, offset, onLoadMore])
+
+  const listEnd = document.querySelector('.list-end')
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      if (entries[0].isIntersecting) {
+        if (next !== null) {
+          observer.unobserve(listEnd)
+          onLoadMore(feedId)
+        }
+        observer.disconnect()
+      }
+    },
+    { threshold: 0.5 }
+  )
+
+  if (listEnd) {
+    observer.observe(listEnd)
+  }
 
   if (profile) {
     return (
@@ -43,7 +74,14 @@ export default function IndividualFeedPage({
         </header>
         <main className={styles.main}>
           <section className={styles['feed-card-list']}>
-            <FeedCardList isMyFeed={false} profile={profile} />
+            <FeedCardList
+              isMyFeed={false}
+              profile={profile}
+              onLoadNew={onLoadNew}
+              questions={questions}
+              questionCount={questionCount}
+            />
+            {next !== null && <div className="list-end">로딩 중 ...</div>}
           </section>
         </main>
         <div className={styles['button-floating']}>
@@ -52,7 +90,12 @@ export default function IndividualFeedPage({
               <FloatButton isLink>답변하기</FloatButton>
             </Link>
           ) : (
-            <QuestionModal profile={profile} />
+            <QuestionModal
+              profile={profile}
+              onLoadNew={onLoadNew}
+              errorMessage={errorMessage}
+              setErrorMessage={setErrorMessage}
+            />
           )}
         </div>
         {errorMessage && <Toast>{errorMessage}</Toast>}
