@@ -1,11 +1,11 @@
 import { useRef, useState } from 'react'
-import { FillButton, FloatButton } from '../Buttons'
-import messageIcon from '../../assets/icons/ic_messages.svg'
-import closeIcon from '../../assets/icons/ic_close.svg'
+import { FillButton, FloatButton } from './Buttons'
+import messageIcon from '../assets/icons/ic_messages.svg'
+import closeIcon from '../assets/icons/ic_close.svg'
 import styles from './QuestionModal.module.css'
-import { Textarea } from '../Inputs'
-import createQuestion from '../../api/createQuestion'
-import Toast from '../Toast'
+import { Textarea } from './Inputs'
+import createQuestion from '../api/createQuestion'
+import Toast from './Toast'
 
 export default function QuestionModal({
   profile,
