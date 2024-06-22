@@ -1,24 +1,16 @@
 import { useParams } from 'react-router-dom'
-import { useEffect, useState } from 'react'
-import getProfileById from '../../api/getProfileById'
+import { useEffect } from 'react'
 import getFeedQuestions from '../../api/getFeedQuestions'
 import deleteFeedQuestion from '../../api/deleteFeedQuestion'
 import AnswerPage from './AnswerPage'
 
-function AnswerPageContainer() {
-  const [profile, setProfile] = useState({})
-  const [errorMessage, setErrorMessage] = useState(null)
+function AnswerPageContainer({
+  loadProfile,
+  profile,
+  errorMessage,
+  setErrorMessage,
+}) {
   const { feedId } = useParams()
-
-  const loadProfile = async (id) => {
-    let result
-    try {
-      result = await getProfileById(id)
-    } catch (error) {
-      setErrorMessage(error.message)
-    }
-    setProfile(result)
-  }
 
   const handleOnClick = async () => {
     try {
@@ -38,16 +30,18 @@ function AnswerPageContainer() {
   }
 
   useEffect(() => {
-    loadProfile(feedId)
-  }, [feedId])
+    loadProfile(feedId).then()
+  }, [feedId, loadProfile])
 
-  return (
-    <AnswerPage
-      profile={profile}
-      errorMessage={errorMessage}
-      onClick={handleOnClick}
-    />
-  )
+  if (profile) {
+    return (
+      <AnswerPage
+        profile={profile}
+        errorMessage={errorMessage}
+        onClick={handleOnClick}
+      />
+    )
+  }
 }
 
 export default AnswerPageContainer
