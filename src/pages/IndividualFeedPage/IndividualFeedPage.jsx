@@ -24,6 +24,7 @@ export default function IndividualFeedPage({
 }) {
   const { feedId } = useParams()
   const localUserId = getLocalUserId()
+  const listEnd = document.querySelector('.list-end')
 
   useEffect(() => {
     loadProfile(feedId).then()
@@ -34,8 +35,6 @@ export default function IndividualFeedPage({
       onLoadMore(feedId).then()
     }
   }, [feedId, offset, onLoadMore])
-
-  const listEnd = document.querySelector('.list-end')
 
   const observer = new IntersectionObserver(
     (entries) => {
