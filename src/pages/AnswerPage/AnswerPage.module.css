@@ -1,5 +1,6 @@
 .body {
   background-color: var(--gray-20);
+  padding-bottom: 140px;
 }
 
 .header {
@@ -58,7 +59,7 @@
   max-width: 716px;
   width: 100%;
   background-color: var(--brown-10);
-  margin: 0 auto 136px;
+  margin: 0 auto;
   border: 1px solid var(--brown-30);
   border-radius: 16px;
   display: flex;
@@ -68,7 +69,6 @@
   box-sizing: border-box;
   padding: 16px;
   gap: 16px;
-  margin-bottom: 140px;
 }
 
 .messages-container {

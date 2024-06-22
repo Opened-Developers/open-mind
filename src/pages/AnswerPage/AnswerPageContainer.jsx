@@ -27,25 +27,25 @@ function AnswerPageContainer() {
 
   const handleOnClick = async () => {
     try {
+      if (!profile.questionCount) {
+        throw new Error('삭제할 질문이 없습니다')
+      }
       const { results } = await getFeedQuestions({
         feedId,
         limit: profile.questionCount,
         offset: 0,
       })
-      if (results.length) {
-        const deletePromises = results.map((question) =>
-          deleteFeedQuestion(question.id)
-        )
-        await Promise.all(deletePromises)
-        await loadProfile(feedId)
-        setPageIsUpdating(true)
-        toast({
-          status: 'default',
-          message: `모든 질문과 답변이 삭제되었습니다`,
-        })
-      } else {
-        throw new Error('삭제할 질문이 없습니다')
-      }
+
+      const deletePromises = results.map((question) =>
+        deleteFeedQuestion(question.id)
+      )
+      await Promise.all(deletePromises)
+      await loadProfile(feedId)
+      setPageIsUpdating(true)
+      toast({
+        status: 'default',
+        message: `모든 질문과 답변이 삭제되었습니다`,
+      })
     } catch (error) {
       toast({ status: 'error', message: `${error}` })
     }

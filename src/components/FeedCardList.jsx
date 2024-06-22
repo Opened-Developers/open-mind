@@ -83,7 +83,7 @@ export default function FeedCardList({
   /* eslint-disable react-hooks/exhaustive-deps */
 
   useEffect(() => {
-    if (offset === 0) {
+    if (offset === 0 && !pageIsUpdating) {
       handleLoadQuestions().then()
     }
     if (pageIsUpdating) {
