@@ -1,5 +1,5 @@
+import { Link } from 'react-router-dom'
 import { useEffect, useMemo, useRef } from 'react'
-
 import styles from './AnswerPage.module.css'
 import SocialShareContainer from '../../components/SocialShareContainer'
 import FeedCardList from '../../components/FeedCardList'
@@ -55,7 +55,9 @@ function AnswerPage({
             src={openMindImg}
             alt="실 전화기를 사용하는 두 사람"
           />
-          <img className={styles.logo} src={logo} alt="오픈마인드 로고" />
+          <Link to={'/list'}>
+            <img className={styles.logo} src={logo} alt="오픈마인드 로고" />
+          </Link>
           <img
             src={profile.imageSource}
             alt="프로필 사진"
