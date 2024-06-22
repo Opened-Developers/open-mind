@@ -80,7 +80,9 @@ export default function IndividualFeedPage({
             src={openMindImg}
             alt="실 전화기를 사용하는 두 사람"
           />
-          <img className={styles.logo} src={logo} alt="오픈마인드 로고" />
+          <Link to={'/list'}>
+            <img className={styles.logo} src={logo} alt="오픈마인드 로고" />
+          </Link>
           <img
             src={profile.imageSource}
             alt="프로필 사진"
