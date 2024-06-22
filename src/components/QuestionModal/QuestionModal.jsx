@@ -54,7 +54,7 @@ export default function QuestionModal({
     } else
       try {
         createQuestion(feedId, questionBody).then()
-        onLoadNew(feedId).then()
+        onLoadNew(feedId)
         setContent('')
         return <Toast>{'질문이 성공적으로 등록되었습니다.'}</Toast>
       } catch (error) {
