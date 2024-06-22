@@ -19,7 +19,6 @@ function AnswerPageContainer({
 
   const handleOnClick = async () => {
     try {
-      console.log(feedId)
       if (questions.length) {
         const deletePromises = questions.map((question) =>
           deleteFeedQuestion(question.id)
