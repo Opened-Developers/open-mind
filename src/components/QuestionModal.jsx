@@ -72,7 +72,7 @@ export default function QuestionModal({
   return (
     <>
       {/* Add the float button */}
-      <FloatButton onClick={handleModalOpen}>질문 작성</FloatButton>
+      <FloatButton onClick={handleModalOpen}>질문 작성하기</FloatButton>
       {/* Add the modal background */}
       {isModalOpen && (
         <div
