@@ -18,7 +18,7 @@ export default function App() {
   const [questions, setQuestions] = useState([])
   const [questionCount, setQuestionCount] = useState(0)
   const [next, setNext] = useState(null)
-  const [isFirstLoad, setIsFirstLoad] = useState(true)
+  const [isNewProfile, setIsNewProfile] = useState(true)
 
   const loadProfile = useCallback(async (id) => {
     let response
@@ -26,6 +26,7 @@ export default function App() {
       response = await getProfileById(id)
       setProfile(response)
       setErrorInfo(null)
+      setIsNewProfile(true)
     } catch (error) {
       setErrorInfo(error)
     }
@@ -35,7 +36,7 @@ export default function App() {
   const handleLoadNewQuestions = useCallback(async (feedId) => {
     let response
     try {
-      setIsFirstLoad(false)
+      setIsNewProfile(false)
       response = await getFeedQuestions({
         feedId,
         offset: 0,
@@ -102,7 +103,7 @@ export default function App() {
                     questionCount={questionCount}
                     errorInfo={errorInfo}
                     setErrorInfo={setErrorInfo}
-                    isFirstLoad={isFirstLoad}
+                    isNewProfile={isNewProfile}
                   />
                 }
               />
@@ -118,7 +119,7 @@ export default function App() {
                     next={next}
                     questions={questions}
                     questionCount={questionCount}
-                    isFirstLoad={isFirstLoad}
+                    isNewProfile={isNewProfile}
                   />
                 }
               />
