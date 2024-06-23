@@ -6,10 +6,12 @@ import FeedCardList from '../../components/FeedCardList'
 import { FloatButton } from '../../components/Buttons'
 import logo from '../../assets/images/img_logo.png'
 import openMindImg from '../../assets/images/img_background.png'
+import { useToast } from '../../contexts/toastContextProvider'
 
 function AnswerPage({
   profile,
-  errorMessage = null,
+  errorInfo,
+  // setErrorInfo,
   onClick,
   onLoadMore,
   onLoadNew,
@@ -19,6 +21,7 @@ function AnswerPage({
 }) {
   const feedId = profile.id
   const listEndRef = useRef(null)
+  const { toast } = useToast()
 
   const observer = useMemo(
     () =>
@@ -45,6 +48,10 @@ function AnswerPage({
       observer.disconnect()
     }
   }, [observer])
+
+  if (errorInfo) {
+    return toast({ message: errorInfo.message, status: 'error' })
+  }
 
   if (profile) {
     return (
@@ -86,9 +93,6 @@ function AnswerPage({
               </div>
             )}
           </section>
-          {errorMessage?.message && (
-            <div className={styles.error}>{errorMessage.message}</div>
-          )}
         </main>
       </div>
     )
