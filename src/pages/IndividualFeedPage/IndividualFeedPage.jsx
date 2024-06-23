@@ -23,7 +23,6 @@ export default function IndividualFeedPage({
   setErrorInfo,
 }) {
   const { feedId } = useParams()
-
   const localUserId = getLocalUserId()
   const listEndRef = useRef(null)
   const { toast } = useToast()
