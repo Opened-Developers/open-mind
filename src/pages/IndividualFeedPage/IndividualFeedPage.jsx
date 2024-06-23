@@ -14,13 +14,13 @@ export default function IndividualFeedPage({
   loadProfile,
   profile,
   onLoadMore,
-  offset,
   next,
   questions,
   questionCount,
   onLoadNew,
   errorInfo,
   setErrorInfo,
+  isFirstLoad,
 }) {
   const { feedId } = useParams()
   const localUserId = getLocalUserId()
@@ -58,17 +58,26 @@ export default function IndividualFeedPage({
   }, [feedId, loadProfile, questions])
 
   useEffect(() => {
-    const questionId = String(questions[0]?.subjectId)
-    if (feedId !== questionId) {
-      onLoadNew(feedId).then()
+    if (!isFirstLoad) {
+      return
     }
-    if (offset === 0) {
-      onLoadMore(feedId).then()
+
+    const questionSubjectId = questions[0]?.subjectId
+    if (!questionSubjectId) {
+      return
     }
-  }, [feedId, offset, onLoadMore, onLoadNew, questions])
+
+    if (feedId === String(questionSubjectId)) {
+      return
+    }
+    onLoadNew(feedId).then()
+  }, [feedId, onLoadMore, onLoadNew, questions, isFirstLoad])
 
   if (errorInfo) {
-    return toast({ message: errorInfo.message, status: errorInfo.status })
+    return toast({
+      message: errorInfo.message,
+      status: errorInfo.status,
+    })
   }
 
   if (profile) {
