@@ -26,8 +26,8 @@ function SocialShareContainer({ questions }) {
       content.description = question.answer ? question.answer.content : '미답변'
       content.imageUrl = logo
       content.link = {}
-      content.link.mobileWebUrl = `https://open-mind-dev.netlify.app/post/${question.subjectId}/`
-      content.link.webUrl = `https://open-mind-dev.netlify.app/post/${question.subjectId}/`
+      content.link.mobileWebUrl = currentUrl
+      content.link.webUrl = currentUrl
       return content
     })
 
