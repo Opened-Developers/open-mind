@@ -6,7 +6,7 @@ import { FloatButton } from '../../components/Buttons'
 import QuestionModal from '../../components/QuestionModal'
 import { getLocalUserId } from '../../modules/utils'
 import styles from './IndividualFeedPage.module.css'
-import openMindImg from '../../assets/images/img_openmind.png'
+import openMindImg from '../../assets/images/img_background.png'
 import logo from '../../assets/images/img_logo.png'
 import { useToast } from '../../contexts/toastContextProvider'
 
@@ -83,7 +83,9 @@ export default function IndividualFeedPage({
 
   if (profile) {
     return (
-      <div className={styles.background}>
+      <div className={styles.body}>
+        <div className={styles['header-overlay']} />
+        <div className={styles['main-overlay']} />
         <header className={styles.header}>
           <img
             className={styles.backgroundImg}

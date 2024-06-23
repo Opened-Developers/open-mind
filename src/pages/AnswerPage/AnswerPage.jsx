@@ -5,7 +5,7 @@ import SocialShareContainer from '../../components/SocialShareContainer'
 import FeedCardList from '../../components/FeedCardList'
 import { FloatButton } from '../../components/Buttons'
 import logo from '../../assets/images/img_logo.png'
-import openMindImg from '../../assets/images/img_openmind.png'
+import openMindImg from '../../assets/images/img_background.png'
 
 function AnswerPage({
   profile,
@@ -49,6 +49,8 @@ function AnswerPage({
   if (profile) {
     return (
       <div className={styles.body}>
+        <div className={styles['header-overlay']} />
+        <div className={styles['main-overlay']} />
         <header className={styles.header}>
           <img
             className={styles.backgroundImg}
