@@ -2,14 +2,14 @@ import { useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
 import SocialShare from './SocialShare'
 import { useToast } from '../contexts/toastContextProvider'
-import logo from '../assets/images/img_logo.png'
 
 const JAVASCRIPT_KEY = '56581d8bf8b211623ac7e64c0f1d5851'
 const INTEGRITY_VALUE =
   'sha384-TiCUE00h649CAMonG018J2ujOgDKW/kVWlChEuu4jK2vxfAAD0eZxzCKakxg55G4'
 const VERSION = '2.7.2'
+const TEMPLATE_ID = 108949
 
-function SocialShareContainer({ questions }) {
+function SocialShareContainer({ questions, profile }) {
   const location = useLocation()
   const currentUrl = `${window.location.origin}${location.pathname}`
   const { toast } = useToast()
@@ -20,25 +20,20 @@ function SocialShareContainer({ questions }) {
   }
 
   const handleKakaoClick = () => {
-    const questionContents = questions.map((question) => {
-      const content = {}
-      content.title = question.content
-      content.description = question.answer ? question.answer.content : '미답변'
-      content.imageUrl = logo
-      content.link = {}
-      content.link.mobileWebUrl = currentUrl
-      content.link.webUrl = currentUrl
-      return content
-    })
+    if (!questions.length) {
+      toast({ status: 'error', message: '공유할 질문이 없습니다' })
+    }
+    const content = {
+      title: questions.name,
+      favorite: questions.like,
+      image: profile.imageSource,
+      description: questions.answer ? questions.answer.content : '미 답변',
+      name: profile.name,
+    }
 
-    window.Kakao.Share.sendDefault({
-      objectType: 'list',
-      headerTitle: 'OpenMind',
-      headerLink: {
-        mobileWebUrl: 'https://open-mind-dev.netlify.app',
-        webUrl: 'https://open-mind-dev.netlify.app',
-      },
-      contents: questionContents,
+    window.Kakao.Share.sendCustom({
+      templateId: TEMPLATE_ID,
+      templateArgs: content,
     })
   }
 

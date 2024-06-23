@@ -62,7 +62,7 @@ function AnswerPage({
             className={styles.userImg}
           />
           <p className={styles.nickname}>{profile.name}</p>
-          <SocialShareContainer questions={questions} />
+          <SocialShareContainer questions={questions} profile={profile} />
           <FloatButton onClick={onClick} size="small">
             삭제
           </FloatButton>
