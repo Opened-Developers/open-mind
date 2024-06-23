@@ -27,7 +27,7 @@ function SocialShareContainer({ questions, profile }) {
     const content = {
       title: questions[0].name,
       favorite: questions[0].like,
-      image: profile[0].imageSource,
+      image: profile.imageSource,
       description: questions[0].answer
         ? questions[0].answer.content
         : '미 답변',
