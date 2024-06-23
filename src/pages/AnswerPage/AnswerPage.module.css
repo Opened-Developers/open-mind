@@ -1,6 +1,6 @@
 .body {
   background-color: var(--gray-20);
-  padding-bottom: 140px;
+  padding: 0 32px 140px;
 }
 
 .overlay {

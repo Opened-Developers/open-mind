@@ -6,7 +6,7 @@ import { FloatButton } from '../../components/Buttons'
 import QuestionModal from '../../components/QuestionModal'
 import { getLocalUserId } from '../../modules/utils'
 import styles from './IndividualFeedPage.module.css'
-import openMindImg from '../../assets/images/img_background.png'
+import openMindImg from '../../assets/images/img_background_half.png'
 import logo from '../../assets/images/img_logo.png'
 import { useToast } from '../../contexts/toastContextProvider'
 
