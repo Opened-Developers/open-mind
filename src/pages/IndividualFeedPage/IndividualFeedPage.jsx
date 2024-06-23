@@ -20,7 +20,7 @@ export default function IndividualFeedPage({
   onLoadNew,
   errorInfo,
   setErrorInfo,
-  isFirstLoad,
+  isNewProfile,
 }) {
   const { feedId } = useParams()
   const localUserId = getLocalUserId()
@@ -55,23 +55,23 @@ export default function IndividualFeedPage({
 
   useEffect(() => {
     loadProfile(feedId).then()
-  }, [feedId, loadProfile, questions])
+  }, [feedId, loadProfile])
 
   useEffect(() => {
-    if (!isFirstLoad) {
-      return
+    if (isNewProfile) {
+      // 새 프로필에 들어가면 질문도 새로 로딩합니다.
+      onLoadNew(feedId).then()
     }
-
     const questionSubjectId = questions[0]?.subjectId
-    if (!questionSubjectId) {
+    if (questionSubjectId === undefined) {
+      // 질문 받은 아이디를 찾을 수 없는 경우 질문이 0개이므로 그만 로딩합니다.
       return
     }
-
-    if (feedId === String(questionSubjectId)) {
-      return
+    if (feedId !== String(questionSubjectId)) {
+      // 질문 받은 아이디가 주소의 아이디와 다를 경우 질문을 새로 로딩합니다.
+      onLoadNew(feedId).then()
     }
-    onLoadNew(feedId).then()
-  }, [feedId, onLoadMore, onLoadNew, questions, isFirstLoad])
+  }, [feedId, onLoadMore, onLoadNew, questions, isNewProfile])
 
   if (errorInfo) {
     return toast({
