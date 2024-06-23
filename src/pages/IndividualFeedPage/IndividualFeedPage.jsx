@@ -129,9 +129,9 @@ export default function IndividualFeedPage({
           ) : (
             <QuestionModal
               profile={profile}
-              onLoadNew={onLoadNew}
               errorInfo={errorInfo}
               setErrorInfo={setErrorInfo}
+              loadProfile={loadProfile}
             />
           )}
         </div>
