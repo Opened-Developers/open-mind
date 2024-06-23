@@ -1,4 +1,3 @@
-import { useCallback, useEffect, useRef, useState } from 'react'
 import styles from './FeedCardList.module.css'
 import messagesIcon from '../assets/icons/ic_messages.svg'
 import emptyFeedIcon from '../assets/icons/ic_empty_feed.svg'
@@ -134,7 +133,6 @@ export default function FeedCardList({
       </div>
     )
   }
-
   if (questionCount === 0) {
     return (
       <div>
@@ -175,12 +173,10 @@ export default function FeedCardList({
               question={question}
               isMyFeed={isMyFeed}
               profile={profile}
-              onLoad={handleUpdateQuestions}
+              onLoadNew={onLoadNew}
             />
           ))}
         </div>
-        {next !== null && <div className="list-end">로딩 중 ...</div>}
-        {errorInfo && <Toast>{errorInfo}</Toast>}
       </div>
     )
   }

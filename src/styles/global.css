@@ -42,6 +42,10 @@ button {
   font-family: 'Pretendard Variable', 'Helvetica Neue', arial, sans-serif;
 }
 
+a {
+  text-decoration: none;
+}
+
 /* default typography */
 .heading-1 {
   font-size: 2.5rem;

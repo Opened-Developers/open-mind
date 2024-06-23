@@ -101,13 +101,16 @@
   .float {
     width: 208px;
   }
-  .float::after {
-    content: '하기';
-  }
 }
 @media (max-width: 767px) {
   .float {
     width: auto;
     display: inline-block;
+  }
+
+  .float span {
+    overflow: hidden;
+    display: lnline-flex;
+    max-width: 73px;
   }
 }

@@ -1,25 +1,22 @@
 import { useParams } from 'react-router-dom'
-import { useEffect, useState } from 'react'
-import getProfileById from '../../api/getProfileById'
-import getFeedQuestions from '../../api/getFeedQuestions'
+import { useEffect } from 'react'
 import deleteFeedQuestion from '../../api/deleteFeedQuestion'
 import AnswerPage from './AnswerPage'
 
-function AnswerPageContainer() {
-  const [profile, setProfile] = useState({})
+function AnswerPageContainer({
+  loadProfile,
+  profile,
+  errorMessage,
+  setErrorMessage,
+  onLoadMore,
+  onLoadNew,
+  offset,
+  next,
+  questions,
+  questionCount,
+}) {
   const [errorMessage, setErrorMessage] = useState(null)
-  const [pageIsUpdating, setPageIsUpdating] = useState(false)
   const { feedId } = useParams()
-
-  const loadProfile = async (id) => {
-    let result
-    try {
-      result = await getProfileById(id)
-    } catch (error) {
-      setErrorMessage(error.message)
-    }
-    setProfile(result)
-  }
 
   const handleOnClick = async () => {
     try {
@@ -33,7 +30,7 @@ function AnswerPageContainer() {
           deleteFeedQuestion(question.id)
         )
         await Promise.all(deletePromises)
-        await loadProfile(feedId)
+        await onLoadNew(feedId)
         setPageIsUpdating(true)
       } else {
         throw new Error('삭제할 질문이 없습니다')
@@ -48,19 +45,32 @@ function AnswerPageContainer() {
   }
 
   useEffect(() => {
-    loadProfile(feedId)
-  }, [feedId])
+    loadProfile(feedId).then()
+  }, [feedId, loadProfile, questions])
 
-  return (
-    <AnswerPage
-      profile={profile}
-      errorMessage={errorMessage}
-      onClick={handleOnClick}
-      subjectId={feedId}
-      pageIsUpdating={pageIsUpdating}
-      endUpdating={endUpdating}
-    />
-  )
+  useEffect(() => {
+    if (offset === 0) {
+      onLoadMore(feedId).then()
+    }
+  }, [feedId, offset, onLoadMore])
+
+  if (profile) {
+    return (
+      <AnswerPage
+        profile={profile}
+        errorMessage={errorMessage}
+        onClick={handleOnClick}
+        setErrorMessage={setErrorMessage}
+        onLoadMore={onLoadMore}
+        onLoadNew={onLoadNew}
+        offset={offset}
+        next={next}
+        questions={questions}
+        questionCount={questionCount}
+        endUpdating={endUpdating}
+      />
+    )
+  }
 }
 
 export default AnswerPageContainer

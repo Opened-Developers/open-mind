@@ -1,17 +1,21 @@
 import { useRef, useState } from 'react'
-import { FillButton, FloatButton } from '../Buttons'
-import messageIcon from '../../assets/icons/ic_messages.svg'
-import closeIcon from '../../assets/icons/ic_close.svg'
+import { FillButton, FloatButton } from './Buttons'
+import messageIcon from '../assets/icons/ic_messages.svg'
+import closeIcon from '../assets/icons/ic_close.svg'
 import styles from './QuestionModal.module.css'
-import { Textarea } from '../Inputs'
-import createQuestion from '../../api/createQuestion'
-import Toast from '../Toast'
+import { Textarea } from './Inputs'
+import createQuestion from '../api/createQuestion'
+import Toast from './Toast'
 
-export default function QuestionModal({ profile, onLoad }) {
+export default function QuestionModal({
+  profile,
+  onLoadNew,
+  errorMessage,
+  setErrorMessage,
+}) {
   const modalBackground = useRef(null)
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [content, setContent] = useState('')
-  const [errorInfo, setErrorInfo] = useState(null)
   const feedId = profile.id
 
   const handleModalOpen = () => {
@@ -47,31 +51,28 @@ export default function QuestionModal({ profile, onLoad }) {
 
     if (content === '') {
       throw new Error('질문을 입력해주세요.')
-    } else {
-      createQuestion(feedId, questionBody)
-        .then()
-        .catch((error) => {
-          setErrorInfo(error.message)
-        })
-        .finally(() => {
-          onLoad()
-          setContent('')
-          e.target.value = ''
-        })
-      // e.preventDefault()
-    }
+    } else
+      try {
+        createQuestion(feedId, questionBody).then()
+        onLoadNew(feedId)
+        setContent('')
+        return <Toast>{'질문이 성공적으로 등록되었습니다.'}</Toast>
+      } catch (error) {
+        setErrorMessage(error.message)
+      } finally {
+        e.preventDefault()
+      }
+    return null
+  }
 
-    if (errorInfo) {
-      return <Toast>{errorInfo}</Toast>
-    }
-
-    return <Toast>{'질문이 성공적으로 등록되었습니다.'}</Toast>
+  if (errorMessage) {
+    return <Toast>{errorMessage}</Toast>
   }
 
   return (
     <>
       {/* Add the float button */}
-      <FloatButton onClick={handleModalOpen}>질문 작성</FloatButton>
+      <FloatButton onClick={handleModalOpen}>질문 작성하기</FloatButton>
       {/* Add the modal background */}
       {isModalOpen && (
         <div
@@ -111,17 +112,15 @@ export default function QuestionModal({ profile, onLoad }) {
                 />
                 <div>{profile.name}</div>
               </div>
-              <form
-                className={styles['question-form']}
-                onSubmit={handleSubmit}
-                onChange={handleChange}
-              >
+              <form className={styles['question-form']} onSubmit={handleSubmit}>
                 <Textarea
                   className={styles['question-form-textarea']}
                   name={'questionTextarea'}
                   id={'question'}
                   rows={7}
                   placeholder={'질문을 입력해 주세요'}
+                  value={content}
+                  onChange={handleChange}
                 />
                 <FillButton
                   className={styles['question-form-button']}
