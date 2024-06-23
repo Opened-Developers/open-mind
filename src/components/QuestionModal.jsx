@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { FillButton, FloatButton } from './Buttons'
 import messageIcon from '../assets/icons/ic_messages.svg'
 import closeIcon from '../assets/icons/ic_close.svg'
@@ -55,7 +55,7 @@ export default function QuestionModal({
       onLoadNew(feedId)
       setContent('')
       setErrorInfo(null)
-      return toast({
+      toast({
         message: '질문이 성공적으로 등록되었습니다.',
         status: 'success',
       })
@@ -66,6 +66,15 @@ export default function QuestionModal({
     }
     return null
   }
+
+  useEffect(() => {
+    if (content.length > 300) {
+      toast({
+        message: '질문은 300자 이내로 작성해 주세요.',
+        status: 'error',
+      })
+    }
+  }, [content, toast])
 
   if (errorInfo) {
     return toast({ message: errorInfo.message, status: errorInfo.status })
@@ -127,7 +136,7 @@ export default function QuestionModal({
                 <FillButton
                   className={styles['question-form-button']}
                   isSubmit
-                  disabled={!content}
+                  disabled={!content || content.length > 300}
                 >
                   질문 보내기
                 </FillButton>
