@@ -11,6 +11,8 @@
   border-radius: 16px;
 
   box-sizing: border-box;
+
+  background-color: var(--gray-10);
 }
 
 .profile {
