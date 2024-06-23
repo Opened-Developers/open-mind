@@ -60,7 +60,7 @@ export default function IndividualFeedPage({
   useEffect(() => {
     const questionId = String(questions[0]?.subjectId)
     if (feedId !== questionId) {
-      onLoadNew(feedId)
+      onLoadNew(feedId).then()
     }
     if (offset === 0) {
       onLoadMore(feedId).then()
