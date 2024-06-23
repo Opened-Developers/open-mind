@@ -7,18 +7,25 @@ import FeedCardReaction from './FeedCardReaction'
 import styles from './FeedCard.module.css'
 import { MenuDropdown, MenuDropdownItem } from './Dropdown'
 import deleteFeedQuestion from '../api/deleteFeedQuestion'
-import Toast from './Toast'
+import { useToast } from '../contexts/toastContextProvider'
 
-export default function FeedCard({ question, isMyFeed, profile, onLoadNew }) {
+export default function FeedCard({
+  question,
+  isMyFeed,
+  profile,
+  onLoadNew,
+  errorInfo = null,
+  setErrorInfo,
+}) {
   const [isEditing, setIsEditing] = useState(false)
-  const [errorInfo, setErrorInfo] = useState(null)
   const feedId = profile.id
+  const { toast } = useToast()
 
   const handleDeleteClick = async () => {
     try {
       await deleteFeedQuestion(question.id)
     } catch (error) {
-      setErrorInfo(error.message)
+      setErrorInfo(error)
     }
     await onLoadNew(feedId)
   }
@@ -32,6 +39,10 @@ export default function FeedCard({ question, isMyFeed, profile, onLoadNew }) {
   const submitEdit = async () => {
     setIsEditing(false)
     onLoadNew(feedId)
+  }
+
+  if (errorInfo) {
+    return toast({ message: errorInfo.message, status: errorInfo.status })
   }
 
   return (
@@ -69,7 +80,6 @@ export default function FeedCard({ question, isMyFeed, profile, onLoadNew }) {
       )}
       <div className={styles['card-division-line']} />
       <FeedCardReaction question={question} />
-      {errorInfo && <Toast>{errorInfo}</Toast>}
     </div>
   )
 }

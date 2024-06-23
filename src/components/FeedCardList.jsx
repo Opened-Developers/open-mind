@@ -9,6 +9,8 @@ export default function FeedCardList({
   questions,
   questionCount,
   onLoadNew,
+  errorInfo = null,
+  setErrorInfo,
 }) {
   if (questionCount === 0) {
     return (
@@ -51,6 +53,8 @@ export default function FeedCardList({
               isMyFeed={isMyFeed}
               profile={profile}
               onLoadNew={onLoadNew}
+              errorInfo={errorInfo}
+              setErrorInfo={setErrorInfo}
             />
           ))}
         </div>

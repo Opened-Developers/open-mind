@@ -12,7 +12,7 @@ import getFeedQuestions from './api/getFeedQuestions'
 
 function App() {
   const [profile, setProfile] = useState(null)
-  const [errorMessage, setErrorMessage] = useState(null)
+  const [errorInfo, setErrorInfo] = useState(null)
   const LIMIT = 10
   const [offset, setOffset] = useState(0)
   const [questions, setQuestions] = useState([])
@@ -24,33 +24,31 @@ function App() {
     try {
       response = await getProfileById(id)
       setProfile(response)
-      setErrorMessage(null)
+      setErrorInfo(null)
     } catch (error) {
-      setErrorMessage(error.message)
+      setErrorInfo(error)
     }
     return null
   }, [])
 
-  const handleLoadNewQuestions = useCallback(
-    async (feedId) => {
-      let response
-      try {
-        response = await getFeedQuestions({
-          feedId,
-          offset: 0,
-          limit: LIMIT,
-        })
-        setQuestions(response.results)
-        setQuestionCount(response.count)
-        setOffset(response.results.length)
-        setNext(response.next)
-        setErrorMessage(null)
-      } catch (error) {
-        setErrorMessage(error.message)
-      }
-    },
-    [setErrorMessage]
-  )
+  const handleLoadNewQuestions = useCallback(async (feedId) => {
+    let response
+    try {
+      response = await getFeedQuestions({
+        feedId,
+        offset: 0,
+        limit: LIMIT,
+      })
+      setQuestions(response.results)
+      setQuestionCount(response.count)
+      setOffset(response.results.length)
+      setNext(response.next)
+      setErrorInfo(null)
+    } catch (error) {
+      setErrorInfo(error)
+    }
+    return null
+  }, [])
 
   const handleLoadMoreQuestions = useCallback(
     async (feedId) => {
@@ -72,12 +70,12 @@ function App() {
         setQuestionCount(response.count)
         setOffset((prevOffset) => prevOffset + response.results.length)
         setNext(response.next)
-        setErrorMessage(null)
+        setErrorInfo(null)
       } catch (error) {
-        setErrorMessage(error.message)
+        setErrorInfo(error)
       }
     },
-    [offset, setErrorMessage]
+    [offset]
   )
 
   return (
@@ -94,14 +92,14 @@ function App() {
                   <IndividualFeedPage
                     loadProfile={loadProfile}
                     profile={profile}
-                    errorMessage={errorMessage}
-                    setErrorMessage={setErrorMessage}
                     onLoadMore={handleLoadMoreQuestions}
                     onLoadNew={handleLoadNewQuestions}
                     offset={offset}
                     next={next}
                     questions={questions}
                     questionCount={questionCount}
+                    errorInfo={errorInfo}
+                    setErrorInfo={setErrorInfo}
                   />
                 }
               />
@@ -111,8 +109,6 @@ function App() {
                   <AnswerPageContainer
                     loadProfile={loadProfile}
                     profile={profile}
-                    errorMessage={errorMessage}
-                    setErrorMessage={setErrorMessage}
                     onLoadMore={handleLoadMoreQuestions}
                     onLoadNew={handleLoadNewQuestions}
                     offset={offset}
