@@ -2,7 +2,7 @@ import openMindAxios from './openMindAxios'
 
 export default async function getProfileById(feedId) {
   try {
-    const response = await openMindAxios.get(`/subjects/${feedId}/`) // axios가 반환한 리스폰스 객체를 비구조화 할당으로 분리하여 data만 추출, async-await 문법으로 비동기 처리해서
+    const response = await openMindAxios.get(`/subjects/${feedId}/`)
     return response.data
   } catch (error) {
     if (error.response) {

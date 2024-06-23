@@ -29,7 +29,7 @@ export default function FeedCard({ question, isMyFeed, profile, onLoadNew }) {
     }
   }
 
-  const submitEdit = () => {
+  const submitEdit = async () => {
     setIsEditing(false)
     onLoadNew(feedId)
   }
