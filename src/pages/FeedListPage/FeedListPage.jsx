@@ -1,16 +1,14 @@
-import { React, useState, useEffect, useRef } from 'react'
-import { Link } from 'react-router-dom'
+import { React, useState, useEffect, useCallback } from 'react'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import styles from './FeedListPage.module.css'
-import UserCard from './components/UserCard'
+import UserCardList from './components/UserCardList'
 import Pagenation from './components/Pagenation'
 import { SortDropdown, SortDropdownItem } from '../../components/Dropdown'
 import '../../styles/global.css'
-import getFeedList from '../../api/getFeedList'
 import icArrowRightBrown from '../../assets/icons/ic_arrow_right_brown.svg'
 import imgLogo from '../../assets/images/img_logo.png'
 import { OutlineButton } from '../../components/Buttons'
 import { debounce, getDeviceType, getLocalUserId } from '../../modules/utils'
-import { useToast } from '../../contexts/toastContextProvider'
 
 const localUserId = getLocalUserId()
 const navButtonLink = localUserId ? `/post/${localUserId}/answer` : '/'
@@ -23,70 +21,75 @@ const countPerPage = {
   mobile: 6,
 }
 
-const dropdownItems = ['이름순', '최신순']
+const isSizeChanged = (currentDeviceType, nextDeviceType) => {
+  if (countPerPage[currentDeviceType] === countPerPage[nextDeviceType]) {
+    return false
+  }
 
-const getSortedList = (list, sortOrder) => {
-  const sortedList = list.sort((a, b) => {
-    if (sortOrder === '최신순') {
-      return a.createdAt > b.createdAt ? -1 : 1
-    }
-    if (sortOrder === '이름순') {
-      return a.name.localeCompare(b.name)
-    }
-
-    return 0
-  })
-
-  return sortedList
+  return true
 }
+
+const navigatePage = (page, nextDeviceType) => {
+  const nextCountPerPage = countPerPage[nextDeviceType]
+  const counterOrder = nextCountPerPage === 6 ? [8, 6] : [6, 8]
+  const correctPage =
+    parseInt((1 + (page - 1) * counterOrder[0]) / counterOrder[1], 10) + 1
+  return correctPage
+}
+
+const dropdownItems = ['최신순', '이름순']
+
 function FeedListPage() {
-  const [page, setPage] = useState(1)
-  const [userCardLists, setUserCardLists] = useState([])
-  const [sortOrder, setSortOrder] = useState(dropdownItems[1])
+  const { page: pageParam } = useParams()
+  const [page, setPage] = useState(parseInt(pageParam, 10))
+  const [sortOrder, setSortOrder] = useState(dropdownItems[0])
   const [deviceType, setDeviceType] = useState(
     getDeviceType(window.innerWidth, true)
   )
+  const [feedCount, setFeedCount] = useState(0)
 
-  const { toast } = useToast()
-  const feedCount = useRef(0)
+  const navigate = useNavigate()
 
-  const handleResize = () => {
+  const handleResize = useCallback(() => {
+    const currentDeviceType = deviceType
     const width = window.innerWidth
-    const currentDeviceType = getDeviceType(width, true)
-    setDeviceType(currentDeviceType)
-  }
+    const nextDeviceType = getDeviceType(width, true)
+    setDeviceType(nextDeviceType)
+
+    if (isSizeChanged(currentDeviceType, nextDeviceType)) {
+      const nextPage = navigatePage(page, nextDeviceType)
+      navigate(`/list/${nextPage}`)
+    }
+  }, [deviceType, page, navigate])
 
   const handlePageClick = (pageNum) => {
     setPage(pageNum)
+    navigate(`/list/${pageNum}`)
   }
 
   const handleDropdownItemClick = (item) => {
     setSortOrder(item)
   }
 
+  const handleFeedCount = (count) => {
+    setFeedCount(count)
+  }
+
   useEffect(() => {
-    const debouncedHandleResize = debounce(handleResize, 50)
+    handleFeedCount(feedCount)
+  }, [feedCount])
+
+  useEffect(() => {
+    const debouncedHandleResize = debounce(handleResize, 100)
     window.addEventListener('resize', debouncedHandleResize)
     return () => {
       window.removeEventListener('resize', debouncedHandleResize)
     }
-  }, [])
+  }, [handleResize])
 
   useEffect(() => {
-    const getUserCardLists = async () => {
-      const limit = countPerPage[deviceType]
-      const offset = limit * (page - 1)
-      try {
-        const { data } = await getFeedList(limit, offset)
-        setUserCardLists(getSortedList(data.results, sortOrder))
-        feedCount.current = data.count
-      } catch (error) {
-        toast({ status: 'default', message: error.message })
-      }
-    }
-
-    getUserCardLists()
-  }, [deviceType, page, sortOrder, toast])
+    setPage(parseInt(pageParam, 10) || 1)
+  }, [pageParam])
 
   return (
     <section className={styles.FeedListPage}>
@@ -113,23 +116,17 @@ function FeedListPage() {
           <SortDropdownItem key={dropdownItem}>{dropdownItem}</SortDropdownItem>
         ))}
       </SortDropdown>
-      <div className={styles.userCardListContainer}>
-        <div className={`${styles.userCardList} ${styles[deviceType]}`}>
-          {userCardLists.map((userCard) => (
-            <UserCard
-              key={userCard.id}
-              id={userCard.id}
-              image={userCard.imageSource}
-              userName={userCard.name}
-              questionCount={userCard.questionCount}
-            />
-          ))}
-        </div>
-      </div>
+      <UserCardList
+        currentPage={page}
+        sort={sortOrder}
+        deviceType={deviceType}
+        countPerPage={countPerPage[deviceType]}
+        handleFeedCount={handleFeedCount}
+      />
       <Pagenation
         currentPage={page}
         countPerPage={countPerPage[deviceType]}
-        feedCount={feedCount.current}
+        feedCount={feedCount}
         onClick={handlePageClick}
       />
     </section>
