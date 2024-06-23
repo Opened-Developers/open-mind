@@ -2,12 +2,11 @@ import { useParams } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import deleteFeedQuestion from '../../api/deleteFeedQuestion'
 import AnswerPage from './AnswerPage'
+import { useToast } from '../../contexts/toastContextProvider'
 
 function AnswerPageContainer({
   loadProfile,
   profile,
-  errorMessage,
-  setErrorMessage,
   onLoadMore,
   onLoadNew,
   offset,
@@ -15,9 +14,12 @@ function AnswerPageContainer({
   questions,
   questionCount,
   isNewProfile,
+  errorInfo,
+  setErrorInfo,
 }) {
   const [pageIsUpdating, setPageIsUpdating] = useState()
   const { feedId } = useParams()
+  const { toast } = useToast()
 
   const handleOnClick = async () => {
     try {
@@ -29,10 +31,10 @@ function AnswerPageContainer({
         await onLoadNew(feedId)
         setPageIsUpdating(true)
       } else {
-        throw new Error('삭제할 질문이 없습니다')
+        toast({ message: '삭제할 질문이 없습니다.', status: 'error' })
       }
     } catch (error) {
-      setErrorMessage(error)
+      setErrorInfo(error)
     }
   }
 
@@ -65,9 +67,7 @@ function AnswerPageContainer({
     return (
       <AnswerPage
         profile={profile}
-        errorMessage={errorMessage}
         onClick={handleOnClick}
-        setErrorMessage={setErrorMessage}
         onLoadMore={onLoadMore}
         onLoadNew={onLoadNew}
         offset={offset}
@@ -76,6 +76,8 @@ function AnswerPageContainer({
         questionCount={questionCount}
         pageIsUpdating={pageIsUpdating}
         endUpdating={endUpdating}
+        errorInfo={errorInfo}
+        setErrorInfo={setErrorInfo}
       />
     )
   }

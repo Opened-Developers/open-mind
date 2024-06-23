@@ -122,6 +122,8 @@ export default function App() {
                     questions={questions}
                     questionCount={questionCount}
                     isNewProfile={isNewProfile}
+                    errorInfo={errorInfo}
+                    setErrorInfo={setErrorInfo}
                   />
                 }
               />
