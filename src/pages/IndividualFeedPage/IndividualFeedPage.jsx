@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useMemo, useRef } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import FeedCardList from '../../components/FeedCardList'
 import SocialShareContainer from '../../components/SocialShareContainer'
@@ -24,7 +24,33 @@ export default function IndividualFeedPage({
 }) {
   const { feedId } = useParams()
   const localUserId = getLocalUserId()
-  const listEnd = document.querySelector('.list-end')
+  const listEndRef = useRef(null)
+
+  const observer = useMemo(
+    () =>
+      new IntersectionObserver(
+        (entries) => {
+          if (entries[0].isIntersecting) {
+            if (next !== null) {
+              observer.unobserve(listEndRef.current)
+              onLoadMore(feedId)
+            }
+            observer.disconnect()
+          }
+        },
+        { threshold: 0.5 }
+      ),
+    [next, onLoadMore, feedId]
+  )
+
+  useEffect(() => {
+    if (listEndRef.current) {
+      observer.observe(listEndRef.current)
+    }
+    return () => {
+      observer.disconnect()
+    }
+  }, [observer])
 
   useEffect(() => {
     loadProfile(feedId).then()
@@ -35,23 +61,6 @@ export default function IndividualFeedPage({
       onLoadMore(feedId).then()
     }
   }, [feedId, offset, onLoadMore])
-
-  const observer = new IntersectionObserver(
-    (entries) => {
-      if (entries[0].isIntersecting) {
-        if (next !== null) {
-          observer.unobserve(listEnd)
-          onLoadMore(feedId)
-        }
-        observer.disconnect()
-      }
-    },
-    { threshold: 0.5 }
-  )
-
-  if (listEnd) {
-    observer.observe(listEnd)
-  }
 
   if (profile) {
     return (
@@ -80,7 +89,11 @@ export default function IndividualFeedPage({
               questions={questions}
               questionCount={questionCount}
             />
-            {next !== null && <div className="list-end">로딩 중 ...</div>}
+            {next !== null && (
+              <div className="list-end" ref={listEndRef}>
+                로딩 중 ...
+              </div>
+            )}
           </section>
         </main>
         <div className={styles['button-floating']}>
