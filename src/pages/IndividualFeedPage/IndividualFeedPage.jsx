@@ -62,6 +62,7 @@ export default function IndividualFeedPage({
       // 새 프로필에 들어가면 질문도 새로 로딩합니다.
       onLoadNew(feedId).then()
     }
+    // 새 프로필이 아닌 경우 질문을 새로 로딩할지 결정합니다.
     const questionSubjectId = questions[0]?.subjectId
     if (questionSubjectId === undefined) {
       // 질문 받은 아이디를 찾을 수 없는 경우 질문이 0개이므로 그만 로딩합니다.
