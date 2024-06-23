@@ -5,7 +5,7 @@ import SocialShareContainer from '../../components/SocialShareContainer'
 import FeedCardList from '../../components/FeedCardList'
 import { FloatButton } from '../../components/Buttons'
 import logo from '../../assets/images/img_logo.png'
-import openMindImg from '../../assets/images/img_background.png'
+import openMindImg from '../../assets/images/img_background_half.png'
 import { useToast } from '../../contexts/toastContextProvider'
 
 function AnswerPage({
@@ -56,14 +56,16 @@ function AnswerPage({
   if (profile) {
     return (
       <div className={styles.body}>
-        <div className={styles['header-overlay']} />
-        <div className={styles['main-overlay']} />
-        <header className={styles.header}>
+        <div className={styles.overlay}>
+          <div className={styles['header-overlay']} />
           <img
             className={styles.backgroundImg}
             src={openMindImg}
             alt="실 전화기를 사용하는 두 사람"
           />
+          <div className={styles['main-overlay']} />
+        </div>
+        <header className={styles.header}>
           <Link to={'/list'}>
             <img className={styles.logo} src={logo} alt="오픈마인드 로고" />
           </Link>
