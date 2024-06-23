@@ -1,3 +1,5 @@
+import { useEffect, useMemo, useRef } from 'react'
+
 import styles from './AnswerPage.module.css'
 import SocialShareContainer from '../../components/SocialShareContainer'
 import FeedCardList from '../../components/FeedCardList'
@@ -16,25 +18,33 @@ function AnswerPage({
   questionCount,
 }) {
   const feedId = profile.id
+  const listEndRef = useRef(null)
 
-  const listEnd = document.querySelector('.list-end')
-
-  const observer = new IntersectionObserver(
-    (entries) => {
-      if (entries[0].isIntersecting) {
-        if (next !== null) {
-          observer.unobserve(listEnd)
-          onLoadMore(feedId)
-        }
-        observer.disconnect()
-      }
-    },
-    { threshold: 0.5 }
+  const observer = useMemo(
+    () =>
+      new IntersectionObserver(
+        (entries) => {
+          if (entries[0].isIntersecting) {
+            if (next !== null) {
+              observer.unobserve(listEndRef.current)
+              onLoadMore(feedId)
+            }
+            observer.disconnect()
+          }
+        },
+        { threshold: 0.5 }
+      ),
+    [next, onLoadMore, feedId]
   )
 
-  if (listEnd) {
-    observer.observe(listEnd)
-  }
+  useEffect(() => {
+    if (listEndRef.current) {
+      observer.observe(listEndRef.current)
+    }
+    return () => {
+      observer.disconnect()
+    }
+  }, [observer])
 
   if (profile) {
     return (
@@ -66,7 +76,11 @@ function AnswerPage({
               questionCount={questionCount}
               onLoadNew={onLoadNew}
             />
-            {next !== null && <div className="list-end">로딩 중 ...</div>}
+            {next !== null && (
+              <div className="list-end" ref={listEndRef}>
+                로딩 중 ...
+              </div>
+            )}
           </section>
           {errorMessage?.message && (
             <div className={styles.error}>{errorMessage.message}</div>
