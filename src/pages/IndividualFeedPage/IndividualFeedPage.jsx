@@ -55,8 +55,9 @@ export default function IndividualFeedPage({
 
   useEffect(() => {
     loadProfile(feedId).then()
-  }, [feedId, loadProfile, questions])
-
+  }, [feedId, loadProfile])
+  // 무한 api 요청 방지 의존성 배열 내 questions 삭제
+  /* eslint-disable react-hooks/exhaustive-deps */
   useEffect(() => {
     const questionId = String(questions[0]?.subjectId)
     if (feedId !== questionId) {
@@ -65,8 +66,8 @@ export default function IndividualFeedPage({
     if (offset === 0) {
       onLoadMore(feedId).then()
     }
-  }, [feedId, offset, onLoadMore, onLoadNew, questions])
-
+  }, [feedId, offset, onLoadMore, onLoadNew])
+  /* eslint-disable react-hooks/exhaustive-deps */
   if (errorInfo) {
     return toast({ message: errorInfo.message, status: errorInfo.status })
   }
