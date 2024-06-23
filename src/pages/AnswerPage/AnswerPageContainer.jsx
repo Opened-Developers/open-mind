@@ -1,5 +1,5 @@
 import { useParams } from 'react-router-dom'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import deleteFeedQuestion from '../../api/deleteFeedQuestion'
 import AnswerPage from './AnswerPage'
 
@@ -15,18 +15,13 @@ function AnswerPageContainer({
   questions,
   questionCount,
 }) {
-  const [errorMessage, setErrorMessage] = useState(null)
+  const [pageIsUpdating, setPageIsUpdating] = useState()
   const { feedId } = useParams()
 
   const handleOnClick = async () => {
     try {
-      const { results } = await getFeedQuestions({
-        feedId,
-        limit: profile.questionCount,
-        offset: 0,
-      })
-      if (results.length) {
-        const deletePromises = results.map((question) =>
+      if (questions.length) {
+        const deletePromises = questions.map((question) =>
           deleteFeedQuestion(question.id)
         )
         await Promise.all(deletePromises)
@@ -67,6 +62,7 @@ function AnswerPageContainer({
         next={next}
         questions={questions}
         questionCount={questionCount}
+        pageIsUpdating={pageIsUpdating}
         endUpdating={endUpdating}
       />
     )
