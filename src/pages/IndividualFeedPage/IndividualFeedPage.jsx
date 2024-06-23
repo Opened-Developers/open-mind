@@ -101,7 +101,7 @@ export default function IndividualFeedPage({
             className={styles['user-img']}
           />
           <p className={styles['user-name']}>{profile.name}</p>
-          <SocialShareContainer />
+          <SocialShareContainer questions={questions} profile={profile} />
         </header>
         <main className={styles.main}>
           <section className={styles['feed-card-list']}>
