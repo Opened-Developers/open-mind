@@ -14,6 +14,7 @@ function AnswerPageContainer({
   next,
   questions,
   questionCount,
+  isFirstLoad,
 }) {
   const [pageIsUpdating, setPageIsUpdating] = useState()
   const { feedId } = useParams()
@@ -44,14 +45,20 @@ function AnswerPageContainer({
   }, [feedId, loadProfile, questions])
 
   useEffect(() => {
-    const questionId = String(questions[0]?.subjectId)
-    if (feedId !== questionId) {
-      onLoadNew(feedId).then()
+    if (!isFirstLoad) {
+      return
     }
-    if (offset === 0) {
-      onLoadMore(feedId).then()
+
+    const questionSubjectId = questions[0]?.subjectId
+    if (!questionSubjectId) {
+      return
     }
-  }, [feedId, offset, onLoadMore, onLoadNew, questions])
+
+    if (feedId === String(questionSubjectId)) {
+      return
+    }
+    onLoadNew(feedId).then()
+  }, [feedId, onLoadMore, onLoadNew, questions, isFirstLoad])
 
   if (profile) {
     return (
