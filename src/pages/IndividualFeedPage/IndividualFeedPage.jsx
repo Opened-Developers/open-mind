@@ -23,6 +23,7 @@ export default function IndividualFeedPage({
   onLoadNew,
 }) {
   const { feedId } = useParams()
+
   const localUserId = getLocalUserId()
   const listEndRef = useRef(null)
 
@@ -57,11 +58,12 @@ export default function IndividualFeedPage({
   }, [feedId, loadProfile, questions])
 
   useEffect(() => {
+    const questionId = String(questions[0]?.subjectId)
+    if (feedId !== questionId) {
+      onLoadNew(feedId)
+    }
     if (offset === 0) {
       onLoadMore(feedId).then()
-    }
-    if (feedId !== questions[0]?.feedId) {
-      onLoadNew(feedId)
     }
   }, [feedId, offset, onLoadMore, onLoadNew, questions])
 
