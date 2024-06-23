@@ -25,10 +25,12 @@ function SocialShareContainer({ questions, profile }) {
       return
     }
     const content = {
-      title: questions.name,
-      favorite: questions.like,
-      image: profile.imageSource,
-      description: questions.answer ? questions.answer.content : '미 답변',
+      title: questions[0].name,
+      favorite: questions[0].like,
+      image: profile[0].imageSource,
+      description: questions[0].answer
+        ? questions[0].answer.content
+        : '미 답변',
       name: profile.name,
     }
 

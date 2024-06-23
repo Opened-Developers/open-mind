@@ -1,6 +1,7 @@
 .icon-container {
   display: flex;
   gap: 12px;
+  z-index: 1;
 }
 
 .icon-container > button {
