@@ -26,6 +26,7 @@ export default function App() {
       response = await getProfileById(id)
       setProfile(response)
       setErrorInfo(null)
+      setIsFirstLoad(true)
     } catch (error) {
       setErrorInfo(error)
     }
