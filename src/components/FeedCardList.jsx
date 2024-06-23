@@ -15,7 +15,7 @@ export default function FeedCardList({
   if (questionCount === 0) {
     return (
       <div>
-        <div className={styles['messages-container']}>
+        <main className={styles['messages-container']}>
           <div className={styles['messages-container-summary']}>
             <img
               className={styles['messages-container-message-icon']}
@@ -29,7 +29,7 @@ export default function FeedCardList({
             src={emptyFeedIcon}
             alt="빈 피드 아이콘"
           />
-        </div>
+        </main>
       </div>
     )
   }
@@ -37,27 +37,29 @@ export default function FeedCardList({
   if (questionCount > 0) {
     return (
       <div>
-        <div className={styles['messages-container']}>
-          <img
-            className={styles['messages-container-icon']}
-            src={messagesIcon}
-            alt="질문 메시지 아이콘"
-          />
-          <p>{questionCount}개의 질문이 있습니다.</p>
-        </div>
-        <div className={styles['feed-card-container']}>
-          {questions.map((question) => (
-            <FeedCard
-              key={question.id}
-              question={question}
-              isMyFeed={isMyFeed}
-              profile={profile}
-              onLoadNew={onLoadNew}
-              errorInfo={errorInfo}
-              setErrorInfo={setErrorInfo}
+        <main className={styles['messages-container']}>
+          <div className={styles['messages-container-summary']}>
+            <img
+              className={styles['messages-container-message-icon']}
+              src={messagesIcon}
+              alt="질문 메시지 아이콘"
             />
-          ))}
-        </div>
+            <p>{questionCount}개의 질문이 있습니다.</p>
+          </div>
+          <article className={styles['feed-card-container']}>
+            {questions.map((question) => (
+              <FeedCard
+                key={question.id}
+                question={question}
+                isMyFeed={isMyFeed}
+                profile={profile}
+                onLoadNew={onLoadNew}
+                errorInfo={errorInfo}
+                setErrorInfo={setErrorInfo}
+              />
+            ))}
+          </article>
+        </main>
       </div>
     )
   }
