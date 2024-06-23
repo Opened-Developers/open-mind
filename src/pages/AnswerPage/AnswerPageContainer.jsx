@@ -42,7 +42,7 @@ function AnswerPageContainer({
 
   useEffect(() => {
     loadProfile(feedId).then()
-  }, [feedId, loadProfile, questions])
+  }, [feedId, loadProfile])
 
   useEffect(() => {
     if (isNewProfile) {
