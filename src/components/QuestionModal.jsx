@@ -16,7 +16,6 @@ export default function QuestionModal({
   const modalBackground = useRef(null)
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [content, setContent] = useState('')
-  const [errorInfo, setErrorInfo] = useState(null)
   const feedId = profile.id
 
   const handleModalOpen = () => {
