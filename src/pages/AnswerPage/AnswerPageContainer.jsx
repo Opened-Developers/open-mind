@@ -15,6 +15,7 @@ function AnswerPageContainer({
   next,
   questions,
   questionCount,
+  isFirstLoad,
 }) {
   const [pageIsUpdating, setPageIsUpdating] = useState()
   const { feedId } = useParams()
@@ -48,15 +49,21 @@ function AnswerPageContainer({
   // 무한 api 요청 방지 의존성 배열 내 questions 삭제
   /* eslint-disable react-hooks/exhaustive-deps */
   useEffect(() => {
-    const questionId = String(questions[0]?.subjectId)
-    if (feedId !== questionId) {
-      onLoadNew(feedId).then()
+    if (!isFirstLoad) {
+      return
     }
-    if (offset === 0) {
-      onLoadMore(feedId).then()
+
+    const questionSubjectId = questions[0]?.subjectId
+    if (!questionSubjectId) {
+      return
+    }
+
+    if (feedId === String(questionSubjectId)) {
+      return
     }
   }, [feedId, offset, onLoadMore, onLoadNew])
   /* eslint-disable react-hooks/exhaustive-deps */
+  
   if (profile) {
     return (
       <AnswerPage

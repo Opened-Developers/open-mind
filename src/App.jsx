@@ -10,7 +10,7 @@ import MainLayout from './components/layouts/MainLayout'
 import getProfileById from './api/getProfileById'
 import getFeedQuestions from './api/getFeedQuestions'
 
-function App() {
+export default function App() {
   const [profile, setProfile] = useState(null)
   const [errorInfo, setErrorInfo] = useState(null)
   const LIMIT = 10
@@ -18,6 +18,7 @@ function App() {
   const [questions, setQuestions] = useState([])
   const [questionCount, setQuestionCount] = useState(0)
   const [next, setNext] = useState(null)
+  const [isFirstLoad, setIsFirstLoad] = useState(true)
 
   const loadProfile = useCallback(async (id) => {
     let response
@@ -34,6 +35,7 @@ function App() {
   const handleLoadNewQuestions = useCallback(async (feedId) => {
     let response
     try {
+      setIsFirstLoad(false)
       response = await getFeedQuestions({
         feedId,
         offset: 0,
@@ -100,6 +102,7 @@ function App() {
                     questionCount={questionCount}
                     errorInfo={errorInfo}
                     setErrorInfo={setErrorInfo}
+                    isFirstLoad={isFirstLoad}
                   />
                 }
               />
@@ -115,6 +118,7 @@ function App() {
                     next={next}
                     questions={questions}
                     questionCount={questionCount}
+                    isFirstLoad={isFirstLoad}
                   />
                 }
               />
@@ -126,5 +130,3 @@ function App() {
     </ToastContextProvider>
   )
 }
-
-export default App
