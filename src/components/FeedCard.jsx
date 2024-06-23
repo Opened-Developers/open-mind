@@ -9,23 +9,18 @@ import { MenuDropdown, MenuDropdownItem } from './Dropdown'
 import deleteFeedQuestion from '../api/deleteFeedQuestion'
 import { useToast } from '../contexts/toastContextProvider'
 
-export default function FeedCard({
-  question,
-  isMyFeed,
-  profile,
-  onLoadNew,
-  errorInfo = null,
-  setErrorInfo,
-}) {
+export default function FeedCard({ question, isMyFeed, profile, onLoadNew }) {
   const [isEditing, setIsEditing] = useState(false)
-  const feedId = profile.id
   const { toast } = useToast()
+  const feedId = profile.id
 
   const handleDeleteClick = async () => {
     try {
       await deleteFeedQuestion(question.id)
+      await onLoadNew()
+      toast({ status: 'default', message: '질문이 삭제되었습니다' })
     } catch (error) {
-      setErrorInfo(error)
+      toast({ status: 'error', message: `${error}` })
     }
     await onLoadNew(feedId)
   }
@@ -33,16 +28,17 @@ export default function FeedCard({
   const handleEditClick = () => {
     if (question.answer) {
       setIsEditing(!isEditing)
+    } else {
+      toast({
+        status: 'error',
+        message: '먼저 답변을 작성해주세요',
+      })
     }
   }
 
   const submitEdit = async () => {
     setIsEditing(false)
     onLoadNew(feedId)
-  }
-
-  if (errorInfo) {
-    return toast({ message: errorInfo.message, status: errorInfo.status })
   }
 
   return (

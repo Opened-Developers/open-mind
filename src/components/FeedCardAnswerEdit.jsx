@@ -5,6 +5,7 @@ import { getRelativeDate } from '../modules/utils'
 import styles from './FeedCardAnswerEdit.module.css'
 import postNewAnswer from '../api/postNewAnswer'
 import editAnswer from '../api/editAnswer'
+import { useToast } from '../contexts/toastContextProvider'
 
 export default function FeedCardAnswerEdit({
   profile,
@@ -17,7 +18,8 @@ export default function FeedCardAnswerEdit({
   const [answer, setAnswer] = useState(
     question.answer ? question.answer.content : ''
   )
-  const [errorMessage, setErrorMessage] = useState('')
+  const { toast } = useToast()
+
   const handleInputChange = (e) => {
     const nextValue = e.target.value
     setInputText(nextValue)
@@ -33,8 +35,12 @@ export default function FeedCardAnswerEdit({
         await postNewAnswer(question.id, inputText)
         await onLoadNew(question.subjectId)
       }
+      setAnswer(inputText)
     } catch (error) {
-      setErrorMessage(error.message)
+      toast({
+        status: 'error',
+        message: `${error}`,
+      })
     }
   }
 
@@ -75,7 +81,6 @@ export default function FeedCardAnswerEdit({
         ) : (
           <p>{answer}</p>
         )}
-        {errorMessage && <div>{errorMessage}</div>}
       </div>
     </div>
   )
