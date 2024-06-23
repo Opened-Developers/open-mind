@@ -41,7 +41,10 @@ function AnswerPageContainer({
     if (offset === 0) {
       onLoadMore(feedId).then()
     }
-  }, [feedId, offset, onLoadMore])
+    if (feedId !== questions[0]?.feedId) {
+      onLoadNew(feedId)
+    }
+  }, [feedId, offset, onLoadMore, onLoadNew, questions])
 
   if (profile) {
     return (
