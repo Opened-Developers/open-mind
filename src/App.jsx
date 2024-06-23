@@ -86,7 +86,9 @@ function App() {
         <Routes>
           <Route element={<MainLayout />}>
             <Route index element={<MainPage />} />
-            <Route path="list" element={<FeedListPage />} />
+            <Route path="/list" element={<FeedListPage />}>
+              <Route path=":page" element={<FeedListPage />} />
+            </Route>
             <Route path="post">
               <Route
                 path=":feedId"
