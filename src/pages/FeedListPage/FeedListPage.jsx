@@ -1,4 +1,4 @@
-import { React, useState, useEffect, useCallback } from 'react'
+import { React, useCallback, useEffect, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import styles from './FeedListPage.module.css'
 import UserCardList from './components/UserCardList'
@@ -94,11 +94,13 @@ function FeedListPage() {
   return (
     <section className={styles.FeedListPage}>
       <div className={styles.navBar}>
-        <img
-          className={`${styles.image} ${styles.logo}`}
-          src={imgLogo}
-          alt="로고 이미지"
-        />
+        <Link to={'/'}>
+          <img
+            className={`${styles.image} ${styles.logo}`}
+            src={imgLogo}
+            alt="로고 이미지"
+          />
+        </Link>
         <div>
           <Link to={navButtonLink}>
             <OutlineButton
