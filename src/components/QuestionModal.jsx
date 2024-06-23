@@ -9,9 +9,9 @@ import { useToast } from '../contexts/toastContextProvider'
 
 export default function QuestionModal({
   profile,
-  onLoadNew,
   errorInfo = null,
   setErrorInfo,
+  loadProfile,
 }) {
   const modalBackground = useRef(null)
   const [isModalOpen, setIsModalOpen] = useState(false)
@@ -52,7 +52,7 @@ export default function QuestionModal({
 
     try {
       createQuestion(feedId, questionBody).then()
-      onLoadNew(feedId)
+      loadProfile(feedId).then()
       setContent('')
       setErrorInfo(null)
       toast({
