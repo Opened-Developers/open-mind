@@ -20,8 +20,9 @@ function SocialShareContainer({ questions, profile }) {
   }
 
   const handleKakaoClick = () => {
-    if (!questions.length) {
+    if (!questions || !questions.length) {
       toast({ status: 'error', message: '공유할 질문이 없습니다' })
+      return
     }
     const content = {
       title: questions.name,
