@@ -4,28 +4,29 @@ import FeedCardList from '../../components/FeedCardList'
 import SocialShareContainer from '../../components/SocialShareContainer'
 import { FloatButton } from '../../components/Buttons'
 import QuestionModal from '../../components/QuestionModal'
-import Toast from '../../components/Toast'
 import { getLocalUserId } from '../../modules/utils'
 import styles from './IndividualFeedPage.module.css'
 import openMindImg from '../../assets/images/img_openmind.png'
 import logo from '../../assets/images/img_logo.png'
+import { useToast } from '../../contexts/toastContextProvider'
 
 export default function IndividualFeedPage({
   loadProfile,
   profile,
-  errorMessage,
-  setErrorMessage,
   onLoadMore,
   offset,
   next,
   questions,
   questionCount,
   onLoadNew,
+  errorInfo,
+  setErrorInfo,
 }) {
   const { feedId } = useParams()
 
   const localUserId = getLocalUserId()
   const listEndRef = useRef(null)
+  const { toast } = useToast()
 
   const observer = useMemo(
     () =>
@@ -67,6 +68,10 @@ export default function IndividualFeedPage({
     }
   }, [feedId, offset, onLoadMore, onLoadNew, questions])
 
+  if (errorInfo) {
+    return toast({ message: errorInfo.message, status: errorInfo.status })
+  }
+
   if (profile) {
     return (
       <div className={styles.background}>
@@ -93,6 +98,8 @@ export default function IndividualFeedPage({
               onLoadNew={onLoadNew}
               questions={questions}
               questionCount={questionCount}
+              errorInfo={errorInfo}
+              setErrorInfo={setErrorInfo}
             />
             {next !== null && (
               <div className="list-end" ref={listEndRef}>
@@ -110,14 +117,12 @@ export default function IndividualFeedPage({
             <QuestionModal
               profile={profile}
               onLoadNew={onLoadNew}
-              errorMessage={errorMessage}
-              setErrorMessage={setErrorMessage}
+              errorInfo={errorInfo}
+              setErrorInfo={setErrorInfo}
             />
           )}
         </div>
-        {errorMessage && <Toast>{errorMessage}</Toast>}
       </div>
     )
   }
-  return <Toast>프로필 정보를 불러오는 중입니다.</Toast>
 }

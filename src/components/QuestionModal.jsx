@@ -5,18 +5,19 @@ import closeIcon from '../assets/icons/ic_close.svg'
 import styles from './QuestionModal.module.css'
 import { Textarea } from './Inputs'
 import createQuestion from '../api/createQuestion'
-import Toast from './Toast'
+import { useToast } from '../contexts/toastContextProvider'
 
 export default function QuestionModal({
   profile,
   onLoadNew,
-  errorMessage,
-  setErrorMessage,
+  errorInfo = null,
+  setErrorInfo,
 }) {
   const modalBackground = useRef(null)
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [content, setContent] = useState('')
   const feedId = profile.id
+  const { toast } = useToast()
 
   const handleModalOpen = () => {
     setIsModalOpen(true)
@@ -49,24 +50,25 @@ export default function QuestionModal({
       },
     }
 
-    if (content === '') {
-      throw new Error('질문을 입력해주세요.')
-    } else
-      try {
-        createQuestion(feedId, questionBody).then()
-        onLoadNew(feedId)
-        setContent('')
-        return <Toast>{'질문이 성공적으로 등록되었습니다.'}</Toast>
-      } catch (error) {
-        setErrorMessage(error.message)
-      } finally {
-        e.preventDefault()
-      }
+    try {
+      createQuestion(feedId, questionBody).then()
+      onLoadNew(feedId)
+      setContent('')
+      setErrorInfo(null)
+      return toast({
+        message: '질문이 성공적으로 등록되었습니다.',
+        status: 'success',
+      })
+    } catch (error) {
+      setErrorInfo(error)
+    } finally {
+      e.preventDefault()
+    }
     return null
   }
 
-  if (errorMessage) {
-    return <Toast>{errorMessage}</Toast>
+  if (errorInfo) {
+    return toast({ message: errorInfo.message, status: errorInfo.status })
   }
 
   return (
