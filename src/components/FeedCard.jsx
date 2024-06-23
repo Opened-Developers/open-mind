@@ -26,8 +26,10 @@ export default function FeedCard({
       await deleteFeedQuestion(question.id)
     } catch (error) {
       setErrorInfo(error)
+      toast({ message: errorInfo.message, status: errorInfo.status })
     }
     await onLoadNew(feedId)
+    toast({ message: '질문이 삭제되었습니다', status: 'success' })
   }
 
   const handleEditClick = () => {
@@ -39,6 +41,7 @@ export default function FeedCard({
   const submitEdit = async () => {
     setIsEditing(false)
     onLoadNew(feedId)
+    toast({ message: '답변이 수정되었습니다', status: 'success' })
   }
 
   if (errorInfo) {

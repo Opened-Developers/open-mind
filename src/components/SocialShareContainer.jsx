@@ -25,15 +25,12 @@ function SocialShareContainer({ questions, profile }) {
       return
     }
     const content = {
-      title: questions[0].name,
+      title: questions[0].content,
       favorite: questions[0].like,
       image: profile.imageSource,
-      description: questions[0].answer
-        ? questions[0].answer.content
-        : '미 답변',
+      description: questions[0].answer ? questions[0].answer.content : '미답변',
       name: profile.name,
     }
-
     window.Kakao.Share.sendCustom({
       templateId: TEMPLATE_ID,
       templateArgs: content,

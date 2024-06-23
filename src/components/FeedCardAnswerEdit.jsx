@@ -5,6 +5,7 @@ import { getRelativeDate } from '../modules/utils'
 import styles from './FeedCardAnswerEdit.module.css'
 import postNewAnswer from '../api/postNewAnswer'
 import editAnswer from '../api/editAnswer'
+import { useToast } from '../contexts/toastContextProvider'
 
 export default function FeedCardAnswerEdit({
   profile,
@@ -17,11 +18,11 @@ export default function FeedCardAnswerEdit({
   const [answer, setAnswer] = useState(
     question.answer ? question.answer.content : ''
   )
-  const [errorMessage, setErrorMessage] = useState('')
   const handleInputChange = (e) => {
     const nextValue = e.target.value
     setInputText(nextValue)
   }
+  const { toast } = useToast()
 
   const handleButtonClick = async () => {
     try {
@@ -32,9 +33,10 @@ export default function FeedCardAnswerEdit({
       } else if (inputText) {
         await postNewAnswer(question.id, inputText)
         await onLoadNew(question.subjectId)
+        toast({ message: '답변이 작성되었습니다', status: 'success' })
       }
     } catch (error) {
-      setErrorMessage(error.message)
+      toast({ message: error.message, status: error.status })
     }
   }
 
@@ -75,7 +77,6 @@ export default function FeedCardAnswerEdit({
         ) : (
           <p>{answer}</p>
         )}
-        {errorMessage && <div>{errorMessage}</div>}
       </div>
     </div>
   )

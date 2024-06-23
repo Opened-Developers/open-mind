@@ -30,11 +30,13 @@ function AnswerPageContainer({
         await Promise.all(deletePromises)
         await onLoadNew(feedId)
         setPageIsUpdating(true)
+        toast({ message: '전체 질문이 삭제되었습니다', status: 'success' })
       } else {
-        toast({ message: '삭제할 질문이 없습니다.', status: 'error' })
+        toast({ message: '삭제할 질문이 없습니다', status: 'error' })
       }
     } catch (error) {
       setErrorInfo(error)
+      toast({ message: error.message, status: error.status })
     }
   }
 
