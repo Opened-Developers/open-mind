@@ -126,7 +126,7 @@ function FeedListPage() {
         handleFeedCount={handleFeedCount}
       />
       <Pagenation
-        currentPage={page}
+        currentPage={pageParam}
         countPerPage={countPerPage[deviceType]}
         feedCount={feedCount}
         onClick={handlePageClick}

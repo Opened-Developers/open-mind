@@ -16,7 +16,7 @@ const createPageList = (currentPage, countPerPage, feedCount) => {
   return pagenationList
 }
 
-function PagenationBar({ currentPage, countPerPage, feedCount, onClick }) {
+function PagenationBar({ currentPage = 1, countPerPage, feedCount, onClick }) {
   const pagenationList = createPageList(currentPage, countPerPage, feedCount)
   const isPrevPage = pagenationList[0] > 1
   const isNextPage = (() => {
@@ -51,7 +51,7 @@ function PagenationBar({ currentPage, countPerPage, feedCount, onClick }) {
       )}
       {pagenationList.map((page) => (
         <button
-          className={`${styles.pageButton} ${currentPage === page ? styles.active : ''}`}
+          className={`${styles.pageButton} ${Number(currentPage) === Number(page) ? styles.active : ''}`}
           type="button"
           key={page}
           value={page}
