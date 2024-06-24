@@ -1,13 +1,13 @@
 import openMindAxios from './openMindAxios'
 
-async function postNewAnswer(targetId, targetContent) {
+async function postNewAnswer(targetId, targetContent, rejected = false) {
   try {
     const response = await openMindAxios.post(
       `/questions/${targetId}/answers/`,
       {
         questionId: targetId,
         content: targetContent,
-        isRejected: false,
+        isRejected: rejected,
         team: '7-7',
       }
     )
