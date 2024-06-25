@@ -1,4 +1,5 @@
 import { React, useState, useEffect } from 'react'
+import { useParams } from 'react-router-dom'
 import styles from './UserCardList.module.css'
 import getFeedList from '../../../api/getFeedList'
 import UserCard from './UserCard'
@@ -19,20 +20,15 @@ const getSortedList = (list, sortOrder) => {
   return sortedList
 }
 
-function UserCardList({
-  currentPage,
-  sort,
-  deviceType,
-  countPerPage,
-  handleFeedCount,
-}) {
+function UserCardList({ sort, deviceType, countPerPage, handleFeedCount }) {
+  const { page: pageParam } = useParams()
   const [userCardLists, setUserCardLists] = useState([])
   const { toast } = useToast()
 
   useEffect(() => {
     const getUserCardLists = async () => {
       const limit = countPerPage
-      const offset = limit * (currentPage - 1)
+      const offset = limit * (pageParam.substring(4) - 1)
       try {
         const { data } = await getFeedList(limit, offset)
         setUserCardLists(getSortedList(data.results, sort))
@@ -43,7 +39,7 @@ function UserCardList({
     }
 
     getUserCardLists()
-  }, [currentPage, sort, countPerPage, handleFeedCount, toast])
+  }, [pageParam, sort, countPerPage, handleFeedCount, toast])
 
   return (
     <div className={styles.userCardListContainer}>

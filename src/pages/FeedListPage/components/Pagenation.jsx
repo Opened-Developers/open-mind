@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link, useParams } from 'react-router-dom'
 import styles from './Pagenation.module.css'
 
 const countPagenation = 5
@@ -16,7 +17,10 @@ const createPageList = (currentPage, countPerPage, feedCount) => {
   return pagenationList
 }
 
-function PagenationBar({ currentPage, countPerPage, feedCount, onClick }) {
+function PagenationBar({ countPerPage, feedCount }) {
+  const { page: pageParam } = useParams()
+  const currentPage = pageParam.substring(4)
+
   const pagenationList = createPageList(currentPage, countPerPage, feedCount)
   const isPrevPage = pagenationList[0] > 1
   const isNextPage = (() => {
@@ -33,42 +37,31 @@ function PagenationBar({ currentPage, countPerPage, feedCount, onClick }) {
     return true
   })()
 
-  const handlePageClick = (e) => {
-    onClick(e.currentTarget.value)
-  }
-
   return (
     <div className={styles.PagenationBar}>
       {isPrevPage && (
-        <button
-          className={styles.pageButton}
-          type="button"
-          value={pagenationList[0] - 1}
-          onClick={handlePageClick}
-        >
-          &lt;
-        </button>
+        <Link to={`page${pagenationList[0] - 1}`}>
+          <button className={styles.pageButton} type="button">
+            &lt;
+          </button>
+        </Link>
       )}
       {pagenationList.map((page) => (
-        <button
-          className={`${styles.pageButton} ${currentPage === page ? styles.active : ''}`}
-          type="button"
-          key={page}
-          value={page}
-          onClick={handlePageClick}
-        >
-          {page}
-        </button>
+        <Link key={page} to={`page${page}`}>
+          <button
+            className={`${styles.pageButton} ${Number(currentPage) === Number(page) ? styles.active : ''}`}
+            type="button"
+          >
+            {page}
+          </button>
+        </Link>
       ))}
       {isNextPage && (
-        <button
-          className={styles.pageButton}
-          type="button"
-          value={pagenationList[countPagenation - 1] + 1}
-          onClick={handlePageClick}
-        >
-          &gt;
-        </button>
+        <Link to={`page${pagenationList[countPagenation - 1] + 1}`}>
+          <button className={styles.pageButton} type="button">
+            &gt;
+          </button>
+        </Link>
       )}
     </div>
   )
