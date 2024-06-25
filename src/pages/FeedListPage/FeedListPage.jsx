@@ -41,14 +41,21 @@ const dropdownItems = ['최신순', '이름순']
 
 function FeedListPage() {
   const { page: pageParam } = useParams()
-  const [page, setPage] = useState(parseInt(pageParam, 10))
+  const pagePattern = /^page\d+$/
+
+  const navigate = useNavigate()
+
+  if (!pagePattern.test(pageParam)) {
+    navigate(`/list/page1`)
+  }
+
+  const page = pageParam.substring(4)
+
   const [sortOrder, setSortOrder] = useState(dropdownItems[0])
   const [deviceType, setDeviceType] = useState(
     getDeviceType(window.innerWidth, true)
   )
   const [feedCount, setFeedCount] = useState(0)
-
-  const navigate = useNavigate()
 
   const handleResize = useCallback(() => {
     const currentDeviceType = deviceType
@@ -58,14 +65,9 @@ function FeedListPage() {
 
     if (isSizeChanged(currentDeviceType, nextDeviceType)) {
       const nextPage = navigatePage(page, nextDeviceType)
-      navigate(`/list/${nextPage}`)
+      navigate(`/list/page${nextPage}`)
     }
   }, [deviceType, page, navigate])
-
-  const handlePageClick = (pageNum) => {
-    setPage(pageNum)
-    navigate(`/list/${pageNum}`)
-  }
 
   const handleDropdownItemClick = (item) => {
     setSortOrder(item)
@@ -86,10 +88,6 @@ function FeedListPage() {
       window.removeEventListener('resize', debouncedHandleResize)
     }
   }, [handleResize])
-
-  useEffect(() => {
-    setPage(parseInt(pageParam, 10) || 1)
-  }, [pageParam])
 
   return (
     <section className={styles.FeedListPage}>
@@ -123,17 +121,14 @@ function FeedListPage() {
         </SortDropdown>
       </div>
       <UserCardList
-        currentPage={page}
         sort={sortOrder}
         deviceType={deviceType}
         countPerPage={countPerPage[deviceType]}
         handleFeedCount={handleFeedCount}
       />
       <Pagenation
-        currentPage={pageParam}
         countPerPage={countPerPage[deviceType]}
         feedCount={feedCount}
-        onClick={handlePageClick}
       />
     </section>
   )
