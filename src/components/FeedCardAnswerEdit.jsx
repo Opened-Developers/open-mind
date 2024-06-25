@@ -7,6 +7,14 @@ import postNewAnswer from '../api/postNewAnswer'
 import editAnswer from '../api/editAnswer'
 import { useToast } from '../contexts/toastContextProvider'
 
+function IsRejectedAnswer({ answer }) {
+  if (answer.isRejected) {
+    return <p className={styles.rejected}>답변 거절</p>
+  }
+
+  return <p>{answer.content}</p>
+}
+
 export default function FeedCardAnswerEdit({
   profile,
   question,
@@ -75,7 +83,7 @@ export default function FeedCardAnswerEdit({
             </FillButton>
           </form>
         ) : (
-          <p>{answer}</p>
+          <IsRejectedAnswer answer={question.answer} />
         )}
       </div>
     </div>

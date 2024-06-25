@@ -8,6 +8,8 @@ import styles from './FeedCard.module.css'
 import { MenuDropdown, MenuDropdownItem } from './Dropdown'
 import deleteFeedQuestion from '../api/deleteFeedQuestion'
 import { useToast } from '../contexts/toastContextProvider'
+import rejectAnswer from '../api/rejectAnswer'
+import postNewAnswer from '../api/postNewAnswer'
 
 export default function FeedCard({
   question,
@@ -44,6 +46,25 @@ export default function FeedCard({
     toast({ message: '답변이 수정되었습니다', status: 'success' })
   }
 
+  const handleRejectClick = async () => {
+    try {
+      if (question.answer) {
+        if (question.answer.isRejected) {
+          toast({ message: '이미 거절된 답변입니다', status: 'error' })
+        } else {
+          await rejectAnswer(question.answer.id)
+          toast({ message: '답변이 거절되었습니다', status: 'success' })
+        }
+      } else {
+        await postNewAnswer(question.id, '거절', true)
+        toast({ message: '답변이 거절되었습니다', status: 'success' })
+      }
+    } catch (error) {
+      toast({ message: error.message, status: 'error' })
+    }
+    await onLoadNew(feedId)
+  }
+
   if (errorInfo) {
     return toast({ message: errorInfo.message, status: errorInfo.status })
   }
@@ -59,6 +80,9 @@ export default function FeedCard({
             </MenuDropdownItem>
             <MenuDropdownItem onClick={handleDeleteClick}>
               삭제하기
+            </MenuDropdownItem>
+            <MenuDropdownItem onClick={handleRejectClick}>
+              거절하기
             </MenuDropdownItem>
           </MenuDropdown>
         )}

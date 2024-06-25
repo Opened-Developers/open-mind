@@ -44,3 +44,9 @@
 .container > form > textarea::placeholder {
   color: var(--gray-40);
 }
+
+.container > .rejected {
+  font-size: 16px;
+  font-weight: 400;
+  color: var(--red-50);
+}
