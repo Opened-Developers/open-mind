@@ -57,6 +57,12 @@
 }
 
 @media (max-width: 768px) {
+  .navBar {
+    flex-direction: column;
+    gap: 20px;
+    padding-bottom: 28px;
+  }
+
   .titleWrapper {
     flex-direction: row;
     padding: 0 24px;
