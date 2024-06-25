@@ -35,3 +35,40 @@
   width: 146px;
   height: 57px;
 }
+
+.titleWrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+
+  width: 100%;
+  max-width: 876px;
+  min-width: 335px;
+  margin: 0 auto;
+
+  box-sizing: border-box;
+}
+
+.heading {
+  font-size: 2.5rem;
+  line-height: 1.25;
+}
+
+@media (max-width: 768px) {
+  .navBar {
+    flex-direction: column;
+    gap: 20px;
+    padding-bottom: 28px;
+  }
+
+  .titleWrapper {
+    flex-direction: row;
+    padding: 0 24px;
+  }
+
+  .heading {
+    font-size: 1.5rem;
+  }
+}
