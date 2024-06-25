@@ -22,13 +22,16 @@ const getSortedList = (list, sortOrder) => {
 
 function UserCardList({ sort, deviceType, countPerPage, handleFeedCount }) {
   const { page: pageParam } = useParams()
+  const pageUrl = pageParam || 'page1'
+  const currentPage = pageUrl.substring(4)
+
   const [userCardLists, setUserCardLists] = useState([])
   const { toast } = useToast()
 
   useEffect(() => {
     const getUserCardLists = async () => {
       const limit = countPerPage
-      const offset = limit * (pageParam.substring(4) - 1)
+      const offset = limit * (currentPage - 1)
       try {
         const { data } = await getFeedList(limit, offset)
         setUserCardLists(getSortedList(data.results, sort))
@@ -39,7 +42,7 @@ function UserCardList({ sort, deviceType, countPerPage, handleFeedCount }) {
     }
 
     getUserCardLists()
-  }, [pageParam, sort, countPerPage, handleFeedCount, toast])
+  }, [currentPage, sort, countPerPage, handleFeedCount, toast])
 
   return (
     <div className={styles.userCardListContainer}>

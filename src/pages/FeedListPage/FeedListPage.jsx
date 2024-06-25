@@ -41,15 +41,17 @@ const dropdownItems = ['최신순', '이름순']
 
 function FeedListPage() {
   const { page: pageParam } = useParams()
-  const pagePattern = /^page\d+$/
-
+  const pageUrl = pageParam || 'page1'
   const navigate = useNavigate()
 
-  if (!pagePattern.test(pageParam)) {
+  const pagePattern = /^page\d+$/
+  const isCorrectUrl = pagePattern.test(pageParam)
+
+  if (!isCorrectUrl) {
     navigate(`/list/page1`)
   }
 
-  const page = pageParam.substring(4)
+  const page = pageUrl.substring(4)
 
   const [sortOrder, setSortOrder] = useState(dropdownItems[0])
   const [deviceType, setDeviceType] = useState(

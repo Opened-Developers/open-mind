@@ -19,9 +19,11 @@ const createPageList = (currentPage, countPerPage, feedCount) => {
 
 function PagenationBar({ countPerPage, feedCount }) {
   const { page: pageParam } = useParams()
-  const currentPage = pageParam.substring(4)
+  const pageUrl = pageParam || 'page1'
+  const currentPage = pageUrl.substring(4)
 
   const pagenationList = createPageList(currentPage, countPerPage, feedCount)
+
   const isPrevPage = pagenationList[0] > 1
   const isNextPage = (() => {
     if (pagenationList.length !== countPagenation) {
