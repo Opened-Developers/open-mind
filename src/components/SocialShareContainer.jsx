@@ -11,7 +11,7 @@ const TEMPLATE_ID = 108949
 
 function SocialShareContainer({ questions, profile }) {
   const location = useLocation()
-  const currentUrl = `${window.location.origin}${location.pathname}`
+  const currentUrl = `${window.location.origin}${location.pathname.replace('answer', '')}`
   const { toast } = useToast()
 
   const handleCopyClick = () => {
