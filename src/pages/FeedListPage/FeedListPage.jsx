@@ -112,12 +112,16 @@ function FeedListPage() {
           </Link>
         </div>
       </div>
-      <h2 className="heading-1">누구에게 질문할까요?</h2>
-      <SortDropdown onChange={handleDropdownItemClick}>
-        {dropdownItems.map((dropdownItem) => (
-          <SortDropdownItem key={dropdownItem}>{dropdownItem}</SortDropdownItem>
-        ))}
-      </SortDropdown>
+      <div className={styles.titleWrapper}>
+        <h2 className={styles.heading}>누구에게 질문할까요?</h2>
+        <SortDropdown onChange={handleDropdownItemClick}>
+          {dropdownItems.map((dropdownItem) => (
+            <SortDropdownItem key={dropdownItem}>
+              {dropdownItem}
+            </SortDropdownItem>
+          ))}
+        </SortDropdown>
+      </div>
       <UserCardList
         currentPage={page}
         sort={sortOrder}
